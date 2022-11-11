@@ -1,32 +1,36 @@
-import { Link } from '@tanstack/react-location';
+import { Link } from '../Link/Link';
 import './Header.pcss';
 
-const isLoggedIn = true;
+const isLoggedIn = false;
 
 export const Header = (): JSX.Element => (
-
-  <header className="header">
-
-    <Link to="/">
-      <div className="header-logo">PMA</div>
-    </Link>
+  <header className='header'>
 
     <div className='header-nav'>
-      <nav >
+      <nav>
         <ul className='nav-list'>
 
           {!isLoggedIn && (
             <>
               <li>
-                <Link to="/signin">
-                    Sign In
-                </Link>
+                <Link
+                  href='/'
+                  text='Home'
+                />
               </li>
 
               <li>
-                <Link to="/signup">
-                    Sign Up
-                </Link>
+                <Link
+                  href='/signin'
+                  text='Sign In'
+                />
+              </li>
+
+              <li>
+                <Link
+                  href='/signup'
+                  text='Sign Up'
+                />
               </li>
             </>
           )}
@@ -34,19 +38,25 @@ export const Header = (): JSX.Element => (
           {isLoggedIn && (
             <>
               <li>
-                <Link to="/main">
-                    Boards
-                </Link>
+                <Link
+                  href='/main'
+                  text='Boards'
+                />
+
               </li>
+
               <li>
-                <Link to="/profile">
-                    Boards
-                </Link>
+                <Link
+                  href='/profile'
+                  text='Profile'
+                />
               </li>
+
               <li>
-                <Link to="/signout">
-                    Sign Out
-                </Link>
+                <Link
+                  href='/signout'
+                  text='Sign Out'
+                />
               </li>
             </>
 
