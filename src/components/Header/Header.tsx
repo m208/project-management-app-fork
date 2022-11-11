@@ -28,7 +28,7 @@ export const Header = (): JSX.Element => (
 
               <li>
                 <Link
-                  href='/'
+                  href='/signup'
                   text='Sign Up'
                 />
               </li>
