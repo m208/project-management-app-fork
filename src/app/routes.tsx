@@ -2,8 +2,11 @@ import {
   type Route,
 } from '@tanstack/react-location';
 
+import { Boards } from '@/pages/Boards/Boards';
 import { Home } from '@/pages/Home/Home';
+import { Profile } from '@/pages/Profile/Profile';
 import { SignIn } from '@/pages/SignIn/SignIn';
+import { SignUp } from '@/pages/SignUp/SignUp';
 
 export const routes: Route[] = [
   {
@@ -16,15 +19,15 @@ export const routes: Route[] = [
   },
   {
     path: '/signup',
-    element: <Home />,
+    element: <SignUp />,
   },
   {
     path: '/main',
-    element: <Home />,
+    element: <Boards />,
   },
   {
     path: '/profile',
-    element: <Home />,
+    element: <Profile />,
   },
 
 ];

@@ -9,15 +9,15 @@ export const Header = (): JSX.Element => (
     <div className='header-nav'>
       <nav>
         <ul className='nav-list'>
+          <li>
+            <Link
+              href='/'
+              text='Home'
+            />
+          </li>
 
           {!isLoggedIn && (
             <>
-              <li>
-                <Link
-                  href='/'
-                  text='Home'
-                />
-              </li>
 
               <li>
                 <Link
@@ -28,7 +28,7 @@ export const Header = (): JSX.Element => (
 
               <li>
                 <Link
-                  href='/signup'
+                  href='/'
                   text='Sign Up'
                 />
               </li>
