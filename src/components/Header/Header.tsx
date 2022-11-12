@@ -1,3 +1,4 @@
+import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 import { Link } from '../Link/Link';
 import './Header.pcss';
 
@@ -9,6 +10,11 @@ export const Header = (): JSX.Element => (
     <div className='header-nav'>
       <nav>
         <ul className='nav-list'>
+
+          <li>
+            <LangSwitcher />
+          </li>
+
           <li>
             <Link
               href='/'
