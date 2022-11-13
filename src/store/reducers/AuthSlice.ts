@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { getLocalAuthState } from '@/app/auth';
 import { IUser } from '@/app/types';
 
 interface AuthState {
@@ -8,15 +9,27 @@ interface AuthState {
   token: string;
 }
 
-const initialState: AuthState = {
-  isLoggedIn: true,
-  user: null,
-  token: '',
+const getInitalState: () => AuthState = () => {
+  const localData = getLocalAuthState();
+
+  if (localData.user){
+    return {
+      isLoggedIn: true,
+      user: localData.user,
+      token: localData.token,
+    };
+
+  } return {
+    isLoggedIn: false,
+    user: null,
+    token: '',
+  };
+
 };
 
 export const authSlice = createSlice({
   name: 'authentication',
-  initialState,
+  initialState: getInitalState(),
   reducers: {
     logIn (state, action: PayloadAction<IUser>) {
       state.isLoggedIn = true;
