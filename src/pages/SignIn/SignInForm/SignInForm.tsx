@@ -1,28 +1,44 @@
 import { useNavigate } from '@tanstack/react-location';
-import { FieldValues, useForm } from 'react-hook-form';
-import './SignInForm.pcss';
+import { useForm } from 'react-hook-form';
 
-interface SignInFormData {
-  login: string;
-  password: string;
-}
+import { useEffect } from 'react';
+
+import { saveLocalAuthState } from '@/app/auth';
+import { IUserSignInData } from '@/app/types';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import './SignInForm.pcss';
+import { userLogIn } from '@/store/reducers/AuthSlice';
 
 export const SignInForm = (): JSX.Element => {
+  const { isLoggedIn, user, token } = useAppSelector(
+    state => state.authReducer,
+  );
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const onSubmit = (data: Record<string, string>) => {
 
-  const onSubmit = (data: FieldValues) => {
-    const { login, password } = data;
-    navigate({ to: '/main' });
+    const userData: IUserSignInData = {
+      login: data.login,
+      password: data.password,
+    };
+
+    dispatch(userLogIn(userData))
+      .catch(()=>{});
   };
+
+  useEffect(() => {
+    if(isLoggedIn){
+      saveLocalAuthState({ isLoggedIn, user, token });
+      navigate({ to: '/main' });
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className='signin-form-wrapper'>
+      <p>Logged:{isLoggedIn.toString()}</p>
       <form className="form" onSubmit={(handleSubmit(onSubmit))}>
 
         <div className="form-item">
