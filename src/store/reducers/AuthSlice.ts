@@ -49,33 +49,34 @@ export const authSlice = createSlice({
     },
   },
 
-  extraReducers: {
-    [userLogIn.fulfilled.type]: (state, action: PayloadAction<ISignInResponse>) => {
-      if (action.payload.success){
-        state.isLoggedIn = true;
+  extraReducers: builder => {
+    builder
+      .addCase(userLogIn.fulfilled, (state, action: PayloadAction<ISignInResponse>) => {
+        if (action.payload.success){
+          state.isLoggedIn = true;
 
-        const { id, login, name, token } = action.payload.data!;
-        state.token = token;
-        state.user = { id, login, name };
+          const { id, login, name, token } = action.payload.data!;
+          state.token = token;
+          state.user = { id, login, name };
 
-        toast.success(`Welcome back, ${name || login}`);
-      }
-      else {
-        toast.error(action.payload.errors!.message);
-      }
+          toast.success(`Welcome back, ${name || login}`);
+        }
+        else {
+          toast.error(action.payload.errors!.message);
+        }
 
-      state.awaiting = false;
-    },
+        state.awaiting = false;
+      })
+      .addCase(userLogIn.pending, state => {
+        state.awaiting = true;
+      })
 
-    [userLogIn.pending.type]: state => {
-      state.awaiting = true;
-    },
-
-    [userLogIn.rejected.type]: (state  , action: PayloadAction<string>) => {
-      state.isLoggedIn = false;
-      toast.error(action.payload);
-    },
+      .addCase(userLogIn.rejected, state => {
+        state.awaiting = false;
+        toast.error('Server error');
+      });
   },
+
 });
 
 export default authSlice.reducer;
