@@ -1,7 +1,12 @@
 export type Languages = 'eng' | 'ru';
 
 export interface IUser {
-  id: string;
   name: string;
   login: string;
+}
+
+export interface AuthState {
+  isLoggedIn: boolean;
+  user: IUser | null;
+  token: string;
 }

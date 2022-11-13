@@ -1,7 +1,8 @@
+import { AuthState } from './types';
+
 export const getLocalAuthState = () => {
-  const token = localStorage.getItem('token');
-  const lastAuthDate = localStorage.getItem('authDate');
-  const id = localStorage.getItem('userId');
+  const token = localStorage.getItem('userToken');
+  const lastAuthDate = localStorage.getItem('userAuthDate');
   const name = localStorage.getItem('userName');
   const login = localStorage.getItem('userLogin');
 
@@ -9,7 +10,6 @@ export const getLocalAuthState = () => {
   if (
     token &&
     lastAuthDate &&
-    id &&
     name &&
     login &&
     (now - +lastAuthDate <= 4 * 60 * 3600 )
@@ -17,7 +17,6 @@ export const getLocalAuthState = () => {
   ){
     return {
       user: {
-        id,
         name,
         login,
       },
@@ -28,5 +27,13 @@ export const getLocalAuthState = () => {
     user: null,
     token,
   };
+};
 
+export const saveLocalAuthState = (auth: AuthState) => {
+  if (auth.user){
+    localStorage.setItem('userToken', auth.token);
+    localStorage.setItem('userName', auth.user.name);
+    localStorage.setItem('userLogin', auth.user.login);
+    localStorage.setItem('userAuthDate', `${new Date().getTime()}`);
+  }
 };

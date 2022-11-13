@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { getLocalAuthState } from '@/app/auth';
-import { IUser } from '@/app/types';
-
-interface AuthState {
-  isLoggedIn: boolean;
-  user: IUser | null;
-  token: string;
-}
+import { AuthState, IUser } from '@/app/types';
 
 const getInitalState: () => AuthState = () => {
   const localData = getLocalAuthState();
