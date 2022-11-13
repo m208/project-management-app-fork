@@ -63,8 +63,8 @@ export const authSlice = createSlice({
         toast.success(state.logMessage);
       }
       else {
-        state.logMessage = action.payload.errors?.message;
-        toast.error(state.logMessage || '');
+        state.logMessage = action.payload.errors!.message;
+        toast.error(state.logMessage);
       }
 
       state.awaiting = false;

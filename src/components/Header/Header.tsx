@@ -10,7 +10,7 @@ import { authSlice } from '@/store/reducers/AuthSlice';
 import './Header.pcss';
 
 export const Header = (): JSX.Element => {
-  const { isLoggedIn } = useAppSelector(state => state.authReducer);
+  const { isLoggedIn, user } = useAppSelector(state => state.authReducer);
   const { logOff } = authSlice.actions;
   const dispatch = useAppDispatch();
 
@@ -70,17 +70,16 @@ export const Header = (): JSX.Element => {
                 <li>
                   <Link
                     href='/profile'
-                    text='Profile'
+                    text={`Profile (${user?.name || user!.login})`}
                   />
                 </li>
 
                 <li>
-                  <button
-                    type='button'
+                  <Link
+                    href='/'
+                    text='Sign Out'
                     onClick={logOut}
-                  >
-                    Sign Out
-                  </button>
+                  />
                 </li>
               </>
 

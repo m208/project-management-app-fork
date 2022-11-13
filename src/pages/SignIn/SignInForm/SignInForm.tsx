@@ -18,15 +18,14 @@ export const SignInForm = (): JSX.Element => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data: Record<string, string>) => {
+  const onSubmit = async (data: Record<string, string>) => {
 
     const userData: IUserSignInData = {
       login: data.login,
       password: data.password,
     };
 
-    dispatch(userLogIn(userData))
-      .catch(()=>{});
+    await dispatch(userLogIn(userData));
   };
 
   useEffect(() => {
