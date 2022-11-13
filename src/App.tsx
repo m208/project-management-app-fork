@@ -3,6 +3,7 @@ import {
   ReactLocation,
   Router,
 } from '@tanstack/react-location';
+import { Toaster } from 'react-hot-toast';
 
 import { routes } from './app/routes';
 
@@ -15,6 +16,10 @@ const location = new ReactLocation();
 
 export const App = (): JSX.Element => (
   <>
+    <Toaster
+      position="top-right"
+      reverseOrder={false}
+    />
     <Header />
 
     <main className='content'>
