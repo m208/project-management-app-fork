@@ -3,6 +3,7 @@ export type Languages = 'eng' | 'ru';
 export interface IUser {
   name: string;
   login: string;
+  id: string;
 }
 
 export interface IUserSignInData {
@@ -15,4 +16,5 @@ export interface AuthState {
   user: IUser | null;
   token: string;
   awaiting?: boolean;
+  logMessage?: string;
 }

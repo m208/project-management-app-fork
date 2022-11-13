@@ -38,7 +38,6 @@ export const SignInForm = (): JSX.Element => {
 
   return (
     <div className='signin-form-wrapper'>
-      <p>Logged:{isLoggedIn.toString()}</p>
       <form className="form" onSubmit={(handleSubmit(onSubmit))}>
 
         <div className="form-item">

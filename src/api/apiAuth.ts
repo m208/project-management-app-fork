@@ -3,6 +3,9 @@ import { IUserSignInData } from '@/app/types';
 
 export interface ISignInOk {
   token: string;
+  id: string;
+  name: string;
+  login: string;
 }
 
 interface ISignInError {
@@ -14,6 +17,7 @@ export interface ISignInResponse {
   success: boolean;
   data?: ISignInOk;
   errors?: ISignInError;
+
 }
 
 export async function userSignIn (userData: IUserSignInData){

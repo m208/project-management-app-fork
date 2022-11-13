@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 
 import { ISignInResponse, userSignIn } from '@/api/apiAuth';
 import { getLocalAuthState } from '@/app/auth';
@@ -15,19 +16,24 @@ export const userLogIn = createAsyncThunk('user/login', async (userData: IUserSi
 const getInitalState: () => AuthState = () => {
   const localData = getLocalAuthState();
 
+  const initialState = {
+    awaiting: false,
+    logMessage: '',
+  };
+
   if (localData.user){
     return {
+      ...initialState,
       isLoggedIn: true,
       user: localData.user,
       token: localData.token,
-      awaiting: false,
     };
 
   } return {
+    ...initialState,
     isLoggedIn: false,
     user: null,
     token: '',
-    awaiting: false,
   };
 
 };
@@ -48,8 +54,19 @@ export const authSlice = createSlice({
     [userLogIn.fulfilled.type]: (state, action: PayloadAction<ISignInResponse>) => {
       if (action.payload.success){
         state.isLoggedIn = true;
-        state.token = action.payload.data!.token;
+
+        const { id, login, name, token } = action.payload.data!;
+        state.token = token;
+        state.user = { id, login, name };
+
+        state.logMessage = `Welcome back, ${name || login}`;
+        toast.success(state.logMessage);
       }
+      else {
+        state.logMessage = action.payload.errors?.message;
+        toast.error(state.logMessage || '');
+      }
+
       state.awaiting = false;
     },
 
@@ -57,9 +74,10 @@ export const authSlice = createSlice({
       state.awaiting = true;
     },
 
-    [userLogIn.rejected.type]: (state  /* , action: PayloadAction<string> */) => {
+    [userLogIn.rejected.type]: (state  , action: PayloadAction<string>) => {
       state.isLoggedIn = false;
-      // console.log(action.payload);
+      state.logMessage = action.payload;
+      toast.error(state.logMessage);
     },
   },
 });

@@ -6,6 +6,7 @@ export const getLocalAuthState = () => {
   const lastAuthDate = localStorage.getItem('userAuthDate');
   const name = localStorage.getItem('userName');
   const login = localStorage.getItem('userLogin');
+  const id = localStorage.getItem('userId');
 
   const now = new Date().getTime();
   if (
@@ -13,12 +14,14 @@ export const getLocalAuthState = () => {
     lastAuthDate &&
     name &&
     login &&
+    id &&
     (now - +lastAuthDate < tokenExpirationValue )
   ){
     return {
       user: {
         name,
         login,
+        id,
       },
       token,
     };
@@ -34,6 +37,7 @@ export const saveLocalAuthState = (auth: AuthState) => {
     localStorage.setItem('userToken', auth.token);
     localStorage.setItem('userName', auth.user.name);
     localStorage.setItem('userLogin', auth.user.login);
+    localStorage.setItem('userId', auth.user.id);
     localStorage.setItem('userAuthDate', `${new Date().getTime()}`);
   }
 };
