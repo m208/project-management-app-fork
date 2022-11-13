@@ -1,6 +1,9 @@
+import toast from 'react-hot-toast';
+
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 import { Link } from '../Link/Link';
 
+import { saveLocalOnLogout } from '@/app/auth';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { authSlice } from '@/store/reducers/AuthSlice';
 
@@ -10,6 +13,12 @@ export const Header = (): JSX.Element => {
   const { isLoggedIn } = useAppSelector(state => state.authReducer);
   const { logOff } = authSlice.actions;
   const dispatch = useAppDispatch();
+
+  const logOut = () =>{
+    dispatch(logOff());
+    saveLocalOnLogout();
+    toast.success('Logged out...');
+  };
 
   return (
     <header className='header'>
@@ -68,7 +77,7 @@ export const Header = (): JSX.Element => {
                 <li>
                   <button
                     type='button'
-                    onClick={()=>{dispatch(logOff());}}
+                    onClick={logOut}
                   >
                     Sign Out
                   </button>

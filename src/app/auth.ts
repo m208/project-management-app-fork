@@ -41,3 +41,8 @@ export const saveLocalAuthState = (auth: AuthState) => {
     localStorage.setItem('userAuthDate', `${new Date().getTime()}`);
   }
 };
+
+export const saveLocalOnLogout = () =>{
+  const items = ['userToken', 'userName', 'userLogin', 'userId', 'userAuthDate'];
+  items.map(item=>localStorage.removeItem(item));
+};
