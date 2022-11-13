@@ -11,10 +11,9 @@ export interface IUserSignInData {
   password: string;
 }
 
-export interface AuthState {
+export interface IAuthState {
   isLoggedIn: boolean;
   user: IUser | null;
   token: string;
   awaiting?: boolean;
-  logMessage?: string;
 }

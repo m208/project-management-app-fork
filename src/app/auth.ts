@@ -1,28 +1,18 @@
 import { tokenExpirationValue } from './constants';
-import { AuthState } from './types';
+import { IAuthState, IUser } from './types';
 
 export const getLocalAuthState = () => {
   const token = localStorage.getItem('userToken');
   const lastAuthDate = localStorage.getItem('userAuthDate');
-  const name = localStorage.getItem('userName');
-  const login = localStorage.getItem('userLogin');
-  const id = localStorage.getItem('userId');
+  const user = localStorage.getItem('user');
 
   const now = new Date().getTime();
   if (
-    token &&
-    lastAuthDate &&
-    name &&
-    login &&
-    id &&
+    token && lastAuthDate && user &&
     (now - +lastAuthDate < tokenExpirationValue )
   ){
     return {
-      user: {
-        name,
-        login,
-        id,
-      },
+      user: JSON.parse(user) as IUser,
       token,
     };
   }
@@ -32,17 +22,15 @@ export const getLocalAuthState = () => {
   };
 };
 
-export const saveLocalAuthState = (auth: AuthState) => {
+export const saveLocalAuthState = (auth: IAuthState) => {
   if (auth.user){
+    localStorage.setItem('user', JSON.stringify(auth.user));
     localStorage.setItem('userToken', auth.token);
-    localStorage.setItem('userName', auth.user.name);
-    localStorage.setItem('userLogin', auth.user.login);
-    localStorage.setItem('userId', auth.user.id);
     localStorage.setItem('userAuthDate', `${new Date().getTime()}`);
   }
 };
 
 export const saveLocalOnLogout = () =>{
-  const items = ['userToken', 'userName', 'userLogin', 'userId', 'userAuthDate'];
+  const items = ['userToken', 'user', 'userAuthDate'];
   items.map(item=>localStorage.removeItem(item));
 };
