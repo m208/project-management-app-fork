@@ -1,3 +1,4 @@
+import { tokenExpirationValue } from './constants';
 import { AuthState } from './types';
 
 export const getLocalAuthState = () => {
@@ -12,8 +13,7 @@ export const getLocalAuthState = () => {
     lastAuthDate &&
     name &&
     login &&
-    (now - +lastAuthDate <= 4 * 60 * 3600 )
-    // TODO: Move token expiration value to constants (4 hours here)
+    (now - +lastAuthDate < tokenExpirationValue )
   ){
     return {
       user: {

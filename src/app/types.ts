@@ -5,8 +5,14 @@ export interface IUser {
   login: string;
 }
 
+export interface IUserSignInData {
+  login: string;
+  password: string;
+}
+
 export interface AuthState {
   isLoggedIn: boolean;
   user: IUser | null;
   token: string;
+  awaiting?: boolean;
 }
