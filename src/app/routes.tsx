@@ -10,7 +10,7 @@ import { Profile } from '@/pages/Profile/Profile';
 import { SignIn } from '@/pages/SignIn/SignIn';
 import { SignUp } from '@/pages/SignUp/SignUp';
 
-export const routes: Route[] = [
+export const routes: (isUserlogged: boolean) => Route[] = isUserlogged =>[
   {
     path: '/',
     element: <Home />,
@@ -25,11 +25,11 @@ export const routes: Route[] = [
   },
   {
     path: '/main',
-    element: <Boards />,
+    element: isUserlogged ? <Boards /> : <Navigate to="/" />,
   },
   {
     path: '/profile',
-    element: <Profile />,
+    element: isUserlogged ? <Profile /> : <Navigate to="/" />,
   },
   {
     path: '/404',
