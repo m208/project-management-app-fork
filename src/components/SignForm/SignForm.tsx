@@ -1,32 +1,53 @@
 import { useNavigate } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { saveLocalAuthState } from '@/app/auth';
-import { IUserSignInData } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import './SignInForm.pcss';
-import { userLogIn } from '@/store/reducers/AuthSlice';
+import './SignForm.pcss';
+import { userLogIn, userLogUp } from '@/store/reducers/AuthThunks';
 
-export const SignInForm = (): JSX.Element => {
-  const { isLoggedIn, user, token, awaiting } = useAppSelector(
+interface SignFormProps {
+  type: 'signin' | 'signup';
+}
+
+export const SignForm = ({ type }: SignFormProps): JSX.Element => {
+
+  const loginRef = useRef<string>('');
+  const passwordRef = useRef<string>('');
+
+  const { isLoggedIn, user, token, awaiting, userCreated } = useAppSelector(
     state => state.authReducer,
   );
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
+  const dispathLogIn = async (login:string, password:string)=>{
+    await dispatch(userLogIn({ login, password }));
+  };
+
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: Record<string, string>) => {
-    const userData: IUserSignInData = {
-      login: data.login,
-      password: data.password,
-    };
+    const { login, password, name } = data;
 
-    await dispatch(userLogIn(userData));
+    if (type === 'signin') {
+      dispathLogIn(login, password).catch(()=>{});
+
+    } else if (type === 'signup'){
+      [loginRef.current, passwordRef.current] = [login, password];
+      await dispatch(userLogUp({ login, password, name }));
+    }
+
   };
+
+  useEffect(() => {
+    if(userCreated){
+      dispathLogIn(loginRef.current, passwordRef.current).catch(()=>{});
+    }
+  }, [userCreated]);
 
   useEffect(() => {
     if(isLoggedIn){
@@ -60,6 +81,26 @@ export const SignInForm = (): JSX.Element => {
               )}
             </div>
           </div>
+          {type === 'signup' && (
+            <div className="form-item">
+              <label htmlFor='signin-name' className="form-item-label">
+             Name:
+                <input
+                  id='signin-name'
+                  className='signin-input'
+                  {...register('name', { required: true })}
+                  aria-invalid={errors.name ? 'true' : 'false'}
+                  type="text"
+                />
+              </label>
+
+              <div className="error-field">
+                {errors.name?.type === 'required' && (
+                  <span role="alert">Enter login</span>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="form-item">
             <label htmlFor='signin-password' className="form-item-label">

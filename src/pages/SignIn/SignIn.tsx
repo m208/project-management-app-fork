@@ -1,9 +1,9 @@
+import { SignForm } from '@/components/SignForm/SignForm';
 import './SignIn.pcss';
-import { SignInForm } from './SignInForm/SignInForm';
 
 export const SignIn = (): JSX.Element => (
   <section className='auth'>
     <p className='auth-heading'>Sign In</p>
-    <SignInForm />
+    <SignForm type = 'signin'/>
   </section>
 );
