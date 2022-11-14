@@ -1,71 +1,95 @@
+import toast from 'react-hot-toast';
+
+import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 import { Link } from '../Link/Link';
+
+import { saveLocalOnLogout } from '@/app/auth';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { authSlice } from '@/store/reducers/AuthSlice';
+
 import './Header.pcss';
 
-const isLoggedIn = false;
+export const Header = (): JSX.Element => {
+  const { isLoggedIn, user } = useAppSelector(state => state.authReducer);
+  const { logOff } = authSlice.actions;
+  const dispatch = useAppDispatch();
 
-export const Header = (): JSX.Element => (
-  <header className='header'>
+  const logOut = () =>{
+    dispatch(logOff());
+    saveLocalOnLogout();
+    toast.success('Logged out...');
+  };
 
-    <div className='header-nav'>
-      <nav>
-        <ul className='nav-list'>
-          <li>
-            <Link
-              href='/'
-              text='Home'
-            />
-          </li>
+  return (
+    <header className='header'>
 
-          {!isLoggedIn && (
-            <>
+      <div className='header-nav'>
+        <nav>
+          <ul className='nav-list'>
 
-              <li>
-                <Link
-                  href='/signin'
-                  text='Sign In'
-                />
-              </li>
+            <li>
+              <LangSwitcher />
+            </li>
 
-              <li>
-                <Link
-                  href='/signup'
-                  text='Sign Up'
-                />
-              </li>
-            </>
-          )}
+            <li>
+              <Link
+                href='/'
+                text='Home'
+              />
+            </li>
 
-          {isLoggedIn && (
-            <>
-              <li>
-                <Link
-                  href='/main'
-                  text='Boards'
-                />
+            {!isLoggedIn && (
+              <>
 
-              </li>
+                <li>
+                  <Link
+                    href='/signin'
+                    text='Sign In'
+                  />
+                </li>
 
-              <li>
-                <Link
-                  href='/profile'
-                  text='Profile'
-                />
-              </li>
+                <li>
+                  <Link
+                    href='/signup'
+                    text='Sign Up'
+                  />
+                </li>
+              </>
+            )}
 
-              <li>
-                <Link
-                  href='/signout'
-                  text='Sign Out'
-                />
-              </li>
-            </>
+            {isLoggedIn && (
+              <>
+                <li>
+                  <Link
+                    href='/main'
+                    text='Boards'
+                  />
 
-          )}
+                </li>
 
-        </ul>
-      </nav>
-    </div>
+                <li>
+                  <Link
+                    href='/profile'
+                    text={`Profile (${user?.name || user!.login})`}
+                  />
+                </li>
 
-  </header>
+                <li>
+                  <Link
+                    href='/'
+                    text='Sign Out'
+                    onClick={logOut}
+                  />
+                </li>
+              </>
 
-);
+            )}
+
+          </ul>
+        </nav>
+      </div>
+
+    </header>
+
+  );
+};
