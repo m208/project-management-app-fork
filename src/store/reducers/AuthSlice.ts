@@ -1,23 +1,19 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
-import { ISignInResponse, userSignIn } from '@/api/apiAuth';
-import { getLocalAuthState } from '@/app/auth';
-import { IAuthState, IUserSignInData } from '@/app/types';
+import { userLogIn, userLogUp } from './AuthThunks';
 
-export const userLogIn = createAsyncThunk('user/login', async (userData: IUserSignInData, thunkAPI) => {
-  try {
-    return await userSignIn(userData);
-  } catch (e) {
-    return thunkAPI.rejectWithValue('Error loading data');
-  }
-});
+import { ISignInResponse, ISignUpResponse } from '@/api/apiAuth';
+import { getLocalAuthState } from '@/app/auth';
+import { IAuthState } from '@/app/types';
 
 const getInitalState: () => IAuthState = () => {
   const localData = getLocalAuthState();
 
   const initialState = {
     awaiting: false,
+    userCreated: false,
   };
 
   if (localData.user){
@@ -55,11 +51,11 @@ export const authSlice = createSlice({
         if (action.payload.success){
           state.isLoggedIn = true;
 
-          const { id, login, name, token } = action.payload.data!;
+          const { _id, login, name, token } = action.payload.data!;
           state.token = token;
-          state.user = { id, login, name };
+          state.user = { _id, login, name };
 
-          toast.success(`Welcome back, ${name || login}`);
+          toast.success(`Greetings, ${name || login}!`);
         }
         else {
           toast.error(action.payload.errors!.message);
@@ -72,6 +68,25 @@ export const authSlice = createSlice({
       })
 
       .addCase(userLogIn.rejected, state => {
+        state.awaiting = false;
+        toast.error('Server error');
+      })
+
+      .addCase(userLogUp.fulfilled, (state, action: PayloadAction<ISignUpResponse>) => {
+        if (action.payload.success){
+          state.userCreated = true;
+          toast.success('Registration succesful');
+        }
+        else {
+          toast.error(action.payload.errors!.message);
+        }
+        state.awaiting = false;
+      })
+      .addCase(userLogUp.pending, state => {
+        state.awaiting = true;
+      })
+
+      .addCase(userLogUp.rejected, state => {
         state.awaiting = false;
         toast.error('Server error');
       });
