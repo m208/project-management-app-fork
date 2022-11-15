@@ -1,11 +1,9 @@
-import { useNavigate } from '@tanstack/react-location';
+import { Link, useNavigate } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
 
 import { useEffect, useRef } from 'react';
 
 import { signFormLabelsMap, SignFormTypes } from './SignFormLabels';
-
-import { Link } from '../Link/Link';
 
 import { saveLocalAuthState } from '@/app/auth';
 import { Loader } from '@/components/Loader/Loader';
@@ -135,13 +133,14 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
             <p className="signform-footer">
               {signFormLabelsMap[type].bottomText}
-              <Link
-                className='signform-footer-link'
-                href={signFormLabelsMap[type].link}
-                text={signFormLabelsMap[type].bottomLink.toUpperCase()}
-              />
+              <span className="signform-footer-link">
+                <Link to = {signFormLabelsMap[type].link} >
+                  {signFormLabelsMap[type].bottomLink.toUpperCase()}
+                </Link>
+              </span>
             </p>
           </div>
+
         </form>
       </div>
     </>
