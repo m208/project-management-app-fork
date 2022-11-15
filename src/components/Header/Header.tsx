@@ -7,6 +7,8 @@ import { saveLocalOnLogout } from '@/app/auth';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { authSlice } from '@/store/reducers/AuthSlice';
 
+import appLogoPath from '@/assets/png/app-logo.png';
+
 import './Header.pcss';
 
 export const Header = (): JSX.Element => {
@@ -20,75 +22,75 @@ export const Header = (): JSX.Element => {
     toast.success('Logged out...');
   };
 
+  const appLogo = <img src={appLogoPath} alt="app-logo" className='header__app-logo' />;
+
   return (
+
     <header className='header'>
+      <div className="container">
+        <div className='header-wrapper'>
+          <div className='app-logo'>
+            <Link
+              href='/'
+              children={appLogo}
+            />
+          </div>
 
-      <div className='header-nav'>
-        <nav>
-          <ul className='nav-list'>
+          <nav className='nav'>
+            <ul className='nav-list'>
+              {!isLoggedIn && (
+                <>
 
-            <li>
-              <LangSwitcher />
-            </li>
+                  <li>
+                    <Link
+                      href='/signin'
+                      text='Log In'
+                    />
+                  </li>
 
-            <li>
-              <Link
-                href='/'
-                text='Home'
-              />
-            </li>
+                  <li>
+                    <Link
+                      href='/signup'
+                      text='Sign Up'
+                    />
+                  </li>
+                </>
+              )}
 
-            {!isLoggedIn && (
-              <>
+              {isLoggedIn && (
+                <>
+                  <li>
+                    <Link
+                      href='/main'
+                      text='Boards'
+                    />
 
-                <li>
-                  <Link
-                    href='/signin'
-                    text='Sign In'
-                  />
-                </li>
+                  </li>
 
-                <li>
-                  <Link
-                    href='/signup'
-                    text='Sign Up'
-                  />
-                </li>
-              </>
-            )}
+                  <li>
+                    <Link
+                      href='/profile'
+                      text={`Profile (${user?.name || user!.login})`}
+                    />
+                  </li>
 
-            {isLoggedIn && (
-              <>
-                <li>
-                  <Link
-                    href='/main'
-                    text='Boards'
-                  />
+                  <li>
+                    <Link
+                      href='/'
+                      text='Sign Out'
+                      onClick={logOut}
+                    />
+                  </li>
+                </>
 
-                </li>
+              )}
 
-                <li>
-                  <Link
-                    href='/profile'
-                    text={`Profile (${user?.name || user!.login})`}
-                  />
-                </li>
-
-                <li>
-                  <Link
-                    href='/'
-                    text='Sign Out'
-                    onClick={logOut}
-                  />
-                </li>
-              </>
-
-            )}
-
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+          
+          <LangSwitcher />
+        </div>
       </div>
-
     </header>
 
   );

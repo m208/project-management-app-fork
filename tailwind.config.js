@@ -27,6 +27,9 @@ module.exports = {
         warning: {
           500: '#C2412B',
         },
+        langcolor: {
+          500: '#A1DFD7',
+        },
       },
     },
   },

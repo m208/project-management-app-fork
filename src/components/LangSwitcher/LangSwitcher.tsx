@@ -1,6 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { langSlice } from '@/store/reducers/LanguageSlice';
 
+import './LangSwitcher.pcss';
+
 export const LangSwitcher = (): JSX.Element => {
   const { currentLang } = useAppSelector(state => state.langReducer);
   const { setLanguage } = langSlice.actions;
