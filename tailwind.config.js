@@ -14,6 +14,20 @@ module.exports = {
         '2xl': { max: '1336px' },
         '3xl': { max: '1576px' },
       },
+      colors: {
+        primary: {
+          500: '#2F7C7E',
+        },
+        secondary: {
+          500: '#F17110',
+        },
+        additional: {
+          500: '#F7B122',
+        },
+        warning: {
+          500: '#C2412B',
+        },
+      },
     },
   },
   plugins: [],

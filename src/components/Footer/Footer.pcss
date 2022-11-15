@@ -1,23 +1,35 @@
 .footer {
-  @apply flex w-full justify-center;
+  @apply w-full bg-primary-500 text-white py-2;
 
-  & .footer_wrapper {
-    @apply w-5/6 flex justify-between items-center my-4 pt-4 border-t border-gray-200 text-gray-500 px-4;
+  & .footer__wrapper {
+    @apply flex flex-row w-full items-center;
   }
 
-  & .footer_year {
-    @apply flex justify-center;
+  & .footer__rss {
+    @apply w-1/6;
   }
 
-  & .footer_copyrights {
-    @apply flex w-full justify-end gap-4;
+  & .footer__team {
+    @apply w-4/6 flex justify-center;
   }
 
-  & .footer_logo {
-    @apply w-full;
+  & .footer__rss > img {
+    @apply h-8 w-auto;
+  }
+  
+  & .footer__gh_logo {
+    @apply h-8;
+  }
 
-    & .footer_icon {
-      @apply w-32;
-    }
+  & .footer__team-list {
+    @apply flex flex-row justify-center;
+  }
+
+  & .footer__team-member {
+    @apply  inline-block px-4 py-1 border-r-2 last-of-type:border-r-0;
+  }
+
+  & .footer__year {
+    @apply w-1/6 text-3xl font-bold flex justify-end;
   }
 }
