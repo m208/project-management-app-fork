@@ -32,6 +32,9 @@ module.exports = {
         },
       },
     },
+    backgroundImage: {
+      pattern: "url('../src/assets/png/pattern.png')",
+    }
   },
   plugins: [],
 };

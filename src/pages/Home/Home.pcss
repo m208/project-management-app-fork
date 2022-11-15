@@ -1,7 +1,43 @@
 .home {
-  @apply flex flex-col items-center;
+  @apply flex flex-col h-auto;
 
-  & .home-heading {
+  & .home__wrapper {
+    @apply flex flex-row space-x-16 items-center ;
+  }
+
+  & .home__heading {
     @apply text-4xl;
+  }
+
+  & .home__text {
+    @apply w-1/2 bg-white bg-opacity-60;
+  }
+
+  & .home__heading_s {
+    @apply text-primary-500 font-bold;
+  }
+
+  & .home__heading_m {
+    @apply text-secondary-500 text-6xl font-bold;
+  }
+
+  & .home__heading_l {
+    @apply text-secondary-500 text-9xl font-bold block;
+  }
+
+  & .home__descr > p {
+    @apply text-lg mt-2;
+  }
+
+  & .home__descr * li {
+    @apply text-xl list-disc mx-6 text-secondary-500;
+  }
+
+  & .home__descr * span {
+    @apply  text-black;
+  }
+
+  & .home__img {
+    @apply max-w-3xl ;
   }
 }
