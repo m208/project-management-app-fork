@@ -1,6 +1,6 @@
 import './Footer.pcss';
-import rssLogo from '../../assets/svg/rss_school_js.png';
-import ghLogo from '@/assets/svg/github_logo.png';
+import rssLogo from '../../assets/png/rss_school_js.png';
+import ghLogo from '@/assets/png/github_logo.png';
 
 export const Footer = (): JSX.Element => (
   <footer className="footer">
