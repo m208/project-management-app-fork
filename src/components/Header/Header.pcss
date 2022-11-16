@@ -1,16 +1,28 @@
 .header {
-  @apply relative flex w-full h-20 bg-primary-500 text-white font-bold text-lg z-10 justify-end;
+  @apply relative flex w-full h-20 md:h-16 bg-primary-500 text-white font-bold text-lg z-10 justify-end;
 
   & .app-logo {
-    @apply w-1/12 absolute h-6 top-0;
+    @apply w-1/12 absolute h-6 top-0 left-0 2xl:left-6;
   }
 
   & .header-wrapper {
-    @apply w-full flex items-center ;
+    @apply w-full h-full flex items-center justify-end ;
   }
 
   & .nav {
-    @apply w-11/12 justify-end;
+    @apply block w-11/12 justify-end transition-all duration-500 md:hidden;
+  }
+
+  & .nav_visible {
+    @apply absolute right-0 top-0 w-2/3 pt-32 min-h-screen bg-primary-500 bg-opacity-70;
+  }
+
+  & .nav_visible > .nav-list {
+    @apply flex flex-col transition-all duration-500 space-y-3 space-x-0;
+  }
+
+  & .nav_visible > .nav-list * a {
+    @apply text-center;
   }
 
   & .nav-list {
@@ -22,6 +34,10 @@
   }
 
   & .nav-list > li > a {
-    @apply py-2 px-6 inline-block uppercase;
+    @apply w-full py-2 px-6 inline-block uppercase;
   }
+}
+
+.hamburger-react  {
+  @apply hidden md:inline-block;
 }

@@ -1,4 +1,6 @@
 import toast from 'react-hot-toast';
+import Hamburger from 'hamburger-react';
+import { useState } from 'react';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 import { Link } from '../Link/Link';
@@ -24,6 +26,11 @@ export const Header = (): JSX.Element => {
 
   const appLogo = <img src={appLogoPath} alt="app-logo" className='header__app-logo' />;
 
+  const [navClass, setNavClass] = useState('nav');
+  const onToggle = () => {
+    navClass === 'nav' ? setNavClass('nav_visible') : setNavClass('nav');
+  }
+
   return (
 
     <header className='header'>
@@ -36,7 +43,7 @@ export const Header = (): JSX.Element => {
             />
           </div>
 
-          <nav className='nav'>
+          <nav className={navClass}>
             <ul className='nav-list'>
               {!isLoggedIn && (
                 <>
@@ -89,6 +96,7 @@ export const Header = (): JSX.Element => {
           </nav>
           
           <LangSwitcher />
+          <Hamburger onToggle={onToggle} color="white" rounded />
         </div>
       </div>
     </header>
