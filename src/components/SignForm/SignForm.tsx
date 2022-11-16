@@ -1,11 +1,9 @@
-import { useNavigate } from '@tanstack/react-location';
+import { Link, useNavigate } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
 
 import { useEffect, useRef } from 'react';
 
 import { signFormLabelsMap, SignFormTypes } from './SignFormLabels';
-
-import { Link } from '../Link/Link';
 
 import { saveLocalAuthState } from '@/app/auth';
 import { Loader } from '@/components/Loader/Loader';
@@ -74,17 +72,25 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
 
             <input
-              placeholder='Login:'
+              placeholder='Email:'
 
               className='signform-input'
-              {...register('login', { required: true })}
+              {...register('login', { required: true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: '',
+                },
+              })}
               aria-invalid={errors.login ? 'true' : 'false'}
-              type="text"
+              type="mail"
             />
 
             <div className="error-field">
               {errors.login?.type === 'required' && (
                 <span role="alert">Enter login</span>
+              )}
+              {errors.login?.type === 'pattern' && (
+                <span role="alert">Invalid email address</span>
               )}
             </div>
           </div>
@@ -95,7 +101,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               <input
                 placeholder='Name:'
                 className='signform-input'
-                {...register('name', { required: true })}
+                {...register('name', { required: true,  minLength: 3 })}
                 aria-invalid={errors.name ? 'true' : 'false'}
                 type="text"
               />
@@ -103,6 +109,9 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               <div className="error-field">
                 {errors.name?.type === 'required' && (
                   <span role="alert">Enter name</span>
+                )}
+                {errors.name?.type === 'minLength' && (
+                  <span role="alert">At least 3 characters</span>
                 )}
               </div>
             </div>
@@ -113,14 +122,20 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
             <input
               placeholder='Password:'
               className='signform-input'
-              {...register('password', { required: true })}
+              {...register('password', {
+                required: true,
+                minLength: (type === 'signup'? 8 : undefined),
+              })}
               aria-invalid={errors.password ? 'true' : 'false'}
-              type="text"
+              type="password"
             />
 
             <div className="error-field">
               {errors.password?.type === 'required' && (
                 <span role="alert">Enter password</span>
+              )}
+              {errors.password?.type === 'minLength' && (
+                <span role="alert">At least 8 characters</span>
               )}
             </div>
           </div>
@@ -135,13 +150,14 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
             <p className="signform-footer">
               {signFormLabelsMap[type].bottomText}
-              <Link
-                className='signform-footer-link'
-                href={signFormLabelsMap[type].link}
-                text={signFormLabelsMap[type].bottomLink.toUpperCase()}
-              />
+              <span className="signform-footer-link">
+                <Link to = {signFormLabelsMap[type].link} >
+                  {signFormLabelsMap[type].bottomLink.toUpperCase()}
+                </Link>
+              </span>
             </p>
           </div>
+
         </form>
       </div>
     </>
