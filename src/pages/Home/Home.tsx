@@ -7,8 +7,8 @@ export const Home = (): JSX.Element => (
     <div className="container">
       <div className="home__wrapper">
         <div className="home__text">
-          <h1 className='home__heading' dangerouslySetInnerHTML={{ __html: TEXTS.english.welcomeHeader }}></h1>
-          <div className="home__descr" dangerouslySetInnerHTML={{ __html: TEXTS.english.welcomeText }}></div>
+          <h1 className='home__heading' dangerouslySetInnerHTML={{ __html: TEXTS.russian.welcomeHeader }}></h1>
+          <div className="home__descr" dangerouslySetInnerHTML={{ __html: TEXTS.russian.welcomeText }}></div>
         </div>
 
         <img className='home__img' src={welcomeImage} alt="image" />
