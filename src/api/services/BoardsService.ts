@@ -35,9 +35,9 @@ export const boardsApi = createApi({
       }),
     }),
 
-    deleteBoard: build.mutation<IBoard, IBoard>({
-      query: board => ({
-        url: `/boards/${board.id!}`,
+    deleteBoard: build.mutation<IBoard, string>({
+      query: id => ({
+        url: `/boards/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Post'],
