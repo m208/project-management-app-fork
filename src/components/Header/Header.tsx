@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 import Hamburger from 'hamburger-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 import { Link } from '../Link/Link';
@@ -14,6 +15,7 @@ import appLogoPath from '@/assets/png/app-logo.png';
 import './Header.pcss';
 
 export const Header = (): JSX.Element => {
+  const { t } = useTranslation();
   const { isLoggedIn, user } = useAppSelector(state => state.authReducer);
   const { logOff } = authSlice.actions;
   const dispatch = useAppDispatch();
@@ -41,25 +43,21 @@ export const Header = (): JSX.Element => {
               href='/'
               children={appLogo}
             />
+            {/* <li>
+              <Link href='/'>{t('HEADER.MAIN')}</Link>
+              </li> */}
           </div>
 
           <nav className={navClass}>
             <ul className='nav-list'>
               {!isLoggedIn && (
                 <>
-
                   <li>
-                    <Link
-                      href='/signin'
-                      text='Log In'
-                    />
+                    <Link href='/signin'>{t('AUTH.LOG_IN')}</Link>
                   </li>
 
                   <li>
-                    <Link
-                      href='/signup'
-                      text='Sign Up'
-                    />
+                    <Link href='/signup' >{t('AUTH.SIGN_UP')}</Link>
                   </li>
                 </>
               )}
@@ -67,39 +65,25 @@ export const Header = (): JSX.Element => {
               {isLoggedIn && (
                 <>
                   <li>
-                    <Link
-                      href='/main'
-                      text='Boards'
-                    />
-
+                    <Link href='/main'>{t('HEADER.BOARDS')}</Link>
                   </li>
 
                   <li>
-                    <Link
-                      href='/profile'
-                      text={`Profile (${user?.name || user!.login})`}
-                    />
+                    <Link href='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
                   </li>
 
                   <li>
-                    <Link
-                      href='/'
-                      text='Sign Out'
-                      onClick={logOut}
-                    />
+                    <Link href='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
                   </li>
                 </>
-
               )}
-
             </ul>
           </nav>
-          
-          <LangSwitcher />
-          <Hamburger onToggle={onToggle} color="white" rounded />
         </div>
+
+        <LangSwitcher />
+        <Hamburger onToggle={onToggle} color="white" rounded />
       </div>
     </header>
-
   );
 };
