@@ -10,7 +10,7 @@
   }
 
   & .nav {
-    @apply block w-11/12 justify-end transition-all duration-500 z-10 md:h-0 md:absolute md:right-0 md:w-0;
+    @apply block w-11/12 justify-end transition-all duration-500 md:z-10 md:h-0 md:absolute md:right-0 md:w-0;
   }
 
   & .nav > .nav-list {
@@ -18,7 +18,7 @@
   }
 
   & .nav_visible {
-    @apply absolute right-0 top-0 w-2/3 pt-32 min-h-screen bg-primary-500 bg-opacity-70 duration-500;
+    @apply absolute right-0 top-0 w-2/3 pt-32 min-h-screen bg-primary-500 bg-opacity-70 duration-500 z-10;
   }
 
   & .nav_visible > .nav-list {
@@ -43,7 +43,7 @@
 }
 
 .hamburger-react  {
-  @apply hidden md:inline-block;
+  @apply hidden md:inline-block z-50;
 }
 
 
@@ -55,7 +55,7 @@
   right: 0;
   bottom: 0;
   transition: visibility .3s, opacity .3s;
-  z-index: -1;
+  z-index: 0;
 }
 
 .overlay.hidden {

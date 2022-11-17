@@ -29,7 +29,6 @@ export const Header = (): JSX.Element => {
 
   const appLogo = <img src={appLogoPath} alt="app-logo" className='header__app-logo' />;
 
-  const [isOpen, setOpen] = useState(false);
   const [navClass, setNavClass] = useState('nav');
   const [overlayClass, setOverlayClass] = useState('overlay hidden');
 
@@ -37,12 +36,14 @@ export const Header = (): JSX.Element => {
     if (navClass === 'nav') {
       setNavClass('nav_visible');
       setOverlayClass('overlay visible');
-      setOpen(true);
     } else {
       setNavClass('nav')
       setOverlayClass('overlay hidden');
-      setOpen(false);
     }
+  }
+  const onNavListClick = () => {
+      setNavClass('nav');
+      setOverlayClass('overlay hidden');
   }
 
   return (
@@ -58,7 +59,7 @@ export const Header = (): JSX.Element => {
           </div>
 
           <nav className={navClass}>
-            <ul className='nav-list' onClick={onToggle}>
+            <ul className='nav-list' onClick={onNavListClick}>
               {!isLoggedIn && (
                 <>
                   <li>
@@ -90,7 +91,7 @@ export const Header = (): JSX.Element => {
           </nav>
 
           <LangSwitcher />
-          <Hamburger toggled={isOpen} onToggle={onToggle} color="white" rounded />
+          <Hamburger onToggle={onToggle} color="white" rounded />
 
           <div className={overlayClass}></div>
 
