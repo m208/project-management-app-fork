@@ -59,7 +59,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
   useEffect(() => {
     if(isLoggedIn){
       saveLocalAuthState({ isLoggedIn, user, token });
-      navigate({ to: '/main' });
+      navigate({ to: '/boards' });
     }
   }, [isLoggedIn]);
 

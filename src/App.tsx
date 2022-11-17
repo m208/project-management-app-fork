@@ -22,14 +22,15 @@ export const App = (): JSX.Element => {
         position="top-right"
         reverseOrder={false}
       />
-      <Header />
+      <Router location={location} routes={routes(isLoggedIn)}>
+      
+        <Header />
 
-      <main className='content'>
-        <Router location={location} routes={routes(isLoggedIn)}>
-          <Outlet />
-        </Router>
-      </main>
+        <main className='content'>
+            <Outlet />
+        </main>
 
-      <Footer />
+        <Footer />
+      </Router>
     </>
   );};

@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
-import { Link } from '../Link/Link';
+// import { Link } from '../Link/Link';
+import { Link } from '@tanstack/react-location';
 
 import { saveLocalOnLogout } from '@/app/auth';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -40,12 +41,9 @@ export const Header = (): JSX.Element => {
         <div className='header-wrapper'>
           <div className='app-logo'>
             <Link
-              href='/'
+              to='/'
               children={appLogo}
             />
-            {/* <li>
-              <Link href='/'>{t('HEADER.MAIN')}</Link>
-              </li> */}
           </div>
 
           <nav className={navClass}>
@@ -53,11 +51,11 @@ export const Header = (): JSX.Element => {
               {!isLoggedIn && (
                 <>
                   <li>
-                    <Link href='/signin'>{t('AUTH.LOG_IN')}</Link>
+                    <Link to='/signin'>{t('AUTH.LOG_IN')}</Link>
                   </li>
 
                   <li>
-                    <Link href='/signup' >{t('AUTH.SIGN_UP')}</Link>
+                    <Link to='/signup' >{t('AUTH.SIGN_UP')}</Link>
                   </li>
                 </>
               )}
@@ -65,15 +63,15 @@ export const Header = (): JSX.Element => {
               {isLoggedIn && (
                 <>
                   <li>
-                    <Link href='/main'>{t('HEADER.BOARDS')}</Link>
+                    <Link to='/boards'>{t('HEADER.BOARDS')}</Link>
                   </li>
 
                   <li>
-                    <Link href='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
+                    <Link to='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
                   </li>
 
                   <li>
-                    <Link href='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
+                    <Link to='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
                   </li>
                 </>
               )}
