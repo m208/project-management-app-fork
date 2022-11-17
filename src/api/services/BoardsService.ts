@@ -4,6 +4,14 @@ import { API_ENDPOINT } from '@/app/constants';
 import { IBoard, IBoardResponse } from '@/app/types';
 import { RootState } from '@/store/store';
 
+const renameIdProp = (response: IBoardResponse) =>{
+  const { owner, title, users, _id: id } = response;
+  return { owner, title, users, id };
+};
+
+const renameIdPropArray =  (response:IBoardResponse[]) =>
+  response.map(board=>renameIdProp(board));
+
 export const boardsApi = createApi({
   reducerPath: 'boardsApi',
 
@@ -25,12 +33,16 @@ export const boardsApi = createApi({
       query: () => ({
         url: '/boards',
       }),
-      transformResponse:( response:IBoardResponse[]) => response.map(board=>{
-        const { owner, title, users, _id: id } = board;
-        return { owner, title, users, id };
-      }),
+      transformResponse: renameIdPropArray,
 
       providesTags: () => ['Boards'],
+    }),
+
+    getBoard: build.query<IBoard, string>({
+      query: id => ({
+        url: `/boards/${id}`,
+      }),
+      transformResponse: renameIdProp,
     }),
 
     createBoard: build.mutation<IBoard, IBoard>({
