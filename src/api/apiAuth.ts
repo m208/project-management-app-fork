@@ -3,7 +3,7 @@ import { IUser, IUserSignInData, IUserSignUpData } from '@/app/types';
 
 export interface ISignInOk {
   token: string;
-  _id: string;
+  id: string;
   name: string;
   login: string;
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
@@ -51,9 +50,9 @@ export const authSlice = createSlice({
         if (action.payload.success){
           state.isLoggedIn = true;
 
-          const { _id, login, name, token } = action.payload.data!;
+          const { id, login, name, token } = action.payload.data!;
           state.token = token;
-          state.user = { _id, login, name };
+          state.user = { login, name, _id: id };
 
           toast.success(`Greetings, ${name || login}!`);
         }
