@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 import { Link } from '../Link/Link';
@@ -10,6 +11,7 @@ import { authSlice } from '@/store/reducers/AuthSlice';
 import './Header.pcss';
 
 export const Header = (): JSX.Element => {
+  const { t } = useTranslation();
   const { isLoggedIn, user } = useAppSelector(state => state.authReducer);
   const { logOff } = authSlice.actions;
   const dispatch = useAppDispatch();
@@ -32,27 +34,18 @@ export const Header = (): JSX.Element => {
             </li>
 
             <li>
-              <Link
-                href='/'
-                text='Home'
-              />
+              <Link href='/'>{t('HEADER.MAIN')}</Link>
             </li>
 
             {!isLoggedIn && (
               <>
 
                 <li>
-                  <Link
-                    href='/signin'
-                    text='Sign In'
-                  />
+                  <Link href='/signin'>{t('AUTH.LOG_IN')}</Link>
                 </li>
 
                 <li>
-                  <Link
-                    href='/signup'
-                    text='Sign Up'
-                  />
+                  <Link href='/signup' >{t('AUTH.SIGN_UP')}</Link>
                 </li>
               </>
             )}
@@ -60,26 +53,15 @@ export const Header = (): JSX.Element => {
             {isLoggedIn && (
               <>
                 <li>
-                  <Link
-                    href='/main'
-                    text='Boards'
-                  />
-
+                  <Link href='/main'>{t('HEADER.BOARDS')}</Link>
                 </li>
 
                 <li>
-                  <Link
-                    href='/profile'
-                    text={`Profile (${user?.name || user!.login})`}
-                  />
+                  <Link href='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
                 </li>
 
                 <li>
-                  <Link
-                    href='/'
-                    text='Sign Out'
-                    onClick={logOut}
-                  />
+                  <Link href='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
                 </li>
               </>
 
