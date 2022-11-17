@@ -79,10 +79,11 @@ export const Header = (): JSX.Element => {
               )}
             </ul>
           </nav>
+
+          <LangSwitcher />
+          <Hamburger onToggle={onToggle} color="white" rounded />
         </div>
 
-        <LangSwitcher />
-        <Hamburger onToggle={onToggle} color="white" rounded />
       </div>
     </header>
   );
