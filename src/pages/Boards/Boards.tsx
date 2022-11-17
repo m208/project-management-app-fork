@@ -1,4 +1,6 @@
 /* eslint-disable no-alert */
+import { Link } from '@tanstack/react-location';
+
 import { boardsApi } from '@/api/services/BoardsService';
 import { IBoard } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
@@ -57,7 +59,12 @@ export const Boards = (): JSX.Element => {
         {boards && boards.map(board =>
           <li key = {board.id} className='py-2'>
             <div className="board-item">
-              {`id: ${board.id} | title: ${board.title} | owner: ${board.owner}`}
+              <div className="board-content">
+                <Link to={`/main/${board.id}`}>
+                  {`id: ${board.id} | title: ${board.title} | owner: ${board.owner}`}
+                </Link>
+
+              </div>
 
               <div className="board-buttons">
 
