@@ -6,6 +6,7 @@ import { StrictMode } from 'react';
 import { setupStore } from './store/store';
 
 import { App } from '@/App';
+import './utils/i18n';
 
 import '@/styles/index.pcss';
 

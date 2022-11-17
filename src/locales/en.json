@@ -1,0 +1,38 @@
+{
+  "HEADER": {
+    "NEW": "+ New Board",
+    "SEARCH": "Search",
+    "PROFILE": "Edit Profile",
+    "MAIN": "Main",
+    "BOARDS": "Boards"
+  },
+  "AUTH": {
+    "LOG_IN": "Sign in",
+    "SIGN_UP": "Sign up",
+    "SIGN_OUT": "Sign out"
+  },
+  "SIGN_IN": {
+    "HEADING": "Enter your account",
+    "LOGIN": "Login",
+    "PASSWORD": "Password",
+    "SIGN_IN": "SIGN IN",
+    "BOTTOM_TEXT": "Haven’t got account yet?",
+    "BOTTOM_LINK": "SIGN UP!"
+  },
+  "SIGN_UP": {
+    "HEADING": "Create new account",
+    "NAME": "Name",
+    "ENTER_NAME": "Enter name",
+    "LOGIN": "Login",
+    "ENTER_LOGIN": "Enter login",
+    "PASSWORD": "Password",
+    "ENTER_PASSWORD": "Enter password",
+    "SIGN_UP": "SIGN UP",
+    "BOTTOM_TEXT": "Already with us?",
+    "BOTTOM_LINK": "Sign in!"
+  },
+  "WELCOME": {
+    "WELCOME": "Kanban board for teams to organize their work",
+    "DESCR": "Collaborate, manage projects, and reach new productivity peaks. Accomplish it all with RS Project Management App"
+  }
+}

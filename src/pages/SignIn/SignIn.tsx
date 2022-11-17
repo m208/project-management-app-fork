@@ -3,6 +3,6 @@ import './SignIn.pcss';
 
 export const SignIn = (): JSX.Element => (
   <section className='auth'>
-    <SignForm type = 'signin'/>
+    <SignForm type = 'SIGN_IN'/>
   </section>
 );

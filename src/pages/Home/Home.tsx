@@ -1,8 +1,12 @@
+import { useTranslation } from 'react-i18next';
 import './Home.pcss';
 
-export const Home = (): JSX.Element => (
-  <section className="home">
-    <h1 className='home-heading'>Welcome !</h1>
-    <p>This is starting page with a presentation of the features</p>
-  </section>
-);
+export const Home = (): JSX.Element => {
+  const { t } = useTranslation();
+  return (
+    <section className="home">
+      <h1 className='home-heading'>{t('WELCOME.WELCOME')}</h1>
+      <p>{t('WELCOME.DESCR')}</p>
+    </section>
+  );
+};
