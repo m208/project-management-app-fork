@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 import { API_ENDPOINT } from '@/app/constants';
-import { IBoard } from '@/app/types';
+import { IBoard, IBoardResponse } from '@/app/types';
 import { RootState } from '@/store/store';
 
 export const boardsApi = createApi({
@@ -17,7 +17,7 @@ export const boardsApi = createApi({
       return headers;
     } }),
 
-  tagTypes: ['Post'],
+  tagTypes: ['Boards'],
 
   endpoints: build => ({
 
@@ -25,6 +25,12 @@ export const boardsApi = createApi({
       query: () => ({
         url: '/boards',
       }),
+      transformResponse:( response:IBoardResponse[]) => response.map(board=>{
+        const { owner, title, users, _id: id } = board;
+        return { owner, title, users, id };
+      }),
+
+      providesTags: () => ['Boards'],
     }),
 
     createBoard: build.mutation<IBoard, IBoard>({
@@ -33,6 +39,16 @@ export const boardsApi = createApi({
         method: 'POST',
         body: board,
       }),
+      invalidatesTags: ['Boards'],
+    }),
+
+    updateBoard: build.mutation<IBoard, IBoard>({
+      query: board => ({
+        url: `/boards/${board.id}`,
+        method: 'PUT',
+        body: { title: board.title, owner: board.owner, users: board.users },
+      }),
+      invalidatesTags: ['Boards'],
     }),
 
     deleteBoard: build.mutation<IBoard, string>({
@@ -40,7 +56,7 @@ export const boardsApi = createApi({
         url: `/boards/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Post'],
+      invalidatesTags: ['Boards'],
     }),
   }),
 });
