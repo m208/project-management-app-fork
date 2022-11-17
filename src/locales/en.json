@@ -38,5 +38,13 @@
   "WELCOME": {
     "WELCOME": "Kanban board for teams to organize their work",
     "DESCR": "Collaborate, manage projects, and reach new productivity peaks. Accomplish it all with RS Project Management App"
+  },
+  "PROFILE": {
+    "EDIT": "EDIT PROFILE",
+    "SAVE": "SAVE",
+    "DELETE": "DELETE MY ACCOUNT",
+    "SURE": "Are you sure? This action is irreversible!",
+    "OK": "OK",
+    "CANCEL": "Cancel"
   }
 }

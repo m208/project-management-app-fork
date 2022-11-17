@@ -79,7 +79,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               className='signform-input'
               {...register('login', { required: true,
                 pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  value: /[A-Za-z0-9]{4,20}/i,
                   message: '',
                 },
               })}
