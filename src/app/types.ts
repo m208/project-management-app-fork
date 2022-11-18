@@ -21,3 +21,19 @@ export interface IAuthState {
   awaiting?: boolean;
   userCreated?: boolean;
 }
+
+export interface IBoard {
+  id: string;
+  title: string;
+  owner: string;
+  users: Array<string>;
+}
+
+export interface IBoardResponse {
+  _id: string;
+  title: string;
+  owner: string;
+  users: Array<string>;
+}
+
+export type IBoardData = Omit <IBoard, 'id'>;
