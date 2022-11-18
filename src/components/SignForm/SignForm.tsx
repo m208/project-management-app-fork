@@ -13,6 +13,7 @@ import { Loader } from '@/components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import './SignForm.pcss';
 import { userLogIn, userLogUp } from '@/store/reducers/AuthThunks';
+import { Link } from '../Link/Link';
 
 interface SignFormProps {
   type: SignFormTypes;
@@ -58,7 +59,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
   useEffect(() => {
     if(isLoggedIn){
       saveLocalAuthState({ isLoggedIn, user, token });
-      navigate({ to: '/main' });
+      navigate({ to: '/boards' });
     }
   }, [isLoggedIn]);
 
@@ -127,7 +128,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               className='signform-input'
               {...register('password', {
                 required: true,
-                minLength: (type === 'signup'? 8 : undefined),
+                minLength: (type === 'SIGN_IN'? 8 : undefined),
               })}
               aria-invalid={errors.password ? 'true' : 'false'}
               type="password"

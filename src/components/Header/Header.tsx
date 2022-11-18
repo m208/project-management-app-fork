@@ -1,12 +1,17 @@
 import toast from 'react-hot-toast';
+import Hamburger from 'hamburger-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
-import { Link } from '../Link/Link';
+// import { Link } from '../Link/Link';
+import { Link } from '@tanstack/react-location';
 
 import { saveLocalOnLogout } from '@/app/auth';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { authSlice } from '@/store/reducers/AuthSlice';
+
+import appLogoPath from '@/assets/png/app-logo.png';
 
 import './Header.pcss';
 
@@ -22,56 +27,77 @@ export const Header = (): JSX.Element => {
     toast.success('Logged out...');
   };
 
+  const appLogo = <img src={appLogoPath} alt="app-logo" className='header__app-logo' />;
+
+  const [navClass, setNavClass] = useState('nav');
+  const [overlayClass, setOverlayClass] = useState('overlay hidden');
+
+  const onToggle = () => {
+    if (navClass === 'nav') {
+      setNavClass('nav_visible');
+      setOverlayClass('overlay visible');
+    } else {
+      setNavClass('nav')
+      setOverlayClass('overlay hidden');
+    }
+  }
+  const onNavListClick = () => {
+      setNavClass('nav');
+      setOverlayClass('overlay hidden');
+  }
+
   return (
+
     <header className='header'>
+      <div className="container">
+        <div className='header-wrapper'>
+          <div className='app-logo'>
+            <Link
+              to='/'
+              children={appLogo}
+            />
+          </div>
 
-      <div className='header-nav'>
-        <nav>
-          <ul className='nav-list'>
+          <nav className={navClass}>
+            <ul className='nav-list' onClick={onNavListClick}>
+              {!isLoggedIn && (
+                <>
+                  <li>
+                    <Link to='/signin'>{t('AUTH.LOG_IN')}</Link>
+                  </li>
 
-            <li>
-              <LangSwitcher />
-            </li>
+                  <li>
+                    <Link to='/signup' >{t('AUTH.SIGN_UP')}</Link>
+                  </li>
+                </>
+              )}
 
-            <li>
-              <Link href='/'>{t('HEADER.MAIN')}</Link>
-            </li>
+              {isLoggedIn && (
+                <>
+                  <li>
+                    <Link to='/boards'>{t('HEADER.BOARDS')}</Link>
+                  </li>
 
-            {!isLoggedIn && (
-              <>
+                  <li>
+                    <Link to='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
+                  </li>
 
-                <li>
-                  <Link href='/signin'>{t('AUTH.LOG_IN')}</Link>
-                </li>
+                  <li>
+                    <Link to='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
 
-                <li>
-                  <Link href='/signup' >{t('AUTH.SIGN_UP')}</Link>
-                </li>
-              </>
-            )}
+          <LangSwitcher />
+          <Hamburger onToggle={onToggle} color="white" rounded />
 
-            {isLoggedIn && (
-              <>
-                <li>
-                  <Link href='/main'>{t('HEADER.BOARDS')}</Link>
-                </li>
+          <div className={overlayClass}></div>
 
-                <li>
-                  <Link href='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
-                </li>
+        </div>
 
-                <li>
-                  <Link href='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
-                </li>
-              </>
-
-            )}
-
-          </ul>
-        </nav>
       </div>
-
     </header>
-
   );
 };

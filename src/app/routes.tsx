@@ -24,7 +24,7 @@ export const routes: (isUserlogged: boolean) => Route[] = isUserlogged =>[
     element: <SignUp />,
   },
   {
-    path: '/main',
+    path: '/boards',
     element: isUserlogged ? <Boards /> : <Navigate to="/" />,
   },
   {
