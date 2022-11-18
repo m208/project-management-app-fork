@@ -60,7 +60,7 @@ export const Boards = (): JSX.Element => {
           <li key = {board.id} className='py-2'>
             <div className="board-item">
               <div className="board-content">
-                <Link to={`/main/${board.id}`}>
+                <Link to={`/boards/${board.id}`}>
                   {`id: ${board.id} | title: ${board.title} | owner: ${board.owner}`}
                 </Link>
 

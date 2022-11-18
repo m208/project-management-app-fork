@@ -17,7 +17,7 @@ export const Board = (): JSX.Element => {
       {error && (
         <>
           <p>Board does not exist</p>
-          <Link to='/main'>
+          <Link to='/boards'>
               Go back to yours boards
           </Link>
         </>

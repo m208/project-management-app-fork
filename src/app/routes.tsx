@@ -25,8 +25,7 @@ export const routes: (isUserlogged: boolean) => Route[] = isUserlogged =>[
     element: <SignUp />,
   },
   {
-    // TODO: rename /main to /boards
-    path: '/main',
+    path: '/boards',
     children: [
       {
         path: '/',
