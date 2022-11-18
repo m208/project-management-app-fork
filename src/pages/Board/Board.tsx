@@ -1,12 +1,17 @@
 import { Link, useMatch } from '@tanstack/react-location';
 
 import { boardsApi } from '@/api/services/BoardsService';
+import { columnsApi } from '@/api/services/ColumnsService';
 import { Loader } from '@/components/Loader/Loader';
 import './Board.pcss';
 
 export const Board = (): JSX.Element => {
   const { data: { boardId } } = useMatch();
   const { data: board,  isLoading, error } = boardsApi.useGetBoardQuery(boardId as string);
+
+  if (board){
+    const { data: columns } = columnsApi.useGetColumnsQuery(board.id);
+  }
 
   return (
     <section className="board">

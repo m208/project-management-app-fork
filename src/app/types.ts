@@ -29,11 +29,21 @@ export interface IBoard {
   users: Array<string>;
 }
 
-export interface IBoardResponse {
-  _id: string;
-  title: string;
-  owner: string;
-  users: Array<string>;
-}
+export type IBoardResponse =
+  Omit <IBoard, 'id'> & {
+    _id: string;
+  };
 
 export type IBoardData = Omit <IBoard, 'id'>;
+
+export interface IColumn {
+  id:	string;
+  title:	string;
+  order:	number;
+  boardId:	string;
+}
+
+export type IColumnResponse =
+  Omit <IColumn, 'id'> & {
+    _id: string;
+  };
