@@ -51,6 +51,15 @@ export const columnsApi = createApi({
       invalidatesTags: ['Columns'],
     }),
 
+    updateColumnSet: build.mutation<IColumn, Array<{_id: string; order: number}>>({
+      query: data => ({
+        url: '/columnsSet',
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Columns'],
+    }),
+
     deleteColumn: build.mutation<IColumn, {col: IColumn; boardId: string}>({
       query: data => ({
         url: `/boards/${data.boardId}/columns/${data.col.id}`,

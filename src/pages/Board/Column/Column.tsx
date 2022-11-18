@@ -50,7 +50,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
       {((isLoading || crLoading || delLoading ) && <Loader/> )}
 
       <div className="column">
-        <h1>{column.title}</h1>
+        <h1>{column.title} (order: {column.order})</h1>
 
         <div className="column-body" >
           {tasks && tasks.map(task =>

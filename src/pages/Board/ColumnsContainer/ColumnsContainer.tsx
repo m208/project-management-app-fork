@@ -14,16 +14,20 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   const { data: columns, isLoading } = columnsApi.useGetColumnsQuery(boardId);
   const [createCol, { error, isLoading: crLoading }] = columnsApi.useCreateColumnMutation();
   const [deleteCol, { isLoading: delLoading }] = columnsApi.useDeleteColumnMutation();
+  const [updateColOrder] = columnsApi.useUpdateColumnSetMutation();
 
   const handleCreate = async () => {
     // eslint-disable-next-line no-alert
     const title = prompt('Input new column title');
 
+    const getBiggestOrder = (cols: IColumn[] | undefined) =>
+      cols ? [...cols].sort((a, b)=>(a.order - b.order))[cols.length-1].order : 0;
+
     if (title){
       await createCol({
         col: {
           title,
-          order: 0,
+          order: getBiggestOrder(columns) + 1,
         } as IColumn,
         boardId,
       });
@@ -37,6 +41,19 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     });
   };
 
+  const handleShuffle = async () => {
+    if (columns) {
+      await updateColOrder([...columns]
+        .sort((a, b)=>(a.order - b.order))
+        .map((el, i )=>({
+          _id: el.id,
+          order: columns.length - i,
+        })),
+      );
+    }
+
+  };
+
   return (
     <section className="columns">
       {error && (
@@ -46,14 +63,17 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
       {((isLoading || delLoading || crLoading) && <Loader/> )}
 
       <div className="columns-wrapper">
-        {columns && columns.map(col =>
-          <Column
-            column = {col}
-            boardId = {boardId}
-            onDelete={handleDelete}
-            key = {col.id}
-          />,
-        )}
+
+        {columns && [...columns]
+          .sort((a, b)=>(a.order - b.order))
+          .map(col =>
+            <Column
+              column = {col}
+              boardId = {boardId}
+              onDelete={handleDelete}
+              key = {col.id}
+            />,
+          )}
 
         <div className="columns-add">
           <button
@@ -62,6 +82,14 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
             onClick={handleCreate}
           >
             Add COLUMN
+          </button>
+
+          <button
+            type = 'button'
+            className='col-addbttn'
+            onClick={handleShuffle}
+          >
+            Reverse COLS
           </button>
         </div>
 
