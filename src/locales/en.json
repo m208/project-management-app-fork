@@ -1,0 +1,43 @@
+{
+  "HEADER": {
+    "NEW": "+ New Board",
+    "SEARCH": "Search",
+    "PROFILE": "Edit Profile",
+    "MAIN": "Main",
+    "BOARDS": "Boards"
+  },
+  "AUTH": {
+    "LOG_IN": "Sign in",
+    "SIGN_UP": "Sign up",
+    "SIGN_OUT": "Sign out"
+  },
+  "SIGN_IN": {
+    "HEADING": "Enter your account",
+    "LOGIN": "Login",
+    "PASSWORD": "Password",
+    "SIGN_IN": "SIGN IN",
+    "BOTTOM_TEXT": "Haven’t got account yet?",
+    "BOTTOM_LINK": "SIGN UP!"
+  },
+  "SIGN_UP": {
+    "HEADING": "Create new account",
+    "NAME": "Name",
+    "ENTER_NAME": "Enter name",
+    "LOGIN": "Login",
+    "ENTER_LOGIN": "Enter login",
+    "PASSWORD": "Password",
+    "ENTER_PASSWORD": "Enter password",
+    "SIGN_UP": "SIGN UP",
+    "BOTTOM_TEXT": "Already with us?",
+    "BOTTOM_LINK": "Sign in!"
+  },
+  "WELCOME": {
+    "HEADING": "<span class='home__heading_m'>PROJECT</span><span class='home__heading_s'>management</span><span class='home__heading_l'>SYSTEM</span>",
+    "DESCR_P1": "The task management system, or task manager, is a service that allows you to collect all work tasks in a single space. A&nbsp;simple and intuitive interface will allow you to create task lists, as well as drag and drop cards between columns, changing their status.",
+    "DESCR_P2": "The task manager will help to:",
+    "DESCR_POINT_1": "structure and make the company's work more transparent;",
+    "DESCR_POINT_2": "plan the work on the project",
+    "DESCR_POINT_3": "organize communication between project participants;",
+    "DESCR_POINT_4": "accelerate the onboarding of new employees."
+  }
+}
