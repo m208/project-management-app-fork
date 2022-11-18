@@ -5,12 +5,14 @@ import langReducer from './reducers/LanguageSlice';
 
 import { boardsApi } from '@/api/services/BoardsService';
 import { columnsApi } from '@/api/services/ColumnsService';
+import { tasksApi } from '@/api/services/TasksService';
 
 export const rootReducer = combineReducers({
   langReducer,
   authReducer,
   [boardsApi.reducerPath]: boardsApi.reducer,
   [columnsApi.reducerPath]: columnsApi.reducer,
+  [tasksApi.reducerPath]: tasksApi.reducer,
 });
 
 export const setupStore = () => configureStore({
@@ -18,7 +20,8 @@ export const setupStore = () => configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .concat(boardsApi.middleware)
-      .concat(columnsApi.middleware),
+      .concat(columnsApi.middleware)
+      .concat(tasksApi.middleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

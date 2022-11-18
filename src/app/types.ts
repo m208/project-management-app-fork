@@ -47,3 +47,19 @@ export type IColumnResponse =
   Omit <IColumn, 'id'> & {
     _id: string;
   };
+
+export interface ITask {
+  id:	string;
+  title:	string;
+  order:	number;
+  boardId:	string;
+  columnId:	string;
+  description:	string;
+  userId:	number;
+  users:	Array<string>;
+}
+
+export type ITaskResponse =
+  Omit <ITask, 'id'> & {
+    _id: string;
+  };
