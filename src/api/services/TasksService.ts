@@ -58,7 +58,7 @@ export const tasksApi = createApi({
       invalidatesTags: ['Tasks'],
     }),
 
-    deleteColumn: build.mutation<ITask, {task: ITask; colId: string; boardId: string}>({
+    deleteTask: build.mutation<ITask, {task: ITask; colId: string; boardId: string}>({
       query: data => ({
         url: `/boards/${data.boardId}/columns/${data.colId}/tasks/${data.task.id}`,
         method: 'DELETE',
