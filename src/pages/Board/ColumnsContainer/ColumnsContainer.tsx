@@ -21,7 +21,9 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     const title = prompt('Input new column title');
 
     const getBiggestOrder = (cols: IColumn[] | undefined) =>
-      cols ? [...cols].sort((a, b)=>(a.order - b.order))[cols.length-1].order : 0;
+      (cols && cols.length > 0)
+        ? [...cols].sort((a, b)=>(a.order - b.order))[cols.length-1].order
+        : 0;
 
     if (title){
       await createCol({
