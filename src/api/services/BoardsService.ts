@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 import { API_ENDPOINT } from '@/app/constants';

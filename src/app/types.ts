@@ -6,6 +6,12 @@ export interface IUser {
   _id: string;
 }
 
+export interface ITransformUser {
+  name: string;
+  login: string;
+  id: string;
+}
+
 export type IUserSignInData = Omit <IUserSignUpData, 'name'>;
 
 export interface IUserSignUpData {
@@ -16,7 +22,7 @@ export interface IUserSignUpData {
 
 export interface IAuthState {
   isLoggedIn: boolean;
-  user: IUser | null;
+  user: ITransformUser | null;
   token: string;
   awaiting?: boolean;
   userCreated?: boolean;

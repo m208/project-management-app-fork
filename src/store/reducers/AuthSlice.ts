@@ -52,7 +52,7 @@ export const authSlice = createSlice({
 
           const { id, login, name, token } = action.payload.data!;
           state.token = token;
-          state.user = { login, name, _id: id };
+          state.user = { login, name, id };
 
           toast.success(`Greetings, ${name || login}!`);
         }

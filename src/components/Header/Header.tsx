@@ -1,17 +1,16 @@
-import toast from 'react-hot-toast';
+import { Link } from '@tanstack/react-location';
 import Hamburger from 'hamburger-react';
-import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
+import React, { useState } from 'react';
+
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
-// import { Link } from '../Link/Link';
-import { Link } from '@tanstack/react-location';
 
 import { saveLocalOnLogout } from '@/app/auth';
+import appLogoPath from '@/assets/png/app-logo.png';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { authSlice } from '@/store/reducers/AuthSlice';
-
-import appLogoPath from '@/assets/png/app-logo.png';
 
 import './Header.pcss';
 
@@ -37,14 +36,15 @@ export const Header = (): JSX.Element => {
       setNavClass('nav_visible');
       setOverlayClass('overlay visible');
     } else {
-      setNavClass('nav')
-      setOverlayClass('overlay hidden');
-    }
-  }
-  const onNavListClick = () => {
       setNavClass('nav');
       setOverlayClass('overlay hidden');
-  }
+    }
+  };
+
+  const onNavListClick = () => {
+    setNavClass('nav');
+    setOverlayClass('overlay hidden');
+  };
 
   return (
 
@@ -93,7 +93,7 @@ export const Header = (): JSX.Element => {
           <LangSwitcher />
           <Hamburger onToggle={onToggle} color="white" rounded />
 
-          <div className={overlayClass}></div>
+          <div className={overlayClass} />
 
         </div>
 

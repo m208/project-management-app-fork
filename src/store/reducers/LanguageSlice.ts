@@ -6,8 +6,10 @@ interface LanguageState {
   currentLang: Languages;
 }
 
+const language = localStorage.getItem('i18nextLng') as Languages;
+
 const initialState: LanguageState = {
-  currentLang: 'en',
+  currentLang: language || 'en',
 };
 
 export const langSlice = createSlice({

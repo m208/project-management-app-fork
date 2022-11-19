@@ -1,5 +1,5 @@
 import { tokenExpirationValue } from './constants';
-import { IAuthState, IUser } from './types';
+import { IAuthState, ITransformUser } from './types';
 
 export const getLocalAuthState = () => {
   const token = localStorage.getItem('userToken');
@@ -12,7 +12,7 @@ export const getLocalAuthState = () => {
     (now - +lastAuthDate < tokenExpirationValue )
   ){
     return {
-      user: JSON.parse(user) as IUser,
+      user: JSON.parse(user) as ITransformUser,
       token,
     };
   }
