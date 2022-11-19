@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-import { useNavigate } from '@tanstack/react-location';
-
+import { useNavigate, Link } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -13,7 +12,6 @@ import { Loader } from '@/components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import './SignForm.pcss';
 import { userLogIn, userLogUp } from '@/store/reducers/AuthThunks';
-import { Link } from '../Link/Link';
 
 interface SignFormProps {
   type: SignFormTypes;
@@ -81,7 +79,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               className='signform-input'
               {...register('login', { required: true,
                 pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  value: /[A-Za-z0-9]{4,20}/i,
                   message: '',
                 },
               })}
@@ -94,7 +92,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
                 <span role="alert">{t('SIGN_UP.ENTER_LOGIN')}</span>
               )}
               {errors.login?.type === 'pattern' && (
-                <span role="alert">Invalid email address</span>
+                <span role="alert">{t('SIGN_UP.LOGIN_WRONG')}</span>
               )}
             </div>
           </div>
@@ -105,7 +103,12 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               <input
                 placeholder={t(`${type}.NAME`) as string}
                 className='signform-input'
-                {...register('name', { required: true,  minLength: 3 })}
+                {...register('name', { required: true,
+                  pattern: {
+                    value: /[A-Za-z]{3,30}/i,
+                    message: '',
+                  },
+                  minLength: 3 })}
                 aria-invalid={errors.name ? 'true' : 'false'}
                 type="text"
               />
@@ -115,7 +118,10 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
                   <span role="alert">{t('SIGN_UP.ENTER_NAME')}</span>
                 )}
                 {errors.name?.type === 'minLength' && (
-                  <span role="alert">At least 3 characters</span>
+                  <span role="alert">{t('SIGN_UP.NAME_MIN')}</span>
+                )}
+                {errors.name?.type === 'pattern' && (
+                  <span role="alert">{t('SIGN_UP.NAME_WRONG')}</span>
                 )}
               </div>
             </div>
@@ -139,7 +145,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
                 <span role="alert">{t('SIGN_UP.ENTER_PASSWORD')}</span>
               )}
               {errors.password?.type === 'minLength' && (
-                <span role="alert">At least 8 characters</span>
+                <span role="alert">{t('SIGN_UP.PASSWORD_MIN')}</span>
               )}
             </div>
           </div>
@@ -154,11 +160,9 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
             <p className="signform-footer">
               {t(`${type}.BOTTOM_TEXT`)}
-              <Link
-                className='signform-footer-link'
-                href={type === 'SIGN_IN' ? '/signin' : '/signup'}
-                text={t(`${type}.BOTTOM_LINK`) as string}
-              />
+              <Link className='signform-footer-link' to={type === 'SIGN_IN' ? '/signup' : '/signin'}>
+                {t(`${type}.BOTTOM_LINK`) as string}
+              </Link>
             </p>
           </div>
 
