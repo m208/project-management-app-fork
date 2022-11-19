@@ -12,7 +12,6 @@ import { Loader } from '@/components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import './SignForm.pcss';
 import { userLogIn, userLogUp } from '@/store/reducers/AuthThunks';
-import { Link } from '../Link/Link';
 
 interface SignFormProps {
   type: SignFormTypes;
@@ -161,7 +160,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
             <p className="signform-footer">
               {t(`${type}.BOTTOM_TEXT`)}
-              <Link className='signform-footer-link' to={type === 'SIGN_IN' ? '/signin' : '/signup'}>
+              <Link className='signform-footer-link' to={type === 'SIGN_IN' ? '/signup' : '/signin'}>
                 {t(`${type}.BOTTOM_LINK`) as string}
               </Link>
             </p>
