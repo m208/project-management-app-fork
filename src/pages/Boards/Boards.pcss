@@ -2,7 +2,7 @@
   @apply flex flex-col items-center my-12 w-full;
 
   & .boards-heading {
-    @apply text-4xl;
+    @apply w-fit h-12 pl-8 pr-8 bg-additional-500 text-2xl pt-2 mb-6 text-white font-semibold rounded-tr-xl rounded-br-xl z-50;
   }
 
   & .boards_wrapper {
@@ -29,6 +29,10 @@
     @apply text-additional-300 font-bold text-lg uppercase border-b-2 border-additional-300 pb-2 mt-4;
   }
 
+  & .board-title > a {
+    @apply block;
+  }
+
   & .board-buttons {
     @apply absolute top-0 right-0 p-3;
   }
@@ -38,10 +42,10 @@
   }
 
   & .board-button-icon {
-    @apply w-6 h-6 text-white;
+    @apply w-6 h-6 text-white hover:text-additional-300 transition-all duration-200;
   }
 
   & .board-button-add {
-    @apply  bg-primary-500 bg-opacity-30 shadow-md rounded-2xl px-3 text-chocolate-500 font-semibold text-xl uppercase place-self-start;
+    @apply  bg-primary-500 bg-opacity-30 hover:bg-additional-300 hover:bg-opacity-60 transition-all duration-200 shadow-md rounded-2xl px-3 text-chocolate-500 font-semibold text-xl uppercase place-self-start;
   }
 }

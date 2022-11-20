@@ -32,6 +32,9 @@ module.exports = {
         chocolate: {
           500: '#613A3B',
         },
+        lightcolor: {
+          500: '#FBF1ED',
+        },
       },
     },
     backgroundImage: {

@@ -50,7 +50,6 @@ export const Boards = (): JSX.Element => {
 
   return (
     <section className="boards">
-
       {((isLoading || crIsLoading || delIsLoading || updIsLoading) && <Loader/> )}
       <div className="container">
         <h1 className='boards-heading'>YOUR BOARDS</h1>

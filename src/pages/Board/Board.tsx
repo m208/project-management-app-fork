@@ -13,24 +13,25 @@ export const Board = (): JSX.Element => {
 
   return (
     <section className="board">
-      {(isLoading && <Loader/> )}
+      <div className="container">
+        {(isLoading && <Loader/> )}
 
-      {error && (
-        <>
-          <p>Board does not exist</p>
-          <Link to='/boards'>
-              Go back to yours boards
-          </Link>
-        </>
-      )}
+        {error && (
+          <>
+            <p>Board does not exist</p>
+            <Link to='/boards'>
+                Go back to yours boards
+            </Link>
+          </>
+        )}
 
-      {board && (
-        <>
-          <h1 className = 'board-heading'>BOARD: {board.title}</h1>
-          <ColumnsContainer boardId={board.id} />
-        </>
-      )}
-
+        {board && (
+          <>
+            <h1 className = 'board-heading'>BOARD: {board.title}</h1>
+            <ColumnsContainer boardId={board.id} />
+          </>
+        )}
+      </div>
     </section>
   );
 };
