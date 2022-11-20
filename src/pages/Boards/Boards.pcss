@@ -2,7 +2,7 @@
   @apply flex flex-col items-center my-12 w-full;
 
   & .boards-heading {
-    @apply w-fit h-12 pl-8 pr-8 bg-additional-500 text-2xl pt-2 mb-6 text-white font-semibold rounded-tr-xl rounded-br-xl z-50;
+    @apply w-fit pl-20 pr-8 py-2 mb-6 bg-additional-500 text-xl  text-white font-semibold rounded-tr-xl rounded-br-xl z-50 -translate-x-20;
   }
 
   & .boards_wrapper {
@@ -48,4 +48,8 @@
   & .board-button-add {
     @apply  bg-primary-500 bg-opacity-30 hover:bg-additional-300 hover:bg-opacity-60 transition-all duration-200 shadow-md rounded-2xl px-3 text-chocolate-500 font-semibold text-xl uppercase place-self-start;
   }
+}
+
+.boards_wrapper {
+  height: calc( 100vh - 140px);
 }
