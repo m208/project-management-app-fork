@@ -1,15 +1,39 @@
 .boards {
-  @apply flex flex-col items-center;
+  @apply flex flex-col items-center my-12;
 
   & .boards-heading {
     @apply text-4xl;
   }
 
+  & .boards_wrapper {
+    @apply flex flex-row space-x-2;
+  }
+  
+  & .board-list {
+    @apply flex flex-row flex-wrap space-x-2 space-y-6;
+  }
+  
   & .board-item {
-    @apply flex w-full py-2 border-2 border-indigo-500 justify-between;
+    @apply w-80 h-48 min-h-fit p-2 bg-primary-500 shadow-md rounded-2xl relative;
+  }
+
+  & .board-owner {
+    @apply text-white font-normal text-sm;
+  }
+
+  & .board-title {
+    @apply text-additional-300 font-bold text-xl uppercase border-b-2 border-additional-300 py-2 ;
+  }
+
+  & .board-buttons {
+    @apply absolute top-0 right-0 p-3;
   }
 
   & .board-button {
-    @apply pointer-events-auto ml-8 rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500;
+    @apply pointer-events-auto ml-2;
+  }
+
+  & .board-button-icon {
+    @apply w-6 h-6 text-white;
   }
 }

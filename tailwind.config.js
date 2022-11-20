@@ -23,6 +23,7 @@ module.exports = {
         },
         additional: {
           500: '#F7B122',
+          300: '#FCDD9E',
         },
         warning: {
           500: '#C2412B',
@@ -33,8 +34,8 @@ module.exports = {
       },
     },
     backgroundImage: {
-      pattern: "url('../src/assets/png/pattern.png')",
-    }
+      pattern: 'url("../src/assets/png/pattern.png")',
+    },
   },
   plugins: [],
 };
