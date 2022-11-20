@@ -2,6 +2,18 @@
   @apply w-full mt-10;
 
   & .board-heading {
-    @apply w-fit h-12 pl-8 pr-8 bg-additional-500 text-2xl pt-2 mb-6 text-white font-semibold rounded-tr-xl rounded-br-xl z-50;
+    @apply w-fit pl-8 pr-8 bg-additional-500 py-2 mb-6 rounded-tr-xl rounded-br-xl z-50 flex flex-row items-center font-semibold;
+  }
+
+  & .board-crumbs {
+    @apply text-lg underline lowercase text-chocolate-500 flex flex-row items-center;
+  }
+
+  & .board-crumbs > a {
+    @apply hover:text-white transition-all duration-200;
+  }
+
+  & .board-title {
+    @apply text-xl text-white pb-1;
   }
 }
