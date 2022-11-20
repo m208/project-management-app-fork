@@ -20,30 +20,35 @@ export const Header = (): JSX.Element => {
   const { logOff } = authSlice.actions;
   const dispatch = useAppDispatch();
 
+  const [navClass, setNavClass] = useState('nav');
+  const [overlayClass, setOverlayClass] = useState('overlay hidden');
+  const [isOpen, setOpen] = useState(false);
+
+  const onNavListClick = () => {
+    setNavClass('nav');
+    setOverlayClass('overlay hidden');
+    setOpen(!isOpen);
+  };
+
   const logOut = () =>{
     dispatch(logOff());
     saveLocalOnLogout();
     toast.success('Logged out...');
+    onNavListClick();
   };
 
   const appLogo = <img src={appLogoPath} alt="app-logo" className='header__app-logo' />;
-
-  const [navClass, setNavClass] = useState('nav');
-  const [overlayClass, setOverlayClass] = useState('overlay hidden');
 
   const onToggle = () => {
     if (navClass === 'nav') {
       setNavClass('nav_visible');
       setOverlayClass('overlay visible');
+      setOpen(true);
     } else {
       setNavClass('nav');
       setOverlayClass('overlay hidden');
+      setOpen(false);
     }
-  };
-
-  const onNavListClick = () => {
-    setNavClass('nav');
-    setOverlayClass('overlay hidden');
   };
 
   return (
@@ -52,22 +57,19 @@ export const Header = (): JSX.Element => {
       <div className="container">
         <div className='header-wrapper'>
           <div className='app-logo'>
-            <Link
-              to='/'
-              children={appLogo}
-            />
+            <Link to='/'>{appLogo}</Link>
           </div>
 
           <nav className={navClass}>
-            <ul className='nav-list' onClick={onNavListClick}>
+            <ul className='nav-list'>
               {!isLoggedIn && (
                 <>
                   <li>
-                    <Link to='/signin'>{t('AUTH.LOG_IN')}</Link>
+                    <Link to='/signin' onClick={onNavListClick}>{t('AUTH.LOG_IN')}</Link>
                   </li>
 
                   <li>
-                    <Link to='/signup' >{t('AUTH.SIGN_UP')}</Link>
+                    <Link to='/signup' onClick={onNavListClick}>{t('AUTH.SIGN_UP')}</Link>
                   </li>
                 </>
               )}
@@ -75,11 +77,11 @@ export const Header = (): JSX.Element => {
               {isLoggedIn && (
                 <>
                   <li>
-                    <Link to='/boards'>{t('HEADER.BOARDS')}</Link>
+                    <Link to='/boards' onClick={onNavListClick}>{t('HEADER.BOARDS')}</Link>
                   </li>
 
                   <li>
-                    <Link to='/profile'>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
+                    <Link to='/profile' onClick={onNavListClick}>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
                   </li>
 
                   <li>
@@ -91,7 +93,7 @@ export const Header = (): JSX.Element => {
           </nav>
 
           <LangSwitcher />
-          <Hamburger onToggle={onToggle} color="white" rounded />
+          <Hamburger toggled={isOpen} onToggle={onToggle} color="white" rounded />
 
           <div className={overlayClass} />
 
