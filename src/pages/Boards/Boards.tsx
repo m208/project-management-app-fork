@@ -94,15 +94,15 @@ export const Boards = (): JSX.Element => {
                 </div>
               </li>,
             )}
-          </ul>
 
-          <button
-            type ='button'
-            onClick={handleCreate}
-            className="board-button"
-          >
-            Add new board
-          </button>
+            <button
+              type ='button'
+              onClick={handleCreate}
+              className="board-button-add"
+            >
+              + Add new board
+            </button>
+          </ul>
 
           {error &&
           <span>

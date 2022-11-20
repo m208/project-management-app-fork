@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         primary: {
           500: '#2F7C7E',
+          300: '#A1DFD7',
         },
         secondary: {
           500: '#F17110',
@@ -28,8 +29,8 @@ module.exports = {
         warning: {
           500: '#C2412B',
         },
-        langcolor: {
-          500: '#A1DFD7',
+        chocolate: {
+          500: '#613A3B',
         },
       },
     },

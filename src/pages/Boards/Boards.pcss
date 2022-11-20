@@ -10,11 +10,15 @@
   }
   
   & .board-list {
-    @apply flex flex-row flex-wrap space-x-4 ;
+    @apply w-full flex flex-row flex-wrap;
+  }
+  
+  & .board-list > *{
+    @apply w-72 h-48 min-h-fit;
   }
   
   & .board-item {
-    @apply w-80 h-48 min-h-fit p-2 bg-primary-500 shadow-md rounded-2xl relative;
+    @apply p-2 bg-primary-500 shadow-md rounded-2xl relative mr-6 mb-3;
   }
 
   & .board-owner {
@@ -35,5 +39,9 @@
 
   & .board-button-icon {
     @apply w-6 h-6 text-white;
+  }
+
+  & .board-button-add {
+    @apply  bg-primary-500 bg-opacity-30 shadow-md rounded-2xl px-3 text-chocolate-500 font-semibold text-xl uppercase place-self-start;
   }
 }
