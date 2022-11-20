@@ -4,12 +4,16 @@ import authReducer from './reducers/AuthSlice';
 import langReducer from './reducers/LanguageSlice';
 
 import { boardsApi } from '@/api/services/BoardsService';
+import { columnsApi } from '@/api/services/ColumnsService';
+import { tasksApi } from '@/api/services/TasksService';
 import { userApi } from '@/api/services/userService';
 
 export const rootReducer = combineReducers({
   langReducer,
   authReducer,
   [boardsApi.reducerPath]: boardsApi.reducer,
+  [columnsApi.reducerPath]: columnsApi.reducer,
+  [tasksApi.reducerPath]: tasksApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
 });
 
@@ -17,7 +21,10 @@ export const setupStore = () => configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
-      .concat(boardsApi.middleware, userApi.middleware),
+      .concat(boardsApi.middleware)
+      .concat(columnsApi.middleware)
+      .concat(tasksApi.middleware),
+      .concat(userApi.middleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

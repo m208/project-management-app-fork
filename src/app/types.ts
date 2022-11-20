@@ -35,11 +35,37 @@ export interface IBoard {
   users: Array<string>;
 }
 
-export interface IBoardResponse {
-  _id: string;
-  title: string;
-  owner: string;
-  users: Array<string>;
-}
+export type IBoardResponse =
+  Omit <IBoard, 'id'> & {
+    _id: string;
+  };
 
 export type IBoardData = Omit <IBoard, 'id'>;
+
+export interface IColumn {
+  id:	string;
+  title:	string;
+  order:	number;
+  boardId:	string;
+}
+
+export type IColumnResponse =
+  Omit <IColumn, 'id'> & {
+    _id: string;
+  };
+
+export interface ITask {
+  id:	string;
+  title:	string;
+  order:	number;
+  boardId:	string;
+  columnId:	string;
+  description:	string;
+  userId:	number;
+  users:	Array<string>;
+}
+
+export type ITaskResponse =
+  Omit <ITask, 'id'> & {
+    _id: string;
+  };

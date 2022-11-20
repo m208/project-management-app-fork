@@ -1,32 +1,28 @@
 /* eslint-disable import/no-cycle */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
+import { generateHeaders } from './prepareHeaders';
+
 import { API_ENDPOINT } from '@/app/constants';
 import { IBoard, IBoardResponse } from '@/app/types';
-import { RootState } from '@/store/store';
 
-const renameIdProp = (response: IBoardResponse) =>{
+const normBoardsId = (response: IBoardResponse ) => {
   const { owner, title, users, _id: id } = response;
   return { owner, title, users, id };
 };
 
-const renameIdPropArray =  (response:IBoardResponse[]) =>
-  response.map(board=>renameIdProp(board));
+const normBoardsArrayId =  (response: IBoardResponse[]) =>
+  response.map(board=>normBoardsId(board));
 
 export const boardsApi = createApi({
   reducerPath: 'boardsApi',
 
   baseQuery: fetchBaseQuery({
     baseUrl: API_ENDPOINT,
+    prepareHeaders: generateHeaders,
+  }),
 
-    prepareHeaders: (headers, { getState }) => {
-      const  { token } = (getState() as RootState).authReducer;
-      headers.set('Authorization', `Bearer ${token}`);
-      headers.set('Accept', 'application/json');
-      return headers;
-    } }),
-
-  tagTypes: ['Boards'],
+  tagTypes: ['Boards', 'Columns'],
 
   endpoints: build => ({
 
@@ -34,7 +30,7 @@ export const boardsApi = createApi({
       query: () => ({
         url: '/boards',
       }),
-      transformResponse: renameIdPropArray,
+      transformResponse: normBoardsArrayId,
 
       providesTags: () => ['Boards'],
     }),
@@ -43,7 +39,7 @@ export const boardsApi = createApi({
       query: id => ({
         url: `/boards/${id}`,
       }),
-      transformResponse: renameIdProp,
+      transformResponse: normBoardsId,
     }),
 
     createBoard: build.mutation<IBoard, IBoard>({

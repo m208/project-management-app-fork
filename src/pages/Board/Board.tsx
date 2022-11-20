@@ -1,7 +1,10 @@
 import { Link, useMatch } from '@tanstack/react-location';
 
+import { ColumnsContainer } from './ColumnsContainer/ColumnsContainer';
+
 import { boardsApi } from '@/api/services/BoardsService';
 import { Loader } from '@/components/Loader/Loader';
+
 import './Board.pcss';
 
 export const Board = (): JSX.Element => {
@@ -11,8 +14,6 @@ export const Board = (): JSX.Element => {
   return (
     <section className="board">
       {(isLoading && <Loader/> )}
-
-      <h1>BOARD</h1>
 
       {error && (
         <>
@@ -25,12 +26,11 @@ export const Board = (): JSX.Element => {
 
       {board && (
         <>
-          <p>id: {board?.id }</p>
-          <p>title: {board?.title }</p>
-          <p>owner: {board?.owner }</p>
-          <p>users: {board?.users }</p>
+          <h1 className = 'board-heading'>BOARD: {board.title}</h1>
+          <ColumnsContainer boardId={board.id} />
         </>
       )}
 
     </section>
-  );};
+  );
+};
