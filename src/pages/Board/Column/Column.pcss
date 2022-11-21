@@ -1,18 +1,31 @@
 .column {
-  @apply flex flex-col justify-between items-center w-48 mx-3 p-3 border-2 border-indigo-500;
-
+  @apply w-60 min-h-fit flex flex-col justify-between items-center mr-3 mb-3 p-3 bg-lightcolor-500 shadow-md rounded-2xl relative max-h-full;
+  
   & .column-body {
-    @apply flex flex-col py-3;
+    @apply flex flex-col pb-3 overflow-y-auto;
+  }
+
+  & .column-title {
+    @apply block w-full h-8 font-semibold text-xl uppercase text-secondary-500 border-b-2 border-secondary-500 pb-8 pr-8 mb-3 truncate;
   }
 
   & .column-bttn {
-    @apply pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 my-1 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500;
+    @apply text-xl text-chocolate-500 font-medium block w-full hover:text-secondary-500 transition-all duration-200;
   }
 
   & .column-buttons {
-    @apply text-center;
+    @apply text-center w-full;
   }
+  
   & .column-body {
     @apply w-full;
+  }
+
+  & .column-del {
+    @apply absolute top-3 right-3;
+  }
+
+  & .board-del-icon {
+    @apply w-6 h-6 text-chocolate-500 hover:text-secondary-500 transition-all duration-200;
   }
 }

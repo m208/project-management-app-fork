@@ -23,11 +23,10 @@ export const App = (): JSX.Element => {
         reverseOrder={false}
       />
       <Router location={location} routes={routes(isLoggedIn)}>
-      
         <Header />
 
         <main className='content'>
-            <Outlet />
+          <Outlet />
         </main>
 
         <Footer />
