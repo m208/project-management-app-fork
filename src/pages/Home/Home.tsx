@@ -11,7 +11,11 @@ export const Home = (): JSX.Element => {
       <div className="container">
         <div className="home__wrapper">
           <div className="home__text">
-            <h1 className='home__heading' dangerouslySetInnerHTML={{ __html: t('WELCOME.HEADING') }} />
+            <h1 className='home__heading'>
+              <span className='home__heading_m'>{t('WELCOME.HEADING1')}</span>
+              <span className='home__heading_s'>{t('WELCOME.HEADING2')}</span>
+              <span className='home__heading_l'>{t('WELCOME.HEADING3')}</span>
+            </h1>
             <div className="home__descr" >
               <p>{t('WELCOME.DESCR_P1')}</p>
 

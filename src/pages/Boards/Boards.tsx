@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import { Link } from '@tanstack/react-location';
+import { useTranslation } from 'react-i18next';
 
 import { boardsApi } from '@/api/services/BoardsService';
 import { IBoard } from '@/app/types';
@@ -17,6 +18,8 @@ export const Boards = (): JSX.Element => {
   const [createBoard, { isLoading: crIsLoading }] = boardsApi.useCreateBoardMutation();
   const [deleteBoard, { isLoading: delIsLoading }] = boardsApi.useDeleteBoardMutation();
   const [updateBoard, { error, isLoading: updIsLoading }] = boardsApi.useUpdateBoardMutation();
+
+  const { t } = useTranslation();
 
   const handleCreate = async () => {
 
@@ -53,8 +56,8 @@ export const Boards = (): JSX.Element => {
 
       {((isLoading || crIsLoading || delIsLoading || updIsLoading) && <Loader/> )}
 
-      <h1 className='boards-heading'>Boards</h1>
-      <p>List of boards:</p>
+      <h1 className='boards-heading'>{t('BOARD.BOARDS')}</h1>
+      <p>{t('BOARD.BOARDS_LIST')}:</p>
       <ul>
         {boards && boards.map(board =>
           <li key = {board.id} className='py-2'>
@@ -73,7 +76,7 @@ export const Boards = (): JSX.Element => {
                   onClick={()=>handleUpdate(board)}
                   className="board-button"
                 >
-                Edit
+                  {t('BOARD.EDIT')}
                 </button>
 
                 <button
@@ -81,7 +84,7 @@ export const Boards = (): JSX.Element => {
                   onClick={()=>handleRemove(board.id)}
                   className="board-button"
                 >
-                DEL
+                  {t('BOARD.DEL')}
                 </button>
 
               </div>
@@ -95,7 +98,7 @@ export const Boards = (): JSX.Element => {
         onClick={handleCreate}
         className="board-button"
       >
-        Add new board
+        {t('BOARD.ADD')}
       </button>
 
       {error &&
