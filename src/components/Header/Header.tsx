@@ -3,7 +3,7 @@ import Hamburger from 'hamburger-react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
 
@@ -23,7 +23,7 @@ export const Header = (): JSX.Element => {
   const logOut = () =>{
     dispatch(logOff());
     saveLocalOnLogout();
-    toast.success('Logged out...');
+    toast.success(t('TOASTER.LOGGED_OUT'));
   };
 
   const appLogo = <img src={appLogoPath} alt="app-logo" className='header__app-logo' />;
@@ -52,10 +52,9 @@ export const Header = (): JSX.Element => {
       <div className="container">
         <div className='header-wrapper'>
           <div className='app-logo'>
-            <Link
-              to='/'
-              children={appLogo}
-            />
+            <Link to='/'>
+              {appLogo}
+            </Link>
           </div>
 
           <nav className={navClass}>

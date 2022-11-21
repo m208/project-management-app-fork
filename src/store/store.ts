@@ -23,7 +23,7 @@ export const setupStore = () => configureStore({
     getDefaultMiddleware()
       .concat(boardsApi.middleware)
       .concat(columnsApi.middleware)
-      .concat(tasksApi.middleware),
+      .concat(tasksApi.middleware)
       .concat(userApi.middleware),
 });
 

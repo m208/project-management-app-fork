@@ -1,9 +1,9 @@
-/* eslint-disable import/no-cycle */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+import { generateHeaders } from './prepareHeaders';
 
 import { API_ENDPOINT } from '@/app/constants';
 import { ITransformUser, IUser, IUserSignUpData } from '@/app/types';
-import { RootState } from '@/store/store';
 
 const transformUserProps = (response: IUser) => {
   const { _id: id, name, login } = response;
@@ -15,12 +15,7 @@ export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_ENDPOINT,
 
-    prepareHeaders: (headers, { getState }) => {
-      const  { token } = (getState() as RootState).authReducer;
-      headers.set('Authorization', `Bearer ${token}`);
-      headers.set('Accept', 'application/json');
-      return headers;
-    },
+    prepareHeaders: generateHeaders,
   }),
   tagTypes: ['Users'],
   endpoints: build => ({

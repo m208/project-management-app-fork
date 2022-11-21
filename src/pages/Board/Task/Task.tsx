@@ -1,5 +1,6 @@
 import {  ITask } from '@/app/types';
 import './Task.pcss';
+import CloseLogo from '@/assets/png/close-logo.png';
 
 interface TaskProps {
   task: ITask;
@@ -19,7 +20,7 @@ export const Task = ({ task, onDelete }: TaskProps): JSX.Element => (
         className="task-delbttn"
         onClick={()=>onDelete(task)}
       >
-            X
+        <img className="w-4 h-4" src={CloseLogo} alt="Close" />
       </button>
     </div>
   </div>

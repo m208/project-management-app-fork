@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { Task } from '../Task/Task';
 
 import { tasksApi } from '@/api/services/TasksService';
@@ -8,16 +10,18 @@ import './Column.pcss';
 interface ColumnProps {
   column: IColumn;
   boardId: string;
-  onDelete: (col: IColumn)=> void;
+  onDelete: (col: IColumn) => void;
 
 }
 export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element => {
 
-  const { data: tasks,  isLoading } =
+  const { data: tasks, isLoading } =
     tasksApi.useGetTasksQuery({ boardId, colId: column.id });
 
   const [createTask, { isLoading: crLoading }] = tasksApi.useCreateTaskMutation();
   const [deleteTask, { isLoading: delLoading }] = tasksApi.useDeleteTaskMutation();
+
+  const { t } = useTranslation();
 
   const handleDeleteTask = async (task: ITask) => {
     await deleteTask({ task, boardId, colId: column.id });
@@ -47,7 +51,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
 
   return (
     <section className="column-wrapper">
-      {((isLoading || crLoading || delLoading ) && <Loader/> )}
+      {((isLoading || crLoading || delLoading) && <Loader />)}
 
       <div className="column">
         <h1>{column.title} (order: {column.order})</h1>
@@ -55,31 +59,32 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
         <div className="column-body" >
           {tasks && tasks.map(task =>
             <Task
-              task = {task}
+              task={task}
               //   boardId = {boardId}
               //   colId = {column.id}
               onDelete={handleDeleteTask}
-              key = {task.id}
+              key={task.id}
             />,
           )}
         </div>
         <div className="column-buttons col-bttn" >
           <button
-            type = 'button'
+            type='button'
             className="column-bttn"
             onClick={handleCreateTask}
           >
-                ADD TASK
+            {t('TASKS.ADD')}
           </button>
           <button
-            type = 'button'
+            type='button'
             className="column-bttn"
-            onClick={()=>onDelete(column)}
+            onClick={() => onDelete(column)}
           >
-                DEL COLUMN
+            {t('TASKS.DEL')}
           </button>
         </div>
       </div>
 
     </section>
-  );};
+  );
+};

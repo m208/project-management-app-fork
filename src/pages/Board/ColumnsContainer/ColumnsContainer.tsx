@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { Column } from '../Column/Column';
 
 import { columnsApi } from '@/api/services/ColumnsService';
@@ -15,6 +17,8 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   const [createCol, { error, isLoading: crLoading }] = columnsApi.useCreateColumnMutation();
   const [deleteCol, { isLoading: delLoading }] = columnsApi.useDeleteColumnMutation();
   const [updateColOrder] = columnsApi.useUpdateColumnSetMutation();
+
+  const { t } = useTranslation();
 
   const handleCreate = async () => {
     // eslint-disable-next-line no-alert
@@ -83,7 +87,7 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
             className='col-addbttn'
             onClick={handleCreate}
           >
-            Add COLUMN
+            {t('TASKS.ADD_COL')}
           </button>
 
           <button
@@ -91,7 +95,7 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
             className='col-addbttn'
             onClick={handleShuffle}
           >
-            Reverse COLS
+            {t('TASKS.REVERSE')}
           </button>
         </div>
 

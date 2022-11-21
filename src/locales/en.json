@@ -53,5 +53,40 @@
     "SURE": "Are you sure? This action is irreversible!",
     "OK": "OK",
     "CANCEL": "Cancel"
+  },
+  "BOARD": {
+    "BOARD": "BOARD",
+    "NOT_EXIST": "Board does not exist",
+    "TO_BOARDS": "Go back to yours boards"
+  },
+  "CREATE_BOARD": {
+    "HEADING": "Create board",
+    "NAME": "Board name",
+    "REQUIRED_NAME": "Enter board name",
+    "DESCRIPTION": "Description",
+    "REQUIRED_DESCRIPTION": "Enter description",
+    "SUBMIT": "Create"
+  },
+  "EDIT_BOARD": {
+    "HEADING": "Change board info",
+    "NAME": "Board name",
+    "REQUIRED_NAME": "Enter board name",
+    "DESCRIPTION": "Description",
+    "REQUIRED_DESCRIPTION": "Enter description",
+    "SUBMIT": "Update"
+  },
+  "TOASTER": {
+    "LOGGED_OUT": "Logged out...",
+    "LOGGED_IN": "Greetings, "
+  },
+  "404": {
+    "ERROR": "Error 404",
+    "NOT_FOUND": "Page not found"
+  },
+  "TASKS": {
+    "ADD": "ADD TASK",
+    "DEL": "DELETE COLUMN",
+    "ADD_COL": "ADD COLUMN",
+    "REVERSE": "REVERSE COLUMN"
   }
 }
