@@ -41,7 +41,7 @@ export const Profile = (): JSX.Element => {
   const logOut = () =>{
     dispatch(logOff());
     saveLocalOnLogout();
-    toast.success('Logged out...');
+    toast.success(t('TOASTER.LOGGED_OUT'));
   };
 
   async function onSubmit (data: Record<string, string>) {

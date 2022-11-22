@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import { Link } from '@tanstack/react-location';
+import { useTranslation } from 'react-i18next';
 
 import { boardsApi } from '@/api/services/BoardsService';
 import { IBoard } from '@/app/types';
@@ -17,6 +18,8 @@ export const Boards = (): JSX.Element => {
   const [createBoard, { isLoading: crIsLoading }] = boardsApi.useCreateBoardMutation();
   const [deleteBoard, { isLoading: delIsLoading }] = boardsApi.useDeleteBoardMutation();
   const [updateBoard, { error, isLoading: updIsLoading }] = boardsApi.useUpdateBoardMutation();
+
+  const { t } = useTranslation();
 
   const handleCreate = async () => {
 
@@ -53,7 +56,6 @@ export const Boards = (): JSX.Element => {
       {((isLoading || crIsLoading || delIsLoading || updIsLoading) && <Loader/> )}
       <div className="container">
         <h1 className='boards-heading'>YOUR BOARDS</h1>
-
         <div className="boards_wrapper">
           <ul className="board-list">
             {boards && boards.map(board =>

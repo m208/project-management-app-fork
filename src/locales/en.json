@@ -38,7 +38,9 @@
   "WELCOME": {
     "WELCOME": "Kanban board for teams to organize their work",
     "DESCR": "Collaborate, manage projects, and reach new productivity peaks. Accomplish it all with RS Project Management App",
-    "HEADING": "<span class='home__heading_m'>PROJECT</span><span class='home__heading_s'>management</span><span class='home__heading_l'>SYSTEM</span>",
+    "HEADING1": "PROJECT",
+    "HEADING2": " management",
+    "HEADING3": " SYSTEM",
     "DESCR_P1": "The task management system, or task manager, is a service that allows you to collect all work tasks in a single space. A simple and intuitive interface will allow you to create task lists, as well as drag and drop cards between columns, changing their status.",
     "DESCR_P2": "The task manager will help to:",
     "DESCR_POINT_1": "structure and make the company's work more transparent;",
@@ -53,5 +55,48 @@
     "SURE": "Are you sure? This action is irreversible!",
     "OK": "OK",
     "CANCEL": "Cancel"
+  },
+  "BOARD": {
+    "BOARD": "BOARD",
+    "BOARDS": "BOARDS",
+    "BOARDS_LIST": "List of boards",
+    "ADD": "ADD NEW BOARD",
+    "EDIT": "EDIT",
+    "DEL": "DELETE",
+    "NOT_EXIST": "Board does not exist",
+    "TO_BOARDS": "Go back to yours boards"
+  },
+  "CREATE_BOARD": {
+    "HEADING": "Create board",
+    "NAME": "Board name",
+    "REQUIRED_NAME": "Enter board name",
+    "DESCRIPTION": "Description",
+    "REQUIRED_DESCRIPTION": "Enter description",
+    "SUBMIT": "Create"
+  },
+  "EDIT_BOARD": {
+    "HEADING": "Change board info",
+    "NAME": "Board name",
+    "REQUIRED_NAME": "Enter board name",
+    "DESCRIPTION": "Description",
+    "REQUIRED_DESCRIPTION": "Enter description",
+    "SUBMIT": "Update"
+  },
+  "TOASTER": {
+    "LOGGED_OUT": "Logged out...",
+    "LOGGED_IN": "Greetings, ",
+    "SERV_ERR": "Server error...",
+    "BAD_REQUEST": "Incorrect login or password",
+    "REG_OK": "Registration succesful"
+  },
+  "404": {
+    "ERROR": "Error 404",
+    "NOT_FOUND": "Page not found"
+  },
+  "TASKS": {
+    "ADD": "ADD TASK",
+    "DEL": "DELETE COLUMN",
+    "ADD_COL": "ADD COLUMN",
+    "REVERSE": "REVERSE COLUMN"
   }
 }

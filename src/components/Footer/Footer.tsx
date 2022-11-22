@@ -1,7 +1,7 @@
 import './Footer.pcss';
-import rssLogo from '../../assets/png/rss_school_js.png';
 
 import ghLogo from '@/assets/png/github_logo.png';
+import rssLogo from '@/assets/png/rss_school_js.png';
 
 export const Footer = (): JSX.Element => (
   <footer className="footer">
@@ -12,7 +12,7 @@ export const Footer = (): JSX.Element => (
         </a>
 
         <div className="footer__team">
-          <img className="footer__gh_logo" src={ghLogo} alt="github_logo"  />
+          <img className="footer__gh_logo" src={ghLogo} alt="github_logo" />
           <ul className="footer__team-list">
             <li className="footer__team-member">
               <a href="https://github.com/aRumakin">Andrei Rumakin</a>
@@ -25,6 +25,7 @@ export const Footer = (): JSX.Element => (
             </li>
           </ul>
         </div>
+
         <div className="footer__year">2022</div>
       </div>
     </div>

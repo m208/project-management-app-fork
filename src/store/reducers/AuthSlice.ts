@@ -35,7 +35,6 @@ const getInitalState: () => IAuthState = () => {
 export const authSlice = createSlice({
   name: 'authentication',
   initialState: getInitalState(),
-
   reducers: {
     logOff (state) {
       state.isLoggedIn = false;

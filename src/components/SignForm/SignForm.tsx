@@ -28,7 +28,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
   );
   const dispatch = useAppDispatch();
 
-  const dispathLogIn = async (login:string, password:string)=>{
+  const dispathLogIn = async (login: string, password: string)=>{
     await dispatch(userLogIn({ login, password }));
   };
 
@@ -39,7 +39,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
     const { login, password, name } = data;
 
     if (type === 'SIGN_IN') {
-      dispathLogIn(login, password).catch(()=>{});
+      dispathLogIn(login, password).catch(() => {});
 
     } else if (type === 'SIGN_UP'){
       [loginRef.current, passwordRef.current] = [login, password];
@@ -50,7 +50,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
 
   useEffect(() => {
     if(userCreated){
-      dispathLogIn(loginRef.current, passwordRef.current).catch(()=>{});
+      dispathLogIn(loginRef.current, passwordRef.current).catch(() => {});
     }
   }, [userCreated]);
 
