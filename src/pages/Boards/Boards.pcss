@@ -1,15 +1,55 @@
 .boards {
-  @apply flex flex-col items-center;
+  @apply flex flex-col items-center my-12 w-full;
 
   & .boards-heading {
-    @apply text-4xl;
+    @apply w-fit pl-20 pr-8 py-2 mb-6 bg-additional-500 text-xl  text-white font-semibold rounded-tr-xl rounded-br-xl z-50 -translate-x-20;
   }
 
+  & .boards_wrapper {
+    @apply flex flex-row items-start justify-start;
+  }
+  
+  & .board-list {
+    @apply w-full flex flex-row flex-wrap;
+  }
+  
+  & .board-list > *{
+    @apply w-64 h-48 min-h-fit;
+  }
+  
   & .board-item {
-    @apply flex w-full py-2 border-2 border-indigo-500 justify-between;
+    @apply p-2 bg-primary-500 shadow-md rounded-2xl relative mr-6 mb-3;
+  }
+
+  & .board-owner {
+    @apply text-white font-normal text-sm;
+  }
+
+  & .board-title {
+    @apply text-additional-300 font-bold text-lg uppercase border-b-2 border-additional-300 pb-2 mt-4;
+  }
+
+  & .board-title > a {
+    @apply block;
+  }
+
+  & .board-buttons {
+    @apply absolute top-0 right-0 p-3;
   }
 
   & .board-button {
-    @apply pointer-events-auto ml-8 rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500;
+    @apply pointer-events-auto ml-2;
   }
+
+  & .board-button-icon {
+    @apply w-6 h-6 text-white hover:text-additional-300 transition-all duration-200;
+  }
+
+  & .board-button-add {
+    @apply  bg-primary-500 bg-opacity-30 hover:bg-additional-300 hover:bg-opacity-60 transition-all duration-200 shadow-md rounded-2xl px-3 text-chocolate-500 font-semibold text-xl uppercase place-self-start;
+  }
+}
+
+.boards_wrapper {
+  height: calc( 100vh - 140px);
 }

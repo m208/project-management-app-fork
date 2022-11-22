@@ -1,7 +1,16 @@
 .task-wrapper {
-  @apply flex justify-between items-center py-1;
+  @apply flex justify-between items-center mb-2 relative;
 
   & .task-delbttn {
-    @apply pointer-events-auto rounded-md bg-red-300 p-0.5 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-red-500;
+
+    @apply text-[#787878] absolute top-0 right-1 translate-y-2;
+  }
+
+  & .task-content {
+    @apply w-full h-8 bg-white shadow-sm rounded-sm pl-2;
+  }
+
+  & .task-del-icon {
+    @apply w-6 h-6 hover:text-warning-500 active:text-warning-500 transition-all duration-200;
   }
 }

@@ -1,7 +1,23 @@
 .board {
   @apply w-full mt-10;
 
+  & .board-wrapper {
+    @apply px-20 overflow-x-auto min-h-fit;
+  }
+
   & .board-heading {
-    @apply text-center text-2xl;
+    @apply w-fit pl-20 pr-8 py-2 mb-6 bg-additional-500 rounded-tr-xl rounded-br-xl z-50 flex flex-row items-center font-semibold;
+  }
+
+  & .board-crumbs {
+    @apply text-lg underline lowercase text-chocolate-500 flex flex-row items-center;
+  }
+
+  & .board-crumbs > a {
+    @apply hover:text-white transition-all duration-200;
+  }
+
+  & .board-title {
+    @apply text-xl text-white pb-1;
   }
 }

@@ -1,4 +1,5 @@
 import './Footer.pcss';
+
 import ghLogo from '@/assets/png/github_logo.png';
 import rssLogo from '@/assets/png/rss_school_js.png';
 
