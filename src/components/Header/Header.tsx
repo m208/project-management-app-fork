@@ -1,6 +1,5 @@
 import { Link } from '@tanstack/react-location';
 import Hamburger from 'hamburger-react';
-import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 import { useState } from 'react';

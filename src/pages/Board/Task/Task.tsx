@@ -1,6 +1,5 @@
 import {  ITask } from '@/app/types';
 import './Task.pcss';
-import CloseLogo from '@/assets/png/close-logo.png';
 
 interface TaskProps {
   task: ITask;
