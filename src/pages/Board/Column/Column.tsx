@@ -77,6 +77,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
             />,
           )}
         </div>
+
         <div className="column-buttons col-bttn" >
           <button
             type='button'
