@@ -1,5 +1,5 @@
 #app {
-  @apply flex flex-col justify-between min-h-screen bg-pattern;
+  @apply flex flex-col min-h-screen bg-pattern justify-between;
 }
 
 .container {
@@ -7,6 +7,6 @@
 }
 
 .content {
-  @apply flex flex-col items-center flex-auto overflow-hidden;
-  height: calc(100vh - 140px);
+  @apply flex flex-col items-center flex-initial overflow-auto;
+  flex: 1 0 auto;
 }

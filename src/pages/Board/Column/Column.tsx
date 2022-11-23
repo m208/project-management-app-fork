@@ -85,13 +85,6 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
           >
             {t('TASKS.ADD')}
           </button>
-          <button
-            type='button'
-            className="column-bttn"
-            onClick={() => onDelete(column)}
-          >
-            {t('TASKS.DEL')}
-          </button>
         </div>
       </div>
 

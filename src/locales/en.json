@@ -94,9 +94,8 @@
     "NOT_FOUND": "Page not found"
   },
   "TASKS": {
-    "ADD": "ADD TASK",
-    "DEL": "DELETE COLUMN",
-    "ADD_COL": "ADD COLUMN",
+    "ADD": "+ Add task",
+    "ADD_COL": "+ ADD COLUMN",
     "REVERSE": "REVERSE COLUMN"
   }
 }

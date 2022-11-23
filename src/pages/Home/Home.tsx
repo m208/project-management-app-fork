@@ -20,7 +20,7 @@ export const Home = (): JSX.Element => {
               <p>{t('WELCOME.DESCR_P1')}</p>
 
               <div>
-                {t('WELCOME.DESCR_P2')}
+                <p>{t('WELCOME.DESCR_P2')}</p>
                 <ul>
                   <li><span>{t('WELCOME.DESCR_POINT_1')}</span></li>
                   <li><span>{t('WELCOME.DESCR_POINT_2')}</span></li>
