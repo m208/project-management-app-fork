@@ -1,15 +1,20 @@
-/* eslint-disable no-alert */
 import { Link } from '@tanstack/react-location';
 import { useTranslation } from 'react-i18next';
+
+import { useState } from 'react';
 
 import { boardsApi } from '@/api/services/BoardsService';
 import { IBoard } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
+import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
 import { useAppSelector } from '@/hooks/redux';
-
 import './Boards.pcss';
 
 export const Boards = (): JSX.Element => {
+  const [showModalCreateBoard, setShowModalCreateBoard] = useState(false);
+  const [showModalEditBoard, setShowModalEditBoard] = useState(false);
+  const [editedBoard, setEditedBoard] = useState<IBoard | null>(null);
+
   const { user } = useAppSelector(
     state => state.authReducer,
   );
@@ -21,13 +26,16 @@ export const Boards = (): JSX.Element => {
 
   const { t } = useTranslation();
 
-  const handleCreate = async () => {
+  const handleCreate =  () => {
+    setShowModalCreateBoard(true);
+  };
 
-    const title = prompt('Input new board title');
+  const createNewBoard = async (data: ModalData) => {
+    setShowModalCreateBoard(false);
 
-    if (title){
+    if (data.title){
       await createBoard({
-        title,
+        title: data.title,
         // TODO: user.ID pass here, not login
         owner: user?.login,
         users: [user?.login],
@@ -39,21 +47,47 @@ export const Boards = (): JSX.Element => {
     await deleteBoard(id);
   };
 
-  const handleUpdate = async (board: IBoard) => {
+  const handleUpdate = (board: IBoard) => {
+    setShowModalEditBoard(true);
+    setEditedBoard(board);
+  };
 
-    const title = prompt('Change board title', board.title);
+  const editBoard = async (data: ModalData) => {
+    setShowModalEditBoard(false);
 
-    if (title){
+    if (editedBoard){
       await updateBoard({
-        ...board,
-        title,
+        ...editedBoard,
+        title: data.title,
       });
     }
+
+    setEditedBoard(null);
   };
 
   return (
     <section className="boards">
+
       {((isLoading || crIsLoading || delIsLoading || updIsLoading) && <Loader/> )}
+
+      {((showModalCreateBoard) &&
+      <ModalForm
+        type ='CREATE_BOARD'
+        modalSubmit={createNewBoard}
+        modalAbort={()=>setShowModalCreateBoard(false)}
+      />)}
+
+      {((showModalEditBoard) &&
+      <ModalForm
+        type ='EDIT_BOARD'
+        modalSubmit={editBoard}
+        modalAbort={()=>setShowModalEditBoard(false)}
+        initialData={{
+          title: editedBoard?.title || '',
+          description: editedBoard?.title,
+        }}
+      />)}
+
       <div className="container">
         <h1 className='boards-heading'>{t('BOARD.BOARDS')}</h1>
         <div className="boards_wrapper">
