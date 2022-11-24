@@ -1,8 +1,8 @@
 .column {
-  @apply w-60 min-h-fit flex flex-col justify-between items-center mr-3 mb-3 p-3 bg-lightcolor-500 shadow-md rounded-2xl relative max-h-full;
+  @apply w-60 min-h-fit flex flex-col justify-between items-center mr-3 mb-3 p-3 pb-1 bg-lightcolor-500 shadow-md rounded-2xl relative max-h-full;
   
   & .column-body {
-    @apply flex flex-col pb-3 overflow-y-auto;
+    @apply flex flex-col w-full pb-3 overflow-y-auto;
   }
 
   & .column-title {
@@ -10,15 +10,11 @@
   }
 
   & .column-bttn {
-    @apply text-xl text-chocolate-500 font-medium block w-full hover:text-secondary-500 transition-all duration-200;
+    @apply text-lg text-chocolate-500 font-medium block w-full hover:text-secondary-500 transition-all duration-200;
   }
 
   & .column-buttons {
     @apply text-center w-full;
-  }
-  
-  & .column-body {
-    @apply w-full;
   }
 
   & .column-del {
