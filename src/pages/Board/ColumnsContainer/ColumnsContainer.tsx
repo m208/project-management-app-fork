@@ -9,6 +9,7 @@ import { IColumn } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './ColumnsContainer.pcss';
 import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
+import { getBiggestOrder } from '@/utils/utils';
 
 interface ColumnsContainerProps {
   boardId: string;
@@ -28,11 +29,6 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     setShowModalCreateCol(true);
   };
 
-  const getBiggestOrder = (cols: IColumn[] | undefined) =>
-    (cols && cols.length > 0)
-      ? [...cols].sort((a, b)=>(a.order - b.order))[cols.length-1].order
-      : 0;
-
   const createNewColumn = async (data: ModalData) => {
     setShowModalCreateCol(false);
 
@@ -41,7 +37,7 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
         col: {
           title: data.title,
           order: getBiggestOrder(columns) + 1,
-        } as IColumn,
+        },
         boardId,
       });
     }

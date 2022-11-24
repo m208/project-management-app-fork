@@ -36,10 +36,9 @@ export const Boards = (): JSX.Element => {
     if (data.title){
       await createBoard({
         title: data.title,
-        // TODO: user.ID pass here, not login
-        owner: user?.login,
-        users: [user?.login],
-      } as IBoard);
+        owner: user?.id || '',
+        users: [''],
+      });
     }
   };
 
@@ -57,8 +56,13 @@ export const Boards = (): JSX.Element => {
 
     if (editedBoard){
       await updateBoard({
-        ...editedBoard,
-        title: data.title,
+        boardId: editedBoard.id,
+        board: {
+          title: data.title,
+          owner: editedBoard.owner,
+          users: editedBoard.users,
+        },
+
       });
     }
 

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { generateHeaders } from './prepareHeaders';
 
 import { API_ENDPOINT } from '@/app/constants';
-import { IBoard, IBoardResponse } from '@/app/types';
+import { IBoard, IBoardPost, IBoardResponse } from '@/app/types';
 
 const normBoardsId = (response: IBoardResponse ) => {
   const { owner, title, users, _id: id } = response;
@@ -41,7 +41,7 @@ export const boardsApi = createApi({
       transformResponse: normBoardsId,
     }),
 
-    createBoard: build.mutation<IBoard, IBoard>({
+    createBoard: build.mutation<IBoard, IBoardPost>({
       query: board => ({
         url: '/boards',
         method: 'POST',
@@ -50,11 +50,11 @@ export const boardsApi = createApi({
       invalidatesTags: ['Boards'],
     }),
 
-    updateBoard: build.mutation<IBoard, IBoard>({
-      query: board => ({
-        url: `/boards/${board.id}`,
+    updateBoard: build.mutation<IBoard, {board: IBoardPost; boardId:string}>({
+      query: data => ({
+        url: `/boards/${data.boardId}`,
         method: 'PUT',
-        body: { title: board.title, owner: board.owner, users: board.users },
+        body: data.board,
       }),
       invalidatesTags: ['Boards'],
     }),

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { generateHeaders } from './prepareHeaders';
 
 import { API_ENDPOINT } from '@/app/constants';
-import { ITask, ITaskResponse } from '@/app/types';
+import { ITask, ITaskPost, ITaskResponse } from '@/app/types';
 
 const normTasksId = (response: ITaskResponse ) => {
   const { title, boardId, order, columnId, description, userId, users, _id: id } = response;
@@ -33,7 +33,7 @@ export const tasksApi = createApi({
       providesTags: () => ['Tasks'],
     }),
 
-    createTask: build.mutation<ITask, {task: ITask; colId: string; boardId: string }>({
+    createTask: build.mutation<ITask, {task: ITaskPost; colId: string; boardId: string }>({
       query: data => ({
         url: `/boards/${data.boardId}/columns/${data.colId}/tasks`,
         method: 'POST',
@@ -42,18 +42,11 @@ export const tasksApi = createApi({
       invalidatesTags: ['Tasks'],
     }),
 
-    updateTask: build.mutation<ITask, {task: ITask; colId: string; boardId: string }>({
+    updateTask: build.mutation<ITask, {task: ITaskPost; colId: string; boardId: string; taskId: string }>({
       query: data => ({
-        url: `/boards/${data.boardId}/columns/${data.colId}/tasks/${data.task.id}`,
+        url: `/boards/${data.boardId}/columns/${data.colId}/tasks/${data.taskId}`,
         method: 'PUT',
-        body: {
-          title: data.task.title,
-          order: data.task.order,
-          description: data.task.description,
-          columnId: data.task.columnId,
-          userId: data.task.userId,
-          users: data.task.users,
-        },
+        body: data.task,
       }),
       invalidatesTags: ['Tasks'],
     }),

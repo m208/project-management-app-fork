@@ -9,6 +9,8 @@ import { IColumn, ITask } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './Column.pcss';
 import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
+import { useAppSelector } from '@/hooks/redux';
+import { getBiggestOrder } from '@/utils/utils';
 
 interface ColumnProps {
   column: IColumn;
@@ -23,6 +25,10 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
 
   const { data: tasks, isLoading } =
     tasksApi.useGetTasksQuery({ boardId, colId: column.id });
+
+  const { user } = useAppSelector(
+    state => state.authReducer,
+  );
 
   const [createTask, { isLoading: crLoading }] = tasksApi.useCreateTaskMutation();
   const [deleteTask, { isLoading: delLoading }] = tasksApi.useDeleteTaskMutation();
@@ -51,11 +57,11 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
       boardId,
       task: {
         title: data.title,
-        order: 0,
-        description: data.description,
-        userId: 0,
+        order: getBiggestOrder(tasks) + 1,
+        description: data.description || '',
+        userId: user!.id,
         users: [''],
-      } as ITask,
+      },
     });
   };
 
@@ -66,10 +72,14 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
       await updateTask( {
         colId: column.id,
         boardId,
+        taskId: editedTask.id,
         task: {
-          ...editedTask,
           title: data.title,
           description: data.description || '',
+          order: editedTask.order,
+          columnId: editedTask.columnId,
+          userId: editedTask.userId,
+          users: editedTask.users,
         },
       });
     }
