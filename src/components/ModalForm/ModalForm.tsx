@@ -58,25 +58,28 @@ export const ModalForm = ({
             </div>
           </div>
 
-          <div className="modalform-item">
+          {type !== 'CREATE_COLUMN' && (
 
-            <textarea
-              placeholder={t(`${type}.DESCRIPTION`).toString() }
-              className='modalform-input'
-              cols={60} rows={5}
-              {...register('description', {
-                required: false,
-              })}
-              aria-invalid={errors.password ? 'true' : 'false'}
-              defaultValue={initialData?.description}
-            />
+            <div className="modalform-item">
+              <textarea
+                placeholder={t(`${type}.DESCRIPTION`).toString() }
+                className='modalform-input'
+                cols={60} rows={5}
+                {...register('description', {
+                  required: false,
+                })}
+                aria-invalid={errors.password ? 'true' : 'false'}
+                defaultValue={initialData?.description}
+              />
 
-            <div className="error-field">
-              {errors.password?.type === 'required' && (
-                <span role="alert">{(t(`${type}.REQUIRED_DESCRIPTION`))}</span>
-              )}
+              <div className="error-field">
+                {errors.password?.type === 'required' && (
+                  <span role="alert">{(t(`${type}.REQUIRED_DESCRIPTION`))}</span>
+                )}
+              </div>
             </div>
-          </div>
+
+          )}
 
           <div className="modalform-item">
             <input
