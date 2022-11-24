@@ -1,17 +1,21 @@
 import { useTranslation } from 'react-i18next';
 
+import { useState } from 'react';
+
 import { Column } from '../Column/Column';
 
 import { columnsApi } from '@/api/services/ColumnsService';
 import { IColumn } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './ColumnsContainer.pcss';
+import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
 
 interface ColumnsContainerProps {
   boardId: string;
 }
 
 export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Element => {
+  const [showModalCreateCol, setShowModalCreateCol] = useState(false);
 
   const { data: columns, isLoading } = columnsApi.useGetColumnsQuery(boardId);
   const [createCol, { error, isLoading: crLoading }] = columnsApi.useCreateColumnMutation();
@@ -20,19 +24,22 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
 
   const { t } = useTranslation();
 
-  const handleCreate = async () => {
-    // eslint-disable-next-line no-alert
-    const title = prompt('Input new column title');
+  const handleCreate = () => {
+    setShowModalCreateCol(true);
+  };
 
-    const getBiggestOrder = (cols: IColumn[] | undefined) =>
-      (cols && cols.length > 0)
-        ? [...cols].sort((a, b)=>(a.order - b.order))[cols.length-1].order
-        : 0;
+  const getBiggestOrder = (cols: IColumn[] | undefined) =>
+    (cols && cols.length > 0)
+      ? [...cols].sort((a, b)=>(a.order - b.order))[cols.length-1].order
+      : 0;
 
-    if (title){
+  const createNewColumn = async (data: ModalData) => {
+    setShowModalCreateCol(false);
+
+    if (data.title){
       await createCol({
         col: {
-          title,
+          title: data.title,
           order: getBiggestOrder(columns) + 1,
         } as IColumn,
         boardId,
@@ -67,6 +74,13 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
       )}
 
       {((isLoading || delLoading || crLoading) && <Loader/> )}
+
+      {((showModalCreateCol) &&
+      <ModalForm
+        type ='CREATE_COLUMN'
+        modalSubmit={createNewColumn}
+        modalAbort={()=>setShowModalCreateCol(false)}
+      />)}
 
       <div className="columns-wrapper">
 
