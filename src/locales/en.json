@@ -58,13 +58,13 @@
   },
   "BOARD": {
     "BOARD": "BOARD",
-    "BOARDS": "BOARDS",
+    "BOARDS": "YOUR BOARDS",
     "BOARDS_LIST": "List of boards",
     "ADD": "ADD NEW BOARD",
     "EDIT": "EDIT",
     "DEL": "DELETE",
     "NOT_EXIST": "Board does not exist",
-    "TO_BOARDS": "Go back to yours boards"
+    "TO_BOARDS": "Back to yours boards"
   },
   "CREATE_BOARD": {
     "HEADING": "Create board",

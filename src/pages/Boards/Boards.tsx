@@ -55,7 +55,7 @@ export const Boards = (): JSX.Element => {
     <section className="boards">
       {((isLoading || crIsLoading || delIsLoading || updIsLoading) && <Loader/> )}
       <div className="container">
-        <h1 className='boards-heading'>YOUR BOARDS</h1>
+        <h1 className='boards-heading'>{t('BOARD.BOARDS')}</h1>
         <div className="boards_wrapper">
           <ul className="board-list">
             {boards && boards.map(board =>
@@ -101,7 +101,7 @@ export const Boards = (): JSX.Element => {
               onClick={handleCreate}
               className="board-button-add"
             >
-              + Add new board
+              + {t('BOARD.ADD')}
             </button>
           </ul>
 

@@ -21,7 +21,7 @@ export const Board = (): JSX.Element => {
         <>
           <p>{t('BOARD.NOT_EXIST')}</p>
           <Link to='/boards'>
-            {t('BOARD.TO_BOADRS')}
+            {t('BOARD.TO_BOARDS')}
           </Link>
         </>
       )}
@@ -31,7 +31,7 @@ export const Board = (): JSX.Element => {
           <div className="board-heading">
             <span className='board-crumbs'>
               <Link to='/boards'>
-                Back to boards
+                {t('BOARD.TO_BOARDS')}
               </Link>
 
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" strokeWidth={2} stroke="currentColor" className="w-4 h-4 mx-2">
