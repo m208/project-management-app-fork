@@ -40,7 +40,7 @@ export type IBoardResponse =
     _id: string;
   };
 
-export type IBoardData = Omit <IBoard, 'id'>;
+export type IBoardPost = Omit <IBoard, 'id'>;
 
 export interface IColumn {
   id:	string;
@@ -54,6 +54,8 @@ export type IColumnResponse =
     _id: string;
   };
 
+export type IColumnPost = Omit <IColumn, 'id' | 'boardId'>;
+
 export interface ITask {
   id:	string;
   title:	string;
@@ -61,7 +63,7 @@ export interface ITask {
   boardId:	string;
   columnId:	string;
   description:	string;
-  userId:	number;
+  userId:	string;
   users:	Array<string>;
 }
 
@@ -69,3 +71,7 @@ export type ITaskResponse =
   Omit <ITask, 'id'> & {
     _id: string;
   };
+
+export type ITaskPost = Omit <ITask, 'id' | 'boardId' | 'columnId'> & {
+  columnId?: string;
+};

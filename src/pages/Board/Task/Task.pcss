@@ -1,16 +1,20 @@
 .task-wrapper {
   @apply flex justify-between items-center mb-2 relative;
 
-  & .task-delbttn {
-
-    @apply text-[#787878] absolute top-0 right-1 translate-y-1;
+  & .task-inner {
+    @apply flex justify-between w-full bg-white shadow-sm rounded-sm pl-2 items-start pt-1;
+    min-height: 2rem;
   }
 
-  & .task-content {
-    @apply w-full h-8 pr-6 bg-white shadow-sm rounded-sm pl-2 truncate;
+  & .task-bttn {
+    @apply text-[#787878];
   }
 
-  & .task-del-icon {
+  & .task-buttons {
+    @apply flex;
+  }
+
+  & .task-button-icon {
     @apply w-6 h-6 hover:text-warning-500 active:text-warning-500 transition-all duration-200;
   }
 }

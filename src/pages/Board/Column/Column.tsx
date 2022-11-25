@@ -1,11 +1,16 @@
 import { useTranslation } from 'react-i18next';
 
+import { useState } from 'react';
+
 import { Task } from '../Task/Task';
 
 import { tasksApi } from '@/api/services/TasksService';
 import { IColumn, ITask } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './Column.pcss';
+import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
+import { useAppSelector } from '@/hooks/redux';
+import { getBiggestOrder } from '@/utils/utils';
 
 interface ColumnProps {
   column: IColumn;
@@ -14,12 +19,20 @@ interface ColumnProps {
 
 }
 export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element => {
+  const [showModalCreateTask, setShowModalCreateTask] = useState(false);
+  const [showModalEditTask, setShowModalEditTask] = useState(false);
+  const [editedTask, setEditedTask] = useState<ITask | null>(null);
 
   const { data: tasks, isLoading } =
     tasksApi.useGetTasksQuery({ boardId, colId: column.id });
 
+  const { user } = useAppSelector(
+    state => state.authReducer,
+  );
+
   const [createTask, { isLoading: crLoading }] = tasksApi.useCreateTaskMutation();
   const [deleteTask, { isLoading: delLoading }] = tasksApi.useDeleteTaskMutation();
+  const [updateTask, { isLoading: editLoading }] = tasksApi.useUpdateTaskMutation();
 
   const { t } = useTranslation();
 
@@ -27,31 +40,72 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
     await deleteTask({ task, boardId, colId: column.id });
   };
 
-  const handleCreateTask = async () => {
-    // eslint-disable-next-line no-alert
-    const taskTitle = prompt('Input new task title');
+  const handleCreateTask =  () => {
+    setShowModalCreateTask(true);
+  };
 
-    if (taskTitle) {
-      await createTask({
+  const handleEditTask = (task: ITask) => {
+    setShowModalEditTask(true);
+    setEditedTask(task);
+  };
+
+  const createNewTask = async (data: ModalData) => {
+    setShowModalCreateTask(false);
+
+    await createTask({
+      colId: column.id,
+      boardId,
+      task: {
+        title: data.title,
+        order: getBiggestOrder(tasks) + 1,
+        description: data.description || '',
+        userId: user!.id,
+        users: [''],
+      },
+    });
+  };
+
+  const editTask = async (data: ModalData) => {
+    setShowModalEditTask(false);
+
+    if(editedTask ){
+      await updateTask( {
         colId: column.id,
         boardId,
+        taskId: editedTask.id,
         task: {
-          title: taskTitle,
-          order: 0,
-          description: 'string',
-          userId: 0,
-          users: [
-            'string',
-          ],
-        } as ITask,
+          title: data.title,
+          description: data.description || '',
+          order: editedTask.order,
+          columnId: editedTask.columnId,
+          userId: editedTask.userId,
+          users: editedTask.users,
+        },
       });
     }
 
+    setEditedTask(null);
   };
 
   return (
     <section className="column-wrapper">
-      {((isLoading || crLoading || delLoading) && <Loader />)}
+
+      {((isLoading || crLoading || delLoading || editLoading) && <Loader />)}
+
+      {((showModalCreateTask) &&
+      <ModalForm
+        type ='CREATE_TASK'
+        modalSubmit={createNewTask}
+        modalAbort={()=>setShowModalCreateTask(false)}
+      />)}
+
+      {((showModalEditTask) &&
+      <ModalForm
+        type ='EDIT_TASK'
+        modalSubmit={editTask}
+        modalAbort={()=>setShowModalEditTask(false)}
+        initialData={{ title: editedTask?.title || '', description: editedTask?.description }}
+      />)}
 
       <div className="column">
         <h1 className="column-title">{column.title} (order: {column.order})</h1>
@@ -70,9 +124,8 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
           {tasks && tasks.map(task =>
             <Task
               task={task}
-              //   boardId = {boardId}
-              //   colId = {column.id}
               onDelete={handleDeleteTask}
+              onEdit={()=>handleEditTask(task)}
               key={task.id}
             />,
           )}

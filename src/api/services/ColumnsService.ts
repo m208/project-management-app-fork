@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { generateHeaders } from './prepareHeaders';
 
 import { API_ENDPOINT } from '@/app/constants';
-import { IColumn, IColumnResponse } from '@/app/types';
+import { IColumn, IColumnPost, IColumnResponse } from '@/app/types';
 
 const normColumnsId = (response: IColumnResponse ) => {
   const {  title, boardId, order,  _id: id } = response;
@@ -33,7 +33,7 @@ export const columnsApi = createApi({
       providesTags: () => ['Columns'],
     }),
 
-    createColumn: build.mutation<IColumn, {col: IColumn; boardId: string}>({
+    createColumn: build.mutation<IColumn, {col: IColumnPost; boardId: string}>({
       query: data => ({
         url: `/boards/${data.boardId}/columns`,
         method: 'POST',
@@ -42,11 +42,11 @@ export const columnsApi = createApi({
       invalidatesTags: ['Columns'],
     }),
 
-    updateColumn: build.mutation<IColumn, {col: IColumn; boardId: string}>({
+    updateColumn: build.mutation<IColumn, {col: IColumnPost; boardId: string; colId: string}>({
       query: data => ({
-        url: `/boards/${data.boardId}/columns/${data.col.id}`,
+        url: `/boards/${data.boardId}/columns/${data.colId}`,
         method: 'PUT',
-        body: { title: data.col.title, order: data.col.order },
+        body: data.col,
       }),
       invalidatesTags: ['Columns'],
     }),
