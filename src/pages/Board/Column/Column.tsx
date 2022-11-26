@@ -1,9 +1,11 @@
+import EasyEdit from 'react-easy-edit';
 import { useTranslation } from 'react-i18next';
 
 import { useState } from 'react';
 
 import { Task } from '../Task/Task';
 
+import { columnsApi } from '@/api/services/ColumnsService';
 import { tasksApi } from '@/api/services/TasksService';
 import { IColumn, ITask } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
@@ -16,7 +18,6 @@ interface ColumnProps {
   column: IColumn;
   boardId: string;
   onDelete: (col: IColumn) => void;
-
 }
 export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element => {
   const [showModalCreateTask, setShowModalCreateTask] = useState(false);
@@ -87,10 +88,37 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
     setEditedTask(null);
   };
 
+  /*  editable title  */
+  const [updateColTitle, { isLoading: editTitleLoading }] = columnsApi.useUpdateColumnMutation();
+  const [columnTitle, setColumnTitle] = useState(column.title);
+
+  const handleUpdateColTitle = async (col: IColumn, colId: string, newTitle: string) => {
+    setColumnTitle(newTitle);
+    await updateColTitle({
+      colId,
+      boardId,
+      col: {
+        title: newTitle,
+        order: col.order,
+      },
+    });
+  };
+
+  const saveButtonLabel = (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+    </svg>
+  );
+  const cancelButtonLabel = (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  );
+
   return (
     <section className="column-wrapper">
 
-      {((isLoading || crLoading || delLoading || editLoading) && <Loader />)}
+      {((isLoading || crLoading || delLoading || editLoading || editTitleLoading) && <Loader />)}
 
       {((showModalCreateTask) &&
       <ModalForm
@@ -108,7 +136,17 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
       />)}
 
       <div className="column">
-        <h1 className="column-title">{column.title} (order: {column.order})</h1>
+
+        <EasyEdit
+          cssClassPrefix="easy-edit-column-title "
+          type="text"
+          onSave={(value: string) => handleUpdateColTitle(column, column.id, value)}
+          // onCancel={cancelEditTitle}
+          saveButtonLabel={saveButtonLabel}
+          cancelButtonLabel={cancelButtonLabel}
+          value={columnTitle}
+          attributes={{ name: column.title, id: column.id, value: column.title }}
+        />
 
         <button
           type = 'button'
