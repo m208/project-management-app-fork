@@ -38,6 +38,10 @@ module.exports = {
           500: '#FBF1ED',
         },
       },
+      boxShadow: {
+        '3xl': '4px 4px 8px 0px rgba(34, 60, 80, 0.3)',
+        '4xl': '4px 4px 8px 0px rgba(34, 60, 80, 0.6)',
+      },
     },
     backgroundImage: {
       pattern: 'url("../src/assets/png/pattern.png")',
