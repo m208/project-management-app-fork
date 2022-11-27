@@ -35,6 +35,11 @@ export interface IBoard {
   users: Array<string>;
 }
 
+export interface BoardInfo {
+  title: string;
+  description: string;
+}
+
 export type IBoardResponse =
   Omit <IBoard, 'id'> & {
     _id: string;

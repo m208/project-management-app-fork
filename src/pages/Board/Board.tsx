@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ColumnsContainer } from './ColumnsContainer/ColumnsContainer';
 
 import { boardsApi } from '@/api/services/BoardsService';
+import { BoardInfo } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './Board.pcss';
 
@@ -12,6 +13,9 @@ export const Board = (): JSX.Element => {
   const { data: board,  isLoading, error } = boardsApi.useGetBoardQuery(boardId as string);
 
   const { t } = useTranslation();
+
+  const title = board? (JSON.parse(board.title) as BoardInfo).title : '';
+  const description = board? (JSON.parse(board.title) as BoardInfo).description : '';
 
   return (
     <section className="board">
@@ -39,7 +43,11 @@ export const Board = (): JSX.Element => {
               </svg>
 
             </span>
-            <h1 className = 'board-title'>{board.title}</h1>
+            <h1 className = 'board-info'>
+              <span className='board-title'>{title}</span>
+              <span className="board-description">
+                {`${description? `: ${description}` : ''}`}</span>
+            </h1>
           </div>
 
           <div className="board-wrapper">

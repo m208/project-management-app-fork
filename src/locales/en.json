@@ -57,6 +57,7 @@
     "CANCEL": "Cancel"
   },
   "BOARD": {
+    "OWNER": "created by",
     "BOARD": "BOARD",
     "BOARDS": "YOUR BOARDS",
     "BOARDS_LIST": "List of boards",
