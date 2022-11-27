@@ -19,15 +19,16 @@
 
   & .board-item {
     @apply p-2 bg-primary-400 shadow-4xl rounded-2xl relative mr-6 mb-3 hover:bg-primary-500;
-
+    
     & .board-content {
       @apply flex flex-col;
 
+      
       & .board-top {
         @apply flex justify-between items-center mb-2;
-
+        
         & .board-owner {
-          @apply text-white font-normal text-sm truncate;
+          @apply pr-3 text-white font-normal text-sm truncate;
         }
 
         & .board-buttons {
@@ -36,11 +37,11 @@
       }
 
       & .board-title {
-        @apply text-additional-300 font-bold text-lg uppercase border-b-2 border-additional-300 pb-2 mt-1;
+        @apply text-additional-300 font-bold text-lg uppercase border-b-2 border-additional-300 pb-2 mt-1 truncate;
       }
 
       & .board-description {
-        @apply text-white mt-2 font-semibold text-clip h-16 overflow-hidden leading-5;
+        @apply text-white mt-2 font-normal text-clip h-16 overflow-hidden leading-5;
       }
 
       & .board-button-icon {

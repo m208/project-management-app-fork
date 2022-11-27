@@ -42,7 +42,7 @@ export const columnsApi = createApi({
       invalidatesTags: ['Columns'],
     }),
 
-    updateColumn: build.mutation<IColumn, {col: IColumnPost; boardId: string; colId: string}>({
+    updateColumn: build.mutation<IColumn, {col: IColumnPost; boardId: string; colId: string }>({
       query: data => ({
         url: `/boards/${data.boardId}/columns/${data.colId}`,
         method: 'PUT',
