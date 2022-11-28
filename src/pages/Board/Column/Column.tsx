@@ -142,7 +142,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
         initialData={{ title: editedTask?.title || '', description: editedTask?.description }}
       />)}
 
-      {(showConfirmDeleteColumn) && <Confirmation text="column" deleteFunc={() => onDelete(column)} hideConfirmFunc={setshowConfirmDeleteColumn}/>}
+      {(showConfirmDeleteColumn) && <Confirmation componentName="COLUMN" deleteFunc={() => onDelete(column)} hideConfirmFunc={setshowConfirmDeleteColumn}/>}
 
       <div className="column">
 
