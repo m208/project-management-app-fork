@@ -13,13 +13,22 @@ interface ConfirmationProps {
 const Confirmation = ({ componentName, deleteFunc, hideConfirmFunc }: ConfirmationProps) => {
   const { t } = useTranslation();
 
+  const onClickDelHandle = () => {
+    deleteFunc();
+    hideConfirmFunc(false);
+  };
+
+  const onClickCancelHandle = () => {
+    hideConfirmFunc(false);
+  };
+
   return (
     <div className='confirm-overlay'>
       <div className="confirm-dialog">
         <p className="confirm-question">{t('CONFIRM.QUESTION')} {t(`CONFIRM.${componentName}`)}?</p>
         <div className="confirm-buttons">
-          <button type='button' className='confirm-btn del-btn' onClick={deleteFunc}>{t('CONFIRM.DELETE')}</button>
-          <button type='button' className='confirm-btn cancel-btn' onClick={() => hideConfirmFunc(false)}>{t('CONFIRM.CANCEL')}</button>
+          <button type='button' className='confirm-btn del-btn' onClick={onClickDelHandle}>{t('CONFIRM.DELETE')}</button>
+          <button type='button' className='confirm-btn cancel-btn' onClick={onClickCancelHandle}>{t('CONFIRM.CANCEL')}</button>
         </div>
       </div>
     </div>

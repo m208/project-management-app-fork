@@ -117,9 +117,9 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
   );
 
   /*  delete confirmation  */
-  const [showConfirmDeleteColumn, setshowConfirmDeleteColumn ] = useState(false);
+  const [showConfirmation, setShowConfirmation ] = useState(false);
   const onClickDeleteHandle = () => {
-    setshowConfirmDeleteColumn(true);
+    setShowConfirmation(true);
   };
 
   return (
@@ -142,7 +142,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
         initialData={{ title: editedTask?.title || '', description: editedTask?.description }}
       />)}
 
-      {(showConfirmDeleteColumn) && <Confirmation componentName="COLUMN" deleteFunc={() => onDelete(column)} hideConfirmFunc={setshowConfirmDeleteColumn}/>}
+      {(showConfirmation) && <Confirmation componentName="COLUMN" deleteFunc={() => onDelete(column)} hideConfirmFunc={setShowConfirmation}/>}
 
       <div className="column">
 
