@@ -154,6 +154,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
           saveButtonLabel={saveButtonLabel}
           cancelButtonLabel={cancelButtonLabel}
           value={columnTitle}
+          cancelOnBlur
           attributes={{ name: column.title, id: column.id, value: column.title }}
         />
 

@@ -4,10 +4,11 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { userApi } from '@/api/services/userService';
 import { saveLocalOnLogout } from '@/app/auth';
+import Confirmation from '@/components/Confirmation/Confirmation';
 import { Loader } from '@/components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import './Profile.pcss';
@@ -54,6 +55,12 @@ export const Profile = (): JSX.Element => {
     logOut();
   }
 
+  /*  delete confirmation  */
+  const [showConfirmation, setShowConfirmation ] = useState(false);
+  const onClickRemoveHandle = () => {
+    setShowConfirmation(true);
+  };
+
   useEffect(() => {
     if (!isLoggedIn) {
       navigate({ to: '/' });
@@ -64,10 +71,11 @@ export const Profile = (): JSX.Element => {
     <section className="profile">
 
       {((isUserLoading || updateIsLoading || removeIsLoading) && <Loader/> )}
-      <div className="profile-item">
-        <h1 className='profile-heading'>{t('PROFILE.EDIT')}</h1>
-      </div>
+
+      {(showConfirmation) && <Confirmation componentName="ACCOUNT" deleteFunc={() => handleRemove()} hideConfirmFunc={setShowConfirmation}/>}
+
       <form className="profile-form" onSubmit={handleSubmit(onSubmit)}>
+        <h2 className='profile-heading'>{t('PROFILE.EDIT')}</h2>
         <div className="profile-item">
           <input
             placeholder={t('SIGN_UP.LOGIN') as string}
@@ -154,7 +162,7 @@ export const Profile = (): JSX.Element => {
         </div>
 
         <div className="profile-item">
-          <button type="button" className='profile-button' onClick={handleRemove}>
+          <button type="button" className='profile-button delete-button' onClick={onClickRemoveHandle}>
             {t('PROFILE.DELETE')}
           </button>
         </div>
