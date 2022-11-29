@@ -107,5 +107,22 @@
     "COLUMN": "column",
     "BOARD": "board",
     "ACCOUNT": "account"
+  },
+  "CREATE_TASK": {
+    "HEADING": "New task",
+    "SUBMIT": "CREATE",
+    "NAME": "Name",
+    "DESCRIPTION": "Description"
+  },
+  "EDIT_TASK": {
+    "HEADING": "Edit task",
+    "SUBMIT": "Save",
+    "NAME": "Name",
+    "DESCRIPTION": "Description"
+  },
+  "CREATE_COLUMN": {
+    "HEADING": "New column",
+    "SUBMIT": "CREATE",
+    "NAME": "Name"
   }
 }

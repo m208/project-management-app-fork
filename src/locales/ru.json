@@ -107,5 +107,22 @@
     "COLUMN": "колонку",
     "BOARD": "доску",
     "ACCOUNT": " свой аккаунт"
+  },
+  "CREATE_TASK": {
+    "HEADING": "Новое задание",
+    "SUBMIT": "СОЗДАТЬ",
+    "NAME": "Название",
+    "DESCRIPTION": "Описание"
+  },
+  "EDIT_TASK": {
+    "HEADING": "Изменить задание",
+    "SUBMIT": "СОХРАНИТЬ",
+    "NAME": "Название",
+    "DESCRIPTION": "Описание"
+  },
+  "CREATE_COLUMN": {
+    "HEADING": "Новая колонка",
+    "SUBMIT": "СОЗДАТЬ",
+    "NAME": "Название"
   }
 }
