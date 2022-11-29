@@ -8,6 +8,7 @@ import { Task } from '../Task/Task';
 import { columnsApi } from '@/api/services/ColumnsService';
 import { tasksApi } from '@/api/services/TasksService';
 import { IColumn, ITask } from '@/app/types';
+import Confirmation from '@/components/Confirmation/Confirmation';
 import { Loader } from '@/components/Loader/Loader';
 import './Column.pcss';
 import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
@@ -115,6 +116,12 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
     </svg>
   );
 
+  /*  delete confirmation  */
+  const [showConfirmation, setShowConfirmation ] = useState(false);
+  const onClickDeleteHandle = () => {
+    setShowConfirmation(true);
+  };
+
   return (
     <section className="column-wrapper">
 
@@ -135,23 +142,25 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
         initialData={{ title: editedTask?.title || '', description: editedTask?.description }}
       />)}
 
+      {(showConfirmation) && <Confirmation componentName="COLUMN" deleteFunc={() => onDelete(column)} hideConfirmFunc={setShowConfirmation}/>}
+
       <div className="column">
 
         <EasyEdit
           cssClassPrefix="easy-edit-column-title "
           type="text"
           onSave={(value: string) => handleUpdateColTitle(column, column.id, value)}
-          // onCancel={cancelEditTitle}
           saveButtonLabel={saveButtonLabel}
           cancelButtonLabel={cancelButtonLabel}
           value={columnTitle}
+          cancelOnBlur
           attributes={{ name: column.title, id: column.id, value: column.title }}
         />
 
         <button
           type = 'button'
           className="column-del"
-          onClick={()=>onDelete(column)}
+          onClick={onClickDeleteHandle}
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.7} stroke="currentColor" className="board-del-icon">
             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />

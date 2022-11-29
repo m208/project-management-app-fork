@@ -1,8 +1,8 @@
 .profile {
-  @apply flex flex-col items-center;
+  @apply flex flex-col items-center my-auto;
 
   & .profile-heading {
-    @apply text-4xl;
+    @apply text-2xl text-center;
   }
 }
 .profile-form {
@@ -13,9 +13,9 @@
   & .profile-item {
     @apply w-full text-center py-3;
 
-    & .profile-header {
+    /* & .profile-header {
       @apply text-zinc-900 text-xl;
-    }
+    } */
 
     .profile-input {
       @apply border-zinc-500 w-full focus:border-amber-500 outline-0 rounded px-2 h-12;
@@ -23,7 +23,16 @@
     }
 
     & .profile-button {
-      @apply bg-amber-500 px-4 py-2 rounded cursor-pointer w-full h-12 text-white text-xl font-bold;
+      @apply bg-amber-500 px-4 py-2 rounded cursor-pointer w-full h-12 text-white text-xl font-bold transition-all duration-200;
+
+      &:hover {
+        width: 98%;
+      }
+
+    }
+
+    & .profile-button.delete-button {
+      @apply bg-warning-500;
     }
 
     & .error-field {

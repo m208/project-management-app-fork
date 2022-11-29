@@ -98,5 +98,31 @@
     "ADD": "+ Add task",
     "ADD_COL": "+ ADD COLUMN",
     "REVERSE": "REVERSE COLUMN"
+  },
+  "CONFIRM": {
+    "QUESTION": "Do you really want to delete this",
+    "DELETE": "DELETE",
+    "CANCEL": "CANCEL",
+    "TASK": "task",
+    "COLUMN": "column",
+    "BOARD": "board",
+    "ACCOUNT": "account"
+  },
+  "CREATE_TASK": {
+    "HEADING": "New task",
+    "SUBMIT": "CREATE",
+    "NAME": "Name",
+    "DESCRIPTION": "Description"
+  },
+  "EDIT_TASK": {
+    "HEADING": "Edit task",
+    "SUBMIT": "Save",
+    "NAME": "Name",
+    "DESCRIPTION": "Description"
+  },
+  "CREATE_COLUMN": {
+    "HEADING": "New column",
+    "SUBMIT": "CREATE",
+    "NAME": "Name"
   }
 }

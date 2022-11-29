@@ -22,12 +22,12 @@ export const Board = (): JSX.Element => {
       {(isLoading && <Loader/> )}
 
       {error && (
-        <>
-          <p>{t('BOARD.NOT_EXIST')}</p>
-          <Link to='/boards'>
+        <div className='flex flex-col items-center mt-10'>
+          <p className='text-center text-3xl font-semibold'>{t('BOARD.NOT_EXIST')}</p>
+          <Link to='/boards' className='text-center text-xl text-chocolate-500 font-semibold underline hover:no-underline mt-2'>
             {t('BOARD.TO_BOARDS')}
           </Link>
-        </>
+        </div>
       )}
 
       {board && (
