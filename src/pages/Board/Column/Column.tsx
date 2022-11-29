@@ -150,7 +150,6 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
           cssClassPrefix="easy-edit-column-title "
           type="text"
           onSave={(value: string) => handleUpdateColTitle(column, column.id, value)}
-          // onCancel={cancelEditTitle}
           saveButtonLabel={saveButtonLabel}
           cancelButtonLabel={cancelButtonLabel}
           value={columnTitle}
