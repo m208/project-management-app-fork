@@ -19,14 +19,13 @@
 
   & .board-item {
     @apply p-2 bg-primary-400 shadow-4xl rounded-2xl relative mr-6 mb-3 hover:bg-primary-500;
-    
+
     & .board-content {
       @apply flex flex-col;
 
-      
       & .board-top {
         @apply flex justify-between items-center mb-2;
-        
+
         & .board-owner {
           @apply pr-3 text-white font-normal text-sm truncate;
         }
@@ -57,8 +56,4 @@
       @apply w-full h-full;
     }
   }
-}
-
-.boards_wrapper {
-  height: calc(100vh - 140px);
 }
