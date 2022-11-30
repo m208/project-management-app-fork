@@ -133,7 +133,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
               className='signform-input'
               {...register('password', {
                 required: true,
-                minLength: (type === 'SIGN_IN'? 8 : undefined),
+                minLength: (type === 'SIGN_UP'? 8 : undefined),
               })}
               aria-invalid={errors.password ? 'true' : 'false'}
               type="password"
