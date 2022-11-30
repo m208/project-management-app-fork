@@ -20,7 +20,7 @@ export const Profile = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { logOff } = authSlice.actions;
 
-  const userId = user!.id;
+  const userId = user?.id || '';
 
   const {
     data: userData,
@@ -32,8 +32,8 @@ export const Profile = (): JSX.Element => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      login: userData!.login,
-      name: userData!.name,
+      login: userData?.login || '',
+      name: userData?.name || '',
       password: '' },
   });
   const navigate = useNavigate();
