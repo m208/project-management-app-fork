@@ -17,7 +17,7 @@ const resources = {
 
 use(initReactI18next).use(LanguageDetector)
   .init({
-    debug: true,
+    debug: false,
     detection: {
       order: ['localStorage'],
       lookupLocalStorage: 'i18nextLng',
