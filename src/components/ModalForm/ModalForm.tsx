@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import { useEffect } from 'react';
 import './ModalForm.pcss';
 
 export type ModalFormTypes = 'CREATE_COLUMN' | 'CREATE_BOARD' | 'EDIT_BOARD' | 'CREATE_TASK' | 'EDIT_TASK';
@@ -27,8 +29,27 @@ export const ModalForm = ({
     modalSubmit({ description, title });
   };
 
+  useEffect(() => {
+    const keyUpHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        modalAbort();
+      }
+    };
+    document.addEventListener('keyup', keyUpHandler);
+    return () => {
+      document.removeEventListener('keyup', keyUpHandler);
+    };
+  }, [modalAbort]);
+
   return (
-    <div className='modal-wrapper'>
+    <>
+      <div
+        className='modal-wrapper'
+        onClick={modalAbort}
+        role='presentation'
+        onKeyPress={()=>{ }}
+      />
+
       <div className="modal-inner">
         <div className="modal-close">
           <button
@@ -94,7 +115,6 @@ export const ModalForm = ({
 
         </form>
       </div>
-
-    </div>
+    </>
   );
 };
