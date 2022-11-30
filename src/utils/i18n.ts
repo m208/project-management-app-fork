@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import i18n, { use } from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
@@ -28,6 +27,7 @@ use(initReactI18next).use(LanguageDetector)
     },
     resources,
     fallbackLng: 'en',
-  });
+  })
+  .catch(()=>{ });
 
 export default i18n;
