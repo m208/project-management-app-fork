@@ -51,12 +51,12 @@ export const ModalForm = ({
               placeholder={(t(`${type}.NAME`)).toString()}
               className='modalform-input'
               {...register('title', { required: true })}
-              aria-invalid={errors.name ? 'true' : 'false'}
+              aria-invalid={errors.title ? 'true' : 'false'}
               defaultValue={initialData?.title}
             />
 
             <div className="error-field">
-              {errors.name?.type === 'required' && (
+              {errors.title?.type === 'required' && (
                 <span role="alert">{(t(`${type}.REQUIRED_NAME`))}</span>
               )}
             </div>
@@ -70,14 +70,14 @@ export const ModalForm = ({
                 className='modalform-input'
                 cols={60} rows={5}
                 {...register('description', {
-                  required: false,
+                  required: (type === 'CREATE_TASK'),
                 })}
-                aria-invalid={errors.password ? 'true' : 'false'}
+                aria-invalid={errors.description ? 'true' : 'false'}
                 defaultValue={initialData?.description}
               />
 
               <div className="error-field">
-                {errors.password?.type === 'required' && (
+                {errors.description?.type === 'required' && (
                   <span role="alert">{(t(`${type}.REQUIRED_DESCRIPTION`))}</span>
                 )}
               </div>
