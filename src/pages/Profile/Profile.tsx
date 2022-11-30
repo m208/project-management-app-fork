@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { useNavigate } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -21,7 +20,7 @@ export const Profile = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { logOff } = authSlice.actions;
 
-  const userId = user?.id as string;
+  const userId = user!.id;
 
   const {
     data: userData,
@@ -33,8 +32,8 @@ export const Profile = (): JSX.Element => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      login: userData?.login as string,
-      name: userData?.name as string ,
+      login: userData!.login,
+      name: userData!.name,
       password: '' },
   });
   const navigate = useNavigate();
@@ -78,7 +77,7 @@ export const Profile = (): JSX.Element => {
         <h2 className='profile-heading'>{t('PROFILE.EDIT')}</h2>
         <div className="profile-item">
           <input
-            placeholder={t('SIGN_UP.LOGIN') as string}
+            placeholder={`${t('SIGN_UP.LOGIN')}` }
             className='profile-input'
             defaultValue={userData?.login}
             {...register('login', {
@@ -104,7 +103,7 @@ export const Profile = (): JSX.Element => {
         <div className="profile-item">
 
           <input
-            placeholder={t('SIGN_UP.NAME') as string}
+            placeholder={`${t('SIGN_UP.NAME')}` }
             className='profile-input'
             defaultValue={userData?.name}
             {...register('name', {
@@ -135,7 +134,7 @@ export const Profile = (): JSX.Element => {
         <div className="profile-item">
 
           <input
-            placeholder={t('SIGN_UP.PASSWORD') as string}
+            placeholder={`${t('SIGN_UP.PASSWORD')}` }
             className='profile-input'
             {...register('password', {
               required: true,

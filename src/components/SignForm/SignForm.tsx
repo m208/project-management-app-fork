@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { useNavigate, Link } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -75,7 +74,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
 
             <input
-              placeholder={t(`${type}.LOGIN`) as string}
+              placeholder={`${t(`${type}.LOGIN`)}` }
               className='signform-input'
               {...register('login', { required: true,
                 pattern: {
@@ -101,7 +100,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
             <div className="signform-item">
 
               <input
-                placeholder={t(`${type}.NAME`) as string}
+                placeholder={`${t(`${type}.NAME`)}` }
                 className='signform-input'
                 {...register('name', { required: true,
                   pattern: {
@@ -130,7 +129,7 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
           <div className="signform-item">
 
             <input
-              placeholder={t(`${type}.PASSWORD`) as string}
+              placeholder={`${t(`${type}.PASSWORD`)}` }
               className='signform-input'
               {...register('password', {
                 required: true,
@@ -154,14 +153,14 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
             <input
               type="submit"
               className='signform-button'
-              value={t(`${type}.${type}`) as string}/>
+              value={`${t(`${type}.${type}`)}` }/>
           </div>
 
           <div className="signform-item">
             <p className="signform-footer">
               {t(`${type}.BOTTOM_TEXT`)}
               <Link className='signform-footer-link' to={type === 'SIGN_IN' ? '/signup' : '/signin'}>
-                {t(`${type}.BOTTOM_LINK`) as string}
+                {t(`${type}.BOTTOM_LINK`) }
               </Link>
             </p>
           </div>
