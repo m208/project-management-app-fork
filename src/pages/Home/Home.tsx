@@ -55,7 +55,7 @@ export const Home = (): JSX.Element => {
       <section className="home-video">
         <div className="container">
           <div className="home-video__wrapper">
-            <h2 className='home-video__heading'>How the app works</h2>
+            <h2 className='home-video__heading'>{t('WELCOME.HEADING_VIDEO')}</h2>
             <div className="home-video__inner-wrapper">
               <img src={welcomeImage2} alt="welcome" className='video__img'/>
 
@@ -74,13 +74,13 @@ export const Home = (): JSX.Element => {
 
       <section className="home-team">
         <div className="container">
-          <h2 className='home-team__heading'>Our team</h2>
+          <h2 className='home-team__heading'>{t('WELCOME.HEADING_TEAM')}</h2>
           <ul className='team-members'>
             {teamMembers.map(member => (
               <li key={member.id} className='member__card'>
                 <img src={getImg(member.img)} alt="member" className='member__img'/>
                 <div className="member__text">
-                  <p className='member__name'>{member.name}</p>
+                  <p className='member__name'>{t(member.name)}</p>
 
                   <ul className='member_points'>
                     {
