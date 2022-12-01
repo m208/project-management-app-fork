@@ -39,6 +39,7 @@ export const boardsApi = createApi({
         url: `/boards/${id}`,
       }),
       transformResponse: normBoardsId,
+      providesTags: () => ['Boards'],
     }),
 
     createBoard: build.mutation<IBoard, IBoardPost>({

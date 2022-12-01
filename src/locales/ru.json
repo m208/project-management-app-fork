@@ -118,11 +118,14 @@
     "HEADING": "Изменить задание",
     "SUBMIT": "СОХРАНИТЬ",
     "NAME": "Название",
-    "DESCRIPTION": "Описание"
+    "DESCRIPTION": "Описание",
+    "REQUIRED_NAME": "Введите название задания",
+    "REQUIRED_DESCRIPTION": "Введите описание"
   },
   "CREATE_COLUMN": {
     "HEADING": "Новая колонка",
     "SUBMIT": "СОЗДАТЬ",
-    "NAME": "Название"
+    "NAME": "Название",
+    "REQUIRED_NAME": "Введите название колонки"
   }
 }
