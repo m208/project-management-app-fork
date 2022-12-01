@@ -46,7 +46,9 @@
     "DESCR_POINT_1": "structure and make the company's work more transparent;",
     "DESCR_POINT_2": "plan the work on the project",
     "DESCR_POINT_3": "organize communication between project participants;",
-    "DESCR_POINT_4": "accelerate the onboarding of new employees."
+    "DESCR_POINT_4": "accelerate the onboarding of new employees.",
+    "HEADING_VIDEO": "How to use the app",
+    "HEADING_TEAM": "Our team"
   },
   "PROFILE": {
     "EDIT": "EDIT PROFILE",
@@ -129,5 +131,26 @@
     "SUBMIT": "CREATE",
     "NAME": "Name",
     "REQUIRED_NAME": "Enter column name"
+  },
+  "MEMBER_A_RUMAKIN": {
+    "NAME": "Andrei Rumakin",
+    "POINT1": "Team-lead",
+    "POINT2": "Authorization",
+    "POINT3": "Drag-n-drop",
+    "POINT4": "Localization"
+  },
+  "MEMBER_T_RUSAK": {
+    "NAME": "Tatsiana Rusak",
+    "POINT1": "Design",
+    "POINT2": "Welcome page",
+    "POINT3": "Confirmation dialog",
+    "POINT4": "Editable column title",
+    "POINT5": "Stylization of components"
+  },
+  "MEMBER_A_KOMISSAROV": {
+    "NAME": "Andrey Komissarov",
+    "POINT1": "Server deploy",
+    "POINT2": "Basic structure of the application",
+    "POINT3": "API requests"
   }
 }

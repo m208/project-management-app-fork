@@ -1,13 +1,13 @@
 .profile {
-  @apply flex flex-col items-center my-auto;
+  @apply flex flex-col items-center my-auto px-6 w-1/2 md:w-full md:px-2;
 
   & .profile-heading {
     @apply text-2xl text-center;
   }
 }
 .profile-form {
-  @apply flex flex-col  bg-white px-6 py-3 shadow-xl rounded;
-  min-width: 25rem;
+  @apply flex flex-col w-full bg-white px-6 py-3 shadow-xl rounded xs:w-full;
+  /* min-width: 25rem; */
   min-height: 25rem;
 
   & .profile-item {
