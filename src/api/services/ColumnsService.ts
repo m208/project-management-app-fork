@@ -51,6 +51,15 @@ export const columnsApi = createApi({
       invalidatesTags: ['Columns'],
     }),
 
+    getColumnSet: build.query<IColumn[], string[]>({
+      query: data => ({
+        url: `/columnsSet?ids=${data.join('')}`,
+        method: 'GET',
+      }),
+      transformResponse: normColumnsArrayId,
+      providesTags: () => ['Columns'],
+    }),
+
     updateColumnSet: build.mutation<IColumn, Array<{_id: string; order: number}>>({
       query: data => ({
         url: '/columnsSet',

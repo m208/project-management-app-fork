@@ -1,3 +1,4 @@
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 
 import { useState } from 'react';
@@ -43,6 +44,33 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     }
   };
 
+  const onDragEndColumn = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+  };
+
+  const onDragEndTask = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+    const idFromColumn = columns?.findIndex(el => el.id === source.droppableId) as number;
+    const idToColumn = columns?.findIndex(el => el.id === destination?.droppableId);
+
+    // const tasks = getTasks()
+    // const draggableTask = columns?[idFromColumn].tasks.find(el => el.id === draggableId);
+
+  };
+
+  const handleDragEnd = (result: DropResult) => {
+    const { destination, source } = result;
+    if (!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+    if (destination.droppableId === 'board') {
+      onDragEndColumn(result);
+    } else {
+      onDragEndTask(result);
+    }
+  };
+
   const handleDelete = async (col: IColumn) => {
     await deleteCol({
       col,
@@ -80,16 +108,19 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
 
       <div className="columns-wrapper">
 
-        {columns && [...columns]
-          .sort((a, b)=>(a.order - b.order))
-          .map(col =>
-            <Column
-              column = {col}
-              boardId = {boardId}
-              onDelete={handleDelete}
-              key = {col.id}
-            />,
-          )}
+        <DragDropContext
+          onDragEnd={handleDragEnd}>
+          {columns && [...columns]
+            .sort((a, b) => (a.order - b.order))
+            .map(col =>
+              <Column
+                column={col}
+                boardId={boardId}
+                onDelete={handleDelete}
+                key={col.id}
+              />,
+            )}
+        </DragDropContext>
 
         <div className="columns-add">
           <button
