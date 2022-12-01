@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 
 import './Confirmation.pcss';
 
@@ -22,8 +22,27 @@ const Confirmation = ({ componentName, deleteFunc, hideConfirmFunc }: Confirmati
     hideConfirmFunc(false);
   };
 
+  useEffect(() => {
+    const keyUpHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        hideConfirmFunc(false);
+      }
+    };
+    document.addEventListener('keyup', keyUpHandler);
+    return () => {
+      document.removeEventListener('keyup', keyUpHandler);
+    };
+  }, [hideConfirmFunc]);
+
   return (
-    <div className='confirm-overlay'>
+    <>
+      <div
+        className='confirm-overlay'
+        onClick={onClickCancelHandle}
+        onKeyPress={()=>{ }}
+        role='presentation'
+      />
+
       <div className="confirm-dialog">
         <p className="confirm-question">{t('CONFIRM.QUESTION')} {t(`CONFIRM.${componentName}`)}?</p>
         <div className="confirm-buttons">
@@ -31,7 +50,9 @@ const Confirmation = ({ componentName, deleteFunc, hideConfirmFunc }: Confirmati
           <button type='button' className='confirm-btn cancel-btn' onClick={onClickCancelHandle}>{t('CONFIRM.CANCEL')}</button>
         </div>
       </div>
-    </div>
+
+    </>
+
   );
 };
 

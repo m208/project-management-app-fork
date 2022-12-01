@@ -114,18 +114,23 @@
     "HEADING": "New task",
     "SUBMIT": "CREATE",
     "NAME": "Name",
-    "DESCRIPTION": "Description"
+    "DESCRIPTION": "Description",
+    "REQUIRED_NAME": "Enter task name",
+    "REQUIRED_DESCRIPTION": "Enter description"
   },
   "EDIT_TASK": {
     "HEADING": "Edit task",
     "SUBMIT": "Save",
     "NAME": "Name",
-    "DESCRIPTION": "Description"
+    "DESCRIPTION": "Description",
+    "REQUIRED_NAME": "Enter task name",
+    "REQUIRED_DESCRIPTION": "Enter description"
   },
   "CREATE_COLUMN": {
     "HEADING": "New column",
     "SUBMIT": "CREATE",
-    "NAME": "Name"
+    "NAME": "Name",
+    "REQUIRED_NAME": "Enter column name"
   },
   "MEMBER_A_RUMAKIN": {
     "NAME": "Andrei Rumakin",

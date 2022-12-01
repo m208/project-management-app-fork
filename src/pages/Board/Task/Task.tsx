@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 
 import {  ITask } from '@/app/types';
@@ -26,7 +24,17 @@ export const Task = ({ task, onDelete, onEdit }: TaskProps): JSX.Element => {
 
       <div className="task-wrapper">
         <div className="task-inner">
-          <div className="task-content" onClick={()=>onEdit(task)}>
+          <div
+            className="task-content"
+            onClick={()=>onEdit(task)}
+            role="button"
+            tabIndex={0}
+            onKeyPress={e=>{
+              if(e.code === 'Enter' || e.code === 'Space') {
+                onEdit(task);
+              }
+            }}
+          >
             {task.title}
           </div>
           <div className="task-buttons">
