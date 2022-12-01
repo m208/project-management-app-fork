@@ -124,5 +124,23 @@
     "HEADING": "New column",
     "SUBMIT": "CREATE",
     "NAME": "Name"
+  },
+  "MEMBER_A_RUMAKIN": {
+    "POINT1": "Team-lead",
+    "POINT2": "Authorization",
+    "POINT3": "Drag-n-drop",
+    "POINT4": "Localization"
+  },
+  "MEMBER_T_RUSAK": {
+    "POINT1": "Design",
+    "POINT2": "Welcome page",
+    "POINT3": "Confirmation dialog",
+    "POINT4": "Editable column title",
+    "POINT5": "Stylization of components"
+  },
+  "MEMBER_A_KOMISSAROV": {
+    "POINT1": "Server deploy",
+    "POINT2": "Basic structure of the application",
+    "POINT3": "API requests"
   }
 }

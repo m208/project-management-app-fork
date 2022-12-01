@@ -6,19 +6,19 @@ export const teamMembers = [
   {
     id: 1,
     name: 'Andrei Rumakin',
-    img: '',
-    points: ['team-lead', 'authorization', 'перетаскивание колонок и задач', 'локализацию приложения'],
+    img: 'boy1',
+    points: ['MEMBER_A_RUMAKIN.POINT1', 'MEMBER_A_RUMAKIN.POINT2', 'MEMBER_A_RUMAKIN.POINT3', 'MEMBER_A_RUMAKIN.POINT4'],
   },
   {
     id: 2,
     name: 'Tatsiana Rusak',
-    img: '',
-    points: ['design', 'layout', 'confirmation dialog', 'editable column title' ],
+    img: 'girl',
+    points: ['MEMBER_T_RUSAK.POINT1', 'MEMBER_T_RUSAK.POINT2', 'MEMBER_T_RUSAK.POINT3', 'MEMBER_T_RUSAK.POINT4', 'MEMBER_T_RUSAK.POINT5' ],
   },
   {
     id: 3,
     name: 'Andrey Komissarov',
-    img: '',
-    points: [ 'построение базовой структуры приложения', 'backend', 'запросы к API'],
+    img: 'boy2',
+    points: [ 'MEMBER_A_KOMISSAROV.POINT1', 'MEMBER_A_KOMISSAROV.POINT2', 'MEMBER_A_KOMISSAROV.POINT3'],
   },
 ];

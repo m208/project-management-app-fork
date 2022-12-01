@@ -1,8 +1,22 @@
 import { useTranslation } from 'react-i18next';
 
 import './Home.pcss';
+import photoBoy1 from './members/boy1.png';
+import photoBoy2 from './members/boy2.png';
+import photoGirl from './members/girl.png';
+
 import { teamMembers } from '@/app/constants';
-import welcomeImage from '@/assets/png/welcome-img.png';
+import welcomeImage1 from '@/assets/png/welcome-img.png';
+import welcomeImage2 from '@/assets/png/welcome-section2.png';
+
+const getImg = (name: string) => {
+  switch (name) {
+    case 'boy1': return photoBoy1;
+    case 'boy2': return photoBoy2;
+    case 'girl': return photoGirl;
+    default: return undefined;
+  }
+};
 
 export const Home = (): JSX.Element => {
   const { t } = useTranslation();
@@ -33,7 +47,7 @@ export const Home = (): JSX.Element => {
               </div>
             </div>
 
-            <img className='home__img' src={welcomeImage} alt="Welcome" />
+            <img className='home__img' src={welcomeImage1} alt="Welcome" />
           </div>
         </div>
       </section>
@@ -42,13 +56,17 @@ export const Home = (): JSX.Element => {
         <div className="container">
           <div className="home-video__wrapper">
             <h2 className='home-video__heading'>How the app works</h2>
-            <iframe src='https://www.youtube.com/embed/E7wJTI-1dvQ'
-              frameBorder='0'
-              allow='autoplay; encrypted-media'
-              allowFullScreen
-              title='video'
-              className='video-frame'
-            />
+            <div className="home-video__inner-wrapper">
+              <img src={welcomeImage2} alt="welcome" className='video__img'/>
+
+              <iframe src='https://www.youtube.com/embed/GNrdg3PzpJQ'
+                frameBorder='0'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                allowFullScreen
+                title='video'
+                className='video-frame'
+              />
+            </div>
           </div>
         </div>
 
@@ -60,16 +78,18 @@ export const Home = (): JSX.Element => {
           <ul className='team-members'>
             {teamMembers.map(member => (
               <li key={member.id} className='member__card'>
-                <img src={member.img} alt="member" className='member__img'/>
-                <p className='member__name'>{member.name}</p>
+                <img src={getImg(member.img)} alt="member" className='member__img'/>
+                <div className="member__text">
+                  <p className='member__name'>{member.name}</p>
 
-                <ul className='member_poins'>
-                  {
-                    member.points.map(point => (
-                      <li key='1' className='duty-point'><span>{point}</span></li>
-                    ))
-                  }
-                </ul>
+                  <ul className='member_points'>
+                    {
+                      member.points.map(point => (
+                        <li key='1' className='duty-point'><span>{t(point)}</span></li>
+                      ))
+                    }
+                  </ul>
+                </div>
               </li>
             ))}
           </ul>

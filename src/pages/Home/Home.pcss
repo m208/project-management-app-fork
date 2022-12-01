@@ -59,6 +59,14 @@
     @apply mb-6 text-secondary-500 text-4xl text-center font-bold uppercase xs:text-5xl;
   }
 
+  & .home-video__inner-wrapper {
+    @apply w-full flex flex-row justify-around items-end;
+  }
+
+  & .video__img {
+    @apply w-1/5 h-1/2;
+  }
+
   & .video-frame {
     @apply w-1/2 h-96;
   }
@@ -68,11 +76,15 @@
   }
 
   & .member__card {
-    @apply p-2 bg-lightcolor-500 border-2  ;
+    @apply p-2 flex flex-row w-1/3;
   }
 
   & .member__img {
-    @apply w-10 h-10 bg-slate-400 border-4 border-additional-500 ;
+    @apply w-36 h-36 mr-2 border-8 rounded-full border-additional-500 ;
+  }
+
+  & .member__text {
+    @apply bg-white bg-opacity-100;
   }
 
   & .member__name {
