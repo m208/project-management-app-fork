@@ -45,3 +45,45 @@
     width: 60%;
   }
 }
+
+.home-video,
+.home-team {
+  @apply mt-16 w-full;
+
+  & .home-video__wrapper {
+    @apply flex flex-col items-center;
+  }
+
+  & .home-video__heading,
+  .home-team__heading {
+    @apply mb-6 text-secondary-500 text-4xl text-center font-bold uppercase xs:text-5xl;
+  }
+
+  & .video-frame {
+    @apply w-1/2 h-96;
+  }
+
+  & .team-members {
+    @apply flex flex-row justify-between px-24 pb-16 ;
+  }
+
+  & .member__card {
+    @apply p-2 bg-lightcolor-500 border-2  ;
+  }
+
+  & .member__img {
+    @apply w-10 h-10 bg-slate-400 border-4 border-additional-500 ;
+  }
+
+  & .member__name {
+    @apply text-additional-500 text-2xl font-bold;
+  }
+
+  & .duty-point {
+    @apply text-additional-500 list-disc ml-4;
+  }
+
+  & .duty-point > span{
+    @apply text-black;
+  }
+}
