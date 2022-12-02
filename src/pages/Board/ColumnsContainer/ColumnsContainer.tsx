@@ -66,30 +66,37 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   };
 
   const onDragEndTask = async (result: DropResult) => {
+    console.log(result);
+
     const { destination, source, draggableId } = result;
     const idFromColumn = columns?.find(el => el.id === source.droppableId);
     const idToColumn = columns?.find(el => el.id === destination!.droppableId);
 
-    // const columnsSet = await getColumnsSet([idFromColumn!.id]);
-    const tasksSetToColumn =
-        await getTasksByColumn({ boardId, colId: idFromColumn!.id });
+    const tasksSetToColumn = await getTasksByColumn({ boardId, colId: idFromColumn!.id });
+
     try {
-      // const myTask = await getTasksSet([draggableId]);
       const copyedArrTasks = transformTasks((tasksSetToColumn['data']));
-      const resultTasks = copyedArrTasks.reduce((acc, el, i) => {
-        if (destination!.index - 1 === i) {
-          acc.push({
-            _id: draggableId,
-            order: destination!.index - 1,
-            columnId: idToColumn!.id,
-          });
-        }
-        const newTask = destination!.index - 1 > i ? el : { ...el, order: el.order + 1 };
-        acc.push(newTask);
-        return acc;
-      }, [] as ITaskSet[]);
-      console.log(resultTasks);
-      await updateTaskSet(resultTasks);
+
+      let reordered = [...copyedArrTasks]
+        .sort((a, b) => (a.order - b.order))
+        .map((el,i) =>( { ...el, order: i }));    // set orders by ascending
+
+      // eslint-disable-next-line no-underscore-dangle
+      const movedTask = reordered.find(el=>el._id === draggableId);
+      const [from, to ] = [movedTask!.order, destination!.index];
+
+      if (from > to) {
+        reordered.splice(from, 1);
+        reordered.splice(to, 0, movedTask!);
+      } else {
+        reordered.splice(to, 0, movedTask!);
+        reordered.splice(from, 1);
+      }
+
+      reordered = reordered.map((el,i) =>( { ...el, order: i }));
+
+      await updateTaskSet(reordered);
+
     } catch {
       toast.error(t('TOASTER.SERV_ERR'));
     }

@@ -173,7 +173,7 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
             <div className="column-body"
               {...provided.droppableProps}
               ref={provided.innerRef} >
-              {tasks && tasks.map(task =>
+              {tasks && [...tasks].sort((a, b)=>(a.order-b.order)).map(task =>
                 <Task
                   task={task}
                   index={task.order}

@@ -34,7 +34,7 @@ export const Task = ({ task, onDelete, onEdit, index }: TaskProps): JSX.Element 
             ref={provided.innerRef}>
             <div className="task-inner">
               <div className="task-content" onClick={() => onEdit(task)}>
-                {task.title}
+                {task.title} order: {task.order}
               </div>
               <div className="task-buttons">
                 <button
