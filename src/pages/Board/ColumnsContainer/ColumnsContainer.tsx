@@ -68,28 +68,27 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   const onDragEndTask = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
     const idFromColumn = columns?.find(el => el.id === source.droppableId);
-    const idToColumn = columns?.findIndex(el => el.id === destination!.droppableId);
+    const idToColumn = columns?.find(el => el.id === destination!.droppableId);
 
     // const columnsSet = await getColumnsSet([idFromColumn!.id]);
     const tasksSetToColumn =
         await getTasksByColumn({ boardId, colId: idFromColumn!.id });
     try {
       // const myTask = await getTasksSet([draggableId]);
-      console.log(tasksSetToColumn['data']);
       const copyedArrTasks = transformTasks((tasksSetToColumn['data']));
-      console.log(copyedArrTasks);
       const resultTasks = copyedArrTasks.reduce((acc, el, i) => {
         if (destination!.index - 1 === i) {
           acc.push({
             _id: draggableId,
             order: destination!.index - 1,
-            columnId: idToColumn!.toFixed(),
+            columnId: idToColumn!.id,
           });
         }
         const newTask = destination!.index - 1 > i ? el : { ...el, order: el.order + 1 };
         acc.push(newTask);
         return acc;
       }, [] as ITaskSet[]);
+      console.log(resultTasks);
       await updateTaskSet(resultTasks);
     } catch {
       toast.error(t('TOASTER.SERV_ERR'));
