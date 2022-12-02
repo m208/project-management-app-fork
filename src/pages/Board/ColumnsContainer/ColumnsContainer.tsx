@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 import { useState } from 'react';
@@ -6,7 +8,8 @@ import { useState } from 'react';
 import { Column } from '../Column/Column';
 
 import { columnsApi } from '@/api/services/ColumnsService';
-import { IColumn } from '@/app/types';
+import { tasksApi } from '@/api/services/TasksService';
+import { IColumn, ITaskResponse, ITaskSet } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './ColumnsContainer.pcss';
 import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
@@ -23,6 +26,11 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   const [createCol, { error, isLoading: crLoading }] = columnsApi.useCreateColumnMutation();
   const [deleteCol, { isLoading: delLoading }] = columnsApi.useDeleteColumnMutation();
   const [updateColOrder] = columnsApi.useUpdateColumnSetMutation();
+  const [getColumnsSet] = columnsApi.useGetColumnSetMutation();
+
+  const [getTasksByColumn] = tasksApi.useGetTasksByColumnMutation();
+  const [getTasksSet] = tasksApi.useGetTasksSetMutation();
+  const [updateTaskSet] = tasksApi.useUpdateTasksSetMutation();
 
   const { t } = useTranslation();
 
@@ -44,30 +52,61 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     }
   };
 
-  const onDragEndColumn = (result: DropResult) => {
+  const transformTasks = (tasks: ITaskResponse[]) => {
+    console.log(tasks);
+    const transformedTasks = tasks.map(el => {
+      const { _id: id, order, columnId } = el;
+      return { _id: id , order, columnId };
+    });
+    return transformedTasks;
+  };
+
+  const onDragEndColumn = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
   };
 
-  const onDragEndTask = (result: DropResult) => {
+  const onDragEndTask = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
-    const idFromColumn = columns?.findIndex(el => el.id === source.droppableId) as number;
-    const idToColumn = columns?.findIndex(el => el.id === destination?.droppableId);
+    const idFromColumn = columns?.find(el => el.id === source.droppableId);
+    const idToColumn = columns?.findIndex(el => el.id === destination!.droppableId);
 
-    // const tasks = getTasks()
-    // const draggableTask = columns?[idFromColumn].tasks.find(el => el.id === draggableId);
+    // const columnsSet = await getColumnsSet([idFromColumn!.id]);
+    const tasksSetToColumn =
+        await getTasksByColumn({ boardId, colId: idFromColumn!.id });
+    try {
+      // const myTask = await getTasksSet([draggableId]);
+      console.log(tasksSetToColumn['data']);
+      const copyedArrTasks = transformTasks((tasksSetToColumn['data']));
+      console.log(copyedArrTasks);
+      const resultTasks = copyedArrTasks.reduce((acc, el, i) => {
+        if (destination!.index - 1 === i) {
+          acc.push({
+            _id: draggableId,
+            order: destination!.index - 1,
+            columnId: idToColumn!.toFixed(),
+          });
+        }
+        const newTask = destination!.index - 1 > i ? el : { ...el, order: el.order + 1 };
+        acc.push(newTask);
+        return acc;
+      }, [] as ITaskSet[]);
+      await updateTaskSet(resultTasks);
+    } catch {
+      toast.error(t('TOASTER.SERV_ERR'));
+    }
 
   };
 
-  const handleDragEnd = (result: DropResult) => {
+  const handleDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
     if (!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
     if (destination.droppableId === 'board') {
-      onDragEndColumn(result);
+      await onDragEndColumn(result);
     } else {
-      onDragEndTask(result);
+      await onDragEndTask(result);
     }
   };
 
@@ -88,7 +127,6 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
         })),
       );
     }
-
   };
 
   return (

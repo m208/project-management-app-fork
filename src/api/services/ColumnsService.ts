@@ -51,13 +51,13 @@ export const columnsApi = createApi({
       invalidatesTags: ['Columns'],
     }),
 
-    getColumnSet: build.query<IColumn[], string[]>({
+    getColumnSet: build.mutation<IColumn[], string[]>({
       query: data => ({
-        url: `/columnsSet?ids=${data.join('')}`,
+        url: `/columnsSet?ids=${data.join(',')}`,
         method: 'GET',
       }),
       transformResponse: normColumnsArrayId,
-      providesTags: () => ['Columns'],
+      invalidatesTags: ['Columns'],
     }),
 
     updateColumnSet: build.mutation<IColumn, Array<{_id: string; order: number}>>({
