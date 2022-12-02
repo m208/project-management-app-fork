@@ -1,7 +1,8 @@
+import { useNavigate } from '@tanstack/react-location';
 import EasyEdit from 'react-easy-edit';
 import { useTranslation } from 'react-i18next';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Task } from '../Task/Task';
 
@@ -19,14 +20,17 @@ interface ColumnProps {
   column: IColumn;
   boardId: string;
   onDelete: (col: IColumn) => void;
+  activeTask: string | null;
 }
-export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element => {
+export const Column = ({ boardId, column, onDelete, activeTask }: ColumnProps): JSX.Element => {
   const [showModalCreateTask, setShowModalCreateTask] = useState(false);
   const [showModalEditTask, setShowModalEditTask] = useState(false);
   const [editedTask, setEditedTask] = useState<ITask | null>(null);
 
   const { data: tasks, isLoading } =
     tasksApi.useGetTasksQuery({ boardId, colId: column.id });
+
+  const navigate = useNavigate();
 
   const { user } = useAppSelector(
     state => state.authReducer,
@@ -51,8 +55,17 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
     setEditedTask(task);
   };
 
-  const createNewTask = async (data: ModalData) => {
+  const closeModal = () =>{
+    setShowModalEditTask(false);
     setShowModalCreateTask(false);
+
+    if(activeTask){
+      navigate({ to: `/boards/${boardId}` });
+    }
+  };
+
+  const createNewTask = async (data: ModalData) => {
+    closeModal();
 
     await createTask({
       colId: column.id,
@@ -68,8 +81,6 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
   };
 
   const editTask = async (data: ModalData) => {
-    setShowModalEditTask(false);
-
     if(editedTask ){
       await updateTask( {
         colId: column.id,
@@ -87,6 +98,8 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
     }
 
     setEditedTask(null);
+
+    closeModal();
   };
 
   /*  editable title  */
@@ -122,6 +135,16 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
     setShowConfirmation(true);
   };
 
+  useEffect(() => {
+    if(activeTask) {
+      const task = tasks?.find(el=>el.id === activeTask);
+      if (task) {
+        setShowModalEditTask(true);
+        setEditedTask(task);
+      }
+    }
+  }, [activeTask, tasks]);
+
   return (
     <section className="column-wrapper">
 
@@ -131,14 +154,14 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
       <ModalForm
         type ='CREATE_TASK'
         modalSubmit={createNewTask}
-        modalAbort={()=>setShowModalCreateTask(false)}
+        modalAbort={closeModal}
       />)}
 
       {((showModalEditTask) &&
       <ModalForm
         type ='EDIT_TASK'
         modalSubmit={editTask}
-        modalAbort={()=>setShowModalEditTask(false)}
+        modalAbort={closeModal}
         initialData={{ title: editedTask?.title || '', description: editedTask?.description }}
       />)}
 

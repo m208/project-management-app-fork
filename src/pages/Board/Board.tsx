@@ -1,4 +1,4 @@
-import { Link, useMatch } from '@tanstack/react-location';
+import { Link, MakeGenerics, useMatch, useSearch } from '@tanstack/react-location';
 import { useTranslation } from 'react-i18next';
 
 import { ColumnsContainer } from './ColumnsContainer/ColumnsContainer';
@@ -8,14 +8,24 @@ import { BoardInfo } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './Board.pcss';
 
+type LocationGenerics = MakeGenerics<{
+  Search: {
+    task?: string;
+  };
+}>;
+
 export const Board = (): JSX.Element => {
   const { data: { boardId } } = useMatch();
   const { data: board,  isLoading, error } = boardsApi.useGetBoardQuery(boardId as string);
 
   const { t } = useTranslation();
 
+  const search = useSearch<LocationGenerics>();
+
   const title = board? (JSON.parse(board.title) as BoardInfo).title : '';
   const description = board? (JSON.parse(board.title) as BoardInfo).description : '';
+
+  const activeTask = (board && search.task) ? search.task : null;
 
   return (
     <section className="board">
@@ -51,7 +61,10 @@ export const Board = (): JSX.Element => {
           </div>
 
           <div className="board-wrapper">
-            <ColumnsContainer boardId={board.id} />
+            <ColumnsContainer
+              boardId={board.id}
+              activeTask={activeTask}
+            />
           </div>
         </>
       )}
