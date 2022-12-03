@@ -16,7 +16,7 @@ import { authSlice } from '@/store/reducers/AuthSlice';
 export const Profile = (): JSX.Element => {
   const { t } = useTranslation();
 
-  const { user, isLoggedIn } = useAppSelector(state => state.authReducer);
+  const { user } = useAppSelector(state => state.authReducer);
   const dispatch = useAppDispatch();
   const { logOff } = authSlice.actions;
 
@@ -25,15 +25,18 @@ export const Profile = (): JSX.Element => {
   const {
     data: userData,
     isLoading: isUserLoading,
-    isError,
-  } = userApi.useGetUserQuery(userId, { skip: !isLoggedIn });
-  const [updateUser, { error, isLoading: updateIsLoading }] = userApi.useUpdateUserMutation();
-  const [removeUser, { isLoading: removeIsLoading }] = userApi.useRemoveUserMutation();
+  } = userApi.useGetUserQuery(userId);
+
+  const [updateUser, { isSuccess: updSuccess, isLoading: updateIsLoading }]
+    = userApi.useUpdateUserMutation();
+
+  const [removeUser, { isSuccess: delSuccess, isLoading: removeIsLoading }]
+    = userApi.useRemoveUserMutation();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      login: userData?.login || '',
-      name: userData?.name || '',
+      login: userData?.login || user!.login || '',
+      name: userData?.name || user!.name || '',
       password: '' },
   });
   const navigate = useNavigate();
@@ -61,10 +64,14 @@ export const Profile = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (delSuccess) {
+      toast.success(t('PROFILE.DELETE_OK'));
       navigate({ to: '/' });
     }
-  }, [isLoggedIn, navigate]);
+    if (updSuccess) {
+      toast.success(t('PROFILE.UPD_OK'));
+    }
+  }, [updSuccess, delSuccess]);
 
   return (
     <section className="profile">
@@ -79,7 +86,6 @@ export const Profile = (): JSX.Element => {
           <input
             placeholder={`${t('SIGN_UP.LOGIN')}` }
             className='profile-input'
-            defaultValue={userData?.login}
             {...register('login', {
               required: true,
               pattern: {
@@ -105,7 +111,6 @@ export const Profile = (): JSX.Element => {
           <input
             placeholder={`${t('SIGN_UP.NAME')}` }
             className='profile-input'
-            defaultValue={userData?.name}
             {...register('name', {
               required: true,
               pattern: {

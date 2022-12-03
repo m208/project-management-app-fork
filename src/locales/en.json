@@ -56,7 +56,9 @@
     "DELETE": "DELETE MY ACCOUNT",
     "SURE": "Are you sure? This action is irreversible!",
     "OK": "OK",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "UPD_OK": "Profile updated",
+    "DELETE_OK": "Profile deleted"
   },
   "BOARD": {
     "OWNER": "created by",
