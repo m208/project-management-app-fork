@@ -60,7 +60,7 @@ export const Column = ({ boardId, column, onDelete, activeTask }: ColumnProps): 
     setShowModalCreateTask(false);
 
     if(activeTask){
-      navigate({ to: `/boards/${boardId}` });
+      navigate({ to: `/boards/${boardId}`, replace:true });
     }
   };
 

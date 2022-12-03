@@ -152,5 +152,9 @@
     "POINT1": "Server deploy",
     "POINT2": "Basic structure of the application",
     "POINT3": "API requests"
+  },
+  "SEARCH": {
+    "PLACEHOLDER": "Search...",
+    "NOT_FOUND": "Nothing found"
   }
 }
