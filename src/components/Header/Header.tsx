@@ -16,7 +16,7 @@ import './Header.pcss';
 
 export const Header = (): JSX.Element => {
   const { t } = useTranslation();
-  const { isLoggedIn, user } = useAppSelector(state => state.authReducer);
+  const { isLoggedIn } = useAppSelector(state => state.authReducer);
   const { logOff } = authSlice.actions;
   const dispatch = useAppDispatch();
 
@@ -61,41 +61,47 @@ export const Header = (): JSX.Element => {
             </Link>
           </div>
 
-          <nav className={navClass}>
-            <ul className='nav-list'>
-              {!isLoggedIn && (
-                <>
-                  <li className='nav-button'>
-                    <Link to='/signin' onClick={onNavListClick}>{t('AUTH.LOG_IN')}</Link>
-                  </li>
+          <div className="header-items">
 
-                  <li className='nav-button'>
-                    <Link to='/signup' onClick={onNavListClick}>{t('AUTH.SIGN_UP')}</Link>
-                  </li>
-                </>
-              )}
+            {isLoggedIn && (
+              <SearchBar/>
+            )}
 
-              {isLoggedIn && (
-                <>
-                  <li>
-                    <SearchBar/>
-                  </li>
+            <nav className={navClass}>
 
-                  <li className='nav-button'>
-                    <Link to='/boards' onClick={onNavListClick}>{t('HEADER.BOARDS')}</Link>
-                  </li>
+              <ul className='nav-list'>
+                {!isLoggedIn && (
+                  <>
+                    <li className='nav-button'>
+                      <Link to='/signin' onClick={onNavListClick}>{t('AUTH.LOG_IN')}</Link>
+                    </li>
 
-                  <li className='nav-button'>
-                    <Link to='/profile' onClick={onNavListClick}>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
-                  </li>
+                    <li className='nav-button'>
+                      <Link to='/signup' onClick={onNavListClick}>{t('AUTH.SIGN_UP')}</Link>
+                    </li>
+                  </>
+                )}
 
-                  <li className='nav-button'>
-                    <Link to='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
+                {isLoggedIn && (
+                  <>
+
+                    <li className='nav-button'>
+                      <Link to='/boards' onClick={onNavListClick}>{t('HEADER.BOARDS')}</Link>
+                    </li>
+
+                    <li className='nav-button'>
+                      <Link to='/profile' onClick={onNavListClick}>{`${t('HEADER.PROFILE')}`}</Link>
+                    </li>
+
+                    <li className='nav-button'>
+                      <Link to='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </nav>
+
+          </div>
 
           <LangSwitcher />
           <Hamburger toggled={isOpen} onToggle={onToggle} color="white" rounded />
