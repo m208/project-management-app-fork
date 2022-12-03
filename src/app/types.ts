@@ -1,5 +1,20 @@
 export type Languages = 'en' | 'ru';
 
+export interface IErrorResponse {
+  status:	number;
+  data: {
+    statusCode: number;
+    message:	string;
+  };
+
+}
+export interface ISignInOk {
+  token: string;
+  id: string;
+  name: string;
+  login: string;
+}
+
 export interface IUser {
   name: string;
   login: string;
