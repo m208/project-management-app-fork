@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 import { saveLocalOnLogout } from '@/app/auth';
 import appLogoPath from '@/assets/png/app-logo.png';
@@ -64,11 +65,11 @@ export const Header = (): JSX.Element => {
             <ul className='nav-list'>
               {!isLoggedIn && (
                 <>
-                  <li>
+                  <li className='nav-button'>
                     <Link to='/signin' onClick={onNavListClick}>{t('AUTH.LOG_IN')}</Link>
                   </li>
 
-                  <li>
+                  <li className='nav-button'>
                     <Link to='/signup' onClick={onNavListClick}>{t('AUTH.SIGN_UP')}</Link>
                   </li>
                 </>
@@ -77,14 +78,18 @@ export const Header = (): JSX.Element => {
               {isLoggedIn && (
                 <>
                   <li>
+                    <SearchBar/>
+                  </li>
+
+                  <li className='nav-button'>
                     <Link to='/boards' onClick={onNavListClick}>{t('HEADER.BOARDS')}</Link>
                   </li>
 
-                  <li>
+                  <li className='nav-button'>
                     <Link to='/profile' onClick={onNavListClick}>{`${t('HEADER.PROFILE')} (${user?.name || user!.login})`}</Link>
                   </li>
 
-                  <li>
+                  <li className='nav-button'>
                     <Link to='/' onClick={logOut}>{t('AUTH.SIGN_OUT')}</Link>
                   </li>
                 </>
