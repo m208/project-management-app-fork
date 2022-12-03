@@ -127,7 +127,7 @@
   "CREATE_COLUMN": {
     "HEADING": "Новая колонка",
     "SUBMIT": "СОЗДАТЬ",
-    "NAME": "Название"
+    "NAME": "Название",
     "REQUIRED_NAME": "Введите название колонки"
   },
   "MEMBER_A_RUMAKIN": {
