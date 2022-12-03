@@ -89,7 +89,10 @@
     "LOGGED_OUT": "Logged out...",
     "LOGGED_IN": "Greetings, ",
     "SERV_ERR": "Server error...",
-    "BAD_REQUEST": "Incorrect login or password",
+    "BAD_REQUEST": "Bad request",
+    "AUTH_ERR": "Incorrect login or password",
+    "AUTH_OK": "Greetings",
+    "REG_ERR": "Login already exist",
     "REG_OK": "Registration succesful"
   },
   "404": {
