@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 import { useState } from 'react';
@@ -5,7 +8,8 @@ import { useState } from 'react';
 import { Column } from '../Column/Column';
 
 import { columnsApi } from '@/api/services/ColumnsService';
-import { IColumn } from '@/app/types';
+import { tasksApi } from '@/api/services/TasksService';
+import { IColumn, ITaskResponse, ITaskSet } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './ColumnsContainer.pcss';
 import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
@@ -22,6 +26,11 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   const [createCol, { error, isLoading: crLoading }] = columnsApi.useCreateColumnMutation();
   const [deleteCol, { isLoading: delLoading }] = columnsApi.useDeleteColumnMutation();
   const [updateColOrder] = columnsApi.useUpdateColumnSetMutation();
+  const [getColumnsSet] = columnsApi.useGetColumnSetMutation();
+
+  const [getTasksByColumn] = tasksApi.useGetTasksByColumnMutation();
+  const [getTasksSet] = tasksApi.useGetTasksSetMutation();
+  const [updateTaskSet] = tasksApi.useUpdateTasksSetMutation();
 
   const { t } = useTranslation();
 
@@ -43,6 +52,70 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     }
   };
 
+  const transformTasks = (tasks: ITaskResponse[]) => {
+    console.log(tasks);
+    const transformedTasks = tasks.map(el => {
+      const { _id: id, order, columnId } = el;
+      return { _id: id , order, columnId };
+    });
+    return transformedTasks;
+  };
+
+  const onDragEndColumn = async (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+  };
+
+  const onDragEndTask = async (result: DropResult) => {
+    console.log(result);
+
+    const { destination, source, draggableId } = result;
+    const idFromColumn = columns?.find(el => el.id === source.droppableId);
+    const idToColumn = columns?.find(el => el.id === destination!.droppableId);
+
+    const tasksSetToColumn = await getTasksByColumn({ boardId, colId: idFromColumn!.id });
+
+    try {
+      const copyedArrTasks = transformTasks((tasksSetToColumn['data']));
+
+      let reordered = [...copyedArrTasks]
+        .sort((a, b) => (a.order - b.order))
+        .map((el,i) =>( { ...el, order: i }));    // set orders by ascending
+
+      // eslint-disable-next-line no-underscore-dangle
+      const movedTask = reordered.find(el=>el._id === draggableId);
+      const [from, to ] = [movedTask!.order, destination!.index];
+
+      if (from > to) {
+        reordered.splice(from, 1);
+        reordered.splice(to, 0, movedTask!);
+      } else {
+        reordered.splice(to, 0, movedTask!);
+        reordered.splice(from, 1);
+      }
+
+      reordered = reordered.map((el,i) =>( { ...el, order: i }));
+
+      await updateTaskSet(reordered);
+
+    } catch {
+      toast.error(t('TOASTER.SERV_ERR'));
+    }
+
+  };
+
+  const handleDragEnd = async (result: DropResult) => {
+    const { destination, source } = result;
+    if (!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+    if (destination.droppableId === 'board') {
+      await onDragEndColumn(result);
+    } else {
+      await onDragEndTask(result);
+    }
+  };
+
   const handleDelete = async (col: IColumn) => {
     await deleteCol({
       col,
@@ -60,7 +133,6 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
         })),
       );
     }
-
   };
 
   return (
@@ -80,16 +152,19 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
 
       <div className="columns-wrapper">
 
-        {columns && [...columns]
-          .sort((a, b)=>(a.order - b.order))
-          .map(col =>
-            <Column
-              column = {col}
-              boardId = {boardId}
-              onDelete={handleDelete}
-              key = {col.id}
-            />,
-          )}
+        <DragDropContext
+          onDragEnd={handleDragEnd}>
+          {columns && [...columns]
+            .sort((a, b) => (a.order - b.order))
+            .map(col =>
+              <Column
+                column={col}
+                boardId={boardId}
+                onDelete={handleDelete}
+                key={col.id}
+              />,
+            )}
+        </DragDropContext>
 
         <div className="columns-add">
           <button

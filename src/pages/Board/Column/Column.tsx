@@ -1,3 +1,4 @@
+import { Droppable } from 'react-beautiful-dnd';
 import EasyEdit from 'react-easy-edit';
 import { useTranslation } from 'react-i18next';
 
@@ -167,16 +168,24 @@ export const Column = ({ boardId, column, onDelete }: ColumnProps): JSX.Element 
           </svg>
         </button>
 
-        <div className="column-body" >
-          {tasks && tasks.map(task =>
-            <Task
-              task={task}
-              onDelete={handleDeleteTask}
-              onEdit={()=>handleEditTask(task)}
-              key={task.id}
-            />,
+        <Droppable droppableId={column.id}>
+          {provided => (
+            <div className="column-body"
+              {...provided.droppableProps}
+              ref={provided.innerRef} >
+              {tasks && [...tasks].sort((a, b)=>(a.order-b.order)).map(task =>
+                <Task
+                  task={task}
+                  index={task.order}
+                  onDelete={handleDeleteTask}
+                  onEdit={() => handleEditTask(task)}
+                  key={task.id}
+                />,
+              )}
+              {provided.placeholder}
+            </div>
           )}
-        </div>
+        </Droppable>
 
         <div className="column-buttons col-bttn" >
           <button
