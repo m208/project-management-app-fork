@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Draggable } from 'react-beautiful-dnd';
-
 import { useState } from 'react';
 
 import {  ITask } from '@/app/types';
@@ -33,7 +32,17 @@ export const Task = ({ task, onDelete, onEdit, index }: TaskProps): JSX.Element 
             {...provided.dragHandleProps}
             ref={provided.innerRef}>
             <div className="task-inner">
-              <div className="task-content" onClick={() => onEdit(task)}>
+              <div 
+                className="task-content" 
+                onClick={() => onEdit(task)}
+                role="button"
+                tabIndex={0}
+                onKeyPress={e=>{
+                  if(e.code === 'Enter' || e.code === 'Space') {
+                    onEdit(task);
+                  }
+                }}
+               >
                 {task.title} order: {task.order}
               </div>
               <div className="task-buttons">
@@ -48,7 +57,6 @@ export const Task = ({ task, onDelete, onEdit, index }: TaskProps): JSX.Element 
                 </button>
               </div>
             </div>
-
           </div>
         )}
       </Draggable>

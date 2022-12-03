@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import { useEffect } from 'react';
 import './ModalForm.pcss';
 
 export type ModalFormTypes = 'CREATE_COLUMN' | 'CREATE_BOARD' | 'EDIT_BOARD' | 'CREATE_TASK' | 'EDIT_TASK';
@@ -27,8 +29,27 @@ export const ModalForm = ({
     modalSubmit({ description, title });
   };
 
+  useEffect(() => {
+    const keyUpHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        modalAbort();
+      }
+    };
+    document.addEventListener('keyup', keyUpHandler);
+    return () => {
+      document.removeEventListener('keyup', keyUpHandler);
+    };
+  }, [modalAbort]);
+
   return (
-    <div className='modal-wrapper'>
+    <>
+      <div
+        className='modal-wrapper'
+        onClick={modalAbort}
+        role='presentation'
+        onKeyPress={()=>{ }}
+      />
+
       <div className="modal-inner">
         <div className="modal-close">
           <button
@@ -51,12 +72,12 @@ export const ModalForm = ({
               placeholder={(t(`${type}.NAME`)).toString()}
               className='modalform-input'
               {...register('title', { required: true })}
-              aria-invalid={errors.name ? 'true' : 'false'}
+              aria-invalid={errors.title ? 'true' : 'false'}
               defaultValue={initialData?.title}
             />
 
             <div className="error-field">
-              {errors.name?.type === 'required' && (
+              {errors.title?.type === 'required' && (
                 <span role="alert">{(t(`${type}.REQUIRED_NAME`))}</span>
               )}
             </div>
@@ -70,14 +91,14 @@ export const ModalForm = ({
                 className='modalform-input'
                 cols={60} rows={5}
                 {...register('description', {
-                  required: false,
+                  required: (type === 'CREATE_TASK'),
                 })}
-                aria-invalid={errors.password ? 'true' : 'false'}
+                aria-invalid={errors.description ? 'true' : 'false'}
                 defaultValue={initialData?.description}
               />
 
               <div className="error-field">
-                {errors.password?.type === 'required' && (
+                {errors.description?.type === 'required' && (
                   <span role="alert">{(t(`${type}.REQUIRED_DESCRIPTION`))}</span>
                 )}
               </div>
@@ -94,7 +115,6 @@ export const ModalForm = ({
 
         </form>
       </div>
-
-    </div>
+    </>
   );
 };
