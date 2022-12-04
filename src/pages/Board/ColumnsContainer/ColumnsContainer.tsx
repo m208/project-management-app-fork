@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +8,7 @@ import { Column } from '../Column/Column';
 
 import { columnsApi } from '@/api/services/ColumnsService';
 import { tasksApi } from '@/api/services/TasksService';
-import { IColumn, ITaskResponse, ITaskSet } from '@/app/types';
+import { IColumn, ITaskResponse } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import './ColumnsContainer.pcss';
 import { ModalData, ModalForm } from '@/components/ModalForm/ModalForm';
@@ -25,12 +24,10 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
   const { data: columns, isLoading } = columnsApi.useGetColumnsQuery(boardId);
   const [createCol, { error, isLoading: crLoading }] = columnsApi.useCreateColumnMutation();
   const [deleteCol, { isLoading: delLoading }] = columnsApi.useDeleteColumnMutation();
-  const [updateColOrder] = columnsApi.useUpdateColumnSetMutation();
-  const [getColumnsSet] = columnsApi.useGetColumnSetMutation();
+  const [updateColOrder, { isLoading: updateColLoading }] = columnsApi.useUpdateColumnSetMutation();
 
   const [getTasksByColumn] = tasksApi.useGetTasksByColumnMutation();
-  const [getTasksSet] = tasksApi.useGetTasksSetMutation();
-  const [updateTaskSet] = tasksApi.useUpdateTasksSetMutation();
+  const [updateTaskSet, { isLoading: updateTaskLoading }] = tasksApi.useUpdateTasksSetMutation();
 
   const { t } = useTranslation();
 
@@ -52,8 +49,15 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     }
   };
 
+  const transformColumns = () => {
+    const transformedColumns = columns!.map(el => {
+      const { id, order } = el;
+      return { _id: id, order };
+    });
+    return transformedColumns;
+  };
+
   const transformTasks = (tasks: ITaskResponse[]) => {
-    console.log(tasks);
     const transformedTasks = tasks.map(el => {
       const { _id: id, order, columnId } = el;
       return { _id: id , order, columnId };
@@ -63,39 +67,64 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
 
   const onDragEndColumn = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
+
+    try {
+      let reorderedColumns = transformColumns().sort((a, b) => (a.order - b.order));
+      const [toIdx, fromIdx] = [destination!.index, source.index];
+      const movedColumn = reorderedColumns.find(({ _id }) => _id === draggableId);
+      if (!(toIdx + 1 - reorderedColumns.length)) {
+        reorderedColumns.splice(toIdx, 1);
+        reorderedColumns.push(movedColumn!);
+      } else {
+        reorderedColumns.splice(fromIdx, 1);
+        reorderedColumns.splice(toIdx, 0, movedColumn!);
+      }
+      reorderedColumns = reorderedColumns.map((el, i) => ({ ...el, order: i }));
+      await updateColOrder(reorderedColumns);
+      toast.success(t('TOASTER.SUCCESS_COL'));
+    } catch {
+      toast.error(t('TOASTER.SERV_ERR'));
+    }
   };
 
   const onDragEndTask = async (result: DropResult) => {
-    console.log(result);
 
     const { destination, source, draggableId } = result;
-    const idFromColumn = columns?.find(el => el.id === source.droppableId);
-    const idToColumn = columns?.find(el => el.id === destination!.droppableId);
 
-    const tasksSetToColumn = await getTasksByColumn({ boardId, colId: idFromColumn!.id });
+    const columnToId = destination!.droppableId;
+
+    const tasksSetToColumn = await getTasksByColumn({ boardId, colId: columnToId });
 
     try {
-      const copyedArrTasks = transformTasks((tasksSetToColumn['data']));
+      const copyedArrTasks = transformTasks((tasksSetToColumn['data'] as ITaskResponse[]));
 
       let reordered = [...copyedArrTasks]
         .sort((a, b) => (a.order - b.order))
-        .map((el,i) =>( { ...el, order: i }));    // set orders by ascending
+        .map((el, i) =>( { ...el, order: i }));    // set orders by ascending
 
-      // eslint-disable-next-line no-underscore-dangle
-      const movedTask = reordered.find(el=>el._id === draggableId);
-      const [from, to ] = [movedTask!.order, destination!.index];
+      if (destination?.droppableId === source.droppableId) {
+        const movedTask = reordered.find(({ _id }) => _id === draggableId);
+        const [fromIdx, toIdx] = [movedTask!.order, destination.index];
 
-      if (from > to) {
-        reordered.splice(from, 1);
-        reordered.splice(to, 0, movedTask!);
+        if (!(toIdx + 1 - reordered.length)) {
+          reordered.splice(fromIdx, 1);
+          reordered.push(movedTask!);
+        } else {
+          reordered.splice(fromIdx, 1);
+          reordered.splice(toIdx, 0, movedTask!);
+        }
       } else {
-        reordered.splice(to, 0, movedTask!);
-        reordered.splice(from, 1);
+        const movedTask = {
+          _id: draggableId,
+          order: destination!.index,
+          columnId: destination!.droppableId,
+        };
+        reordered.splice(destination!.index, 0, movedTask);
       }
-
-      reordered = reordered.map((el,i) =>( { ...el, order: i }));
+      reordered = reordered.map((el, i) => ({ ...el, order: i }));
 
       await updateTaskSet(reordered);
+      toast.success(t('TOASTER.SUCCESS_TASK'));
 
     } catch {
       toast.error(t('TOASTER.SERV_ERR'));
@@ -109,7 +138,8 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
-    if (destination.droppableId === 'board') {
+    if (destination.droppableId === 'all-columns') {
+
       await onDragEndColumn(result);
     } else {
       await onDragEndTask(result);
@@ -141,56 +171,63 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
         <p> {`${JSON.stringify(error)}`}</p>
       )}
 
-      {((isLoading || delLoading || crLoading) && <Loader/> )}
+      {((isLoading || delLoading || crLoading || updateColLoading || updateTaskLoading) && <Loader />)}
 
       {((showModalCreateCol) &&
-      <ModalForm
-        type ='CREATE_COLUMN'
-        modalSubmit={createNewColumn}
-        modalAbort={()=>setShowModalCreateCol(false)}
-      />)}
+        <ModalForm
+          type='CREATE_COLUMN'
+          modalSubmit={createNewColumn}
+          modalAbort={() => setShowModalCreateCol(false)}
+        />)}
 
-      <div className="columns-wrapper">
+      <DragDropContext
+        onDragEnd={handleDragEnd}>
+        <Droppable droppableId="all-columns" direction="horizontal" type="column">
+          {provided => (
+            <div className="columns-wrapper"
+              {...provided.droppableProps}
+              ref={provided.innerRef}>
+              {columns && [...columns]
+                .sort((a, b) => (a.order - b.order))
+                .map(col =>
+                  <Column
+                    column={col}
+                    boardId={boardId}
+                    onDelete={handleDelete}
+                    key={col.id}
+                    index={col.order}
+                  />,
+                )}
+              {provided.placeholder}
+              <div className="columns-add">
+                <button
+                  type='button'
+                  className='columns-add-bttn'
+                  onClick={handleCreate}
+                >
+                  {t('TASKS.ADD_COL')}
+                </button>
 
-        <DragDropContext
-          onDragEnd={handleDragEnd}>
-          {columns && [...columns]
-            .sort((a, b) => (a.order - b.order))
-            .map(col =>
-              <Column
-                column={col}
-                boardId={boardId}
-                onDelete={handleDelete}
-                key={col.id}
-              />,
-            )}
-        </DragDropContext>
+                <button
+                  type='button'
+                  className='columns-add-bttn'
+                  onClick={handleShuffle}
+                >
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                      <path fillRule="evenodd" d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a.75.75 0 010-1.5h11.69l-3.22-3.22a.75.75 0 010-1.06zm-7.94 9a.75.75 0 010 1.06l-3.22 3.22H16.5a.75.75 0 010 1.5H4.81l3.22 3.22a.75.75 0 11-1.06 1.06l-4.5-4.5a.75.75 0 010-1.06l4.5-4.5a.75.75 0 011.06 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
 
-        <div className="columns-add">
-          <button
-            type = 'button'
-            className='columns-add-bttn'
-            onClick={handleCreate}
-          >
-            {t('TASKS.ADD_COL')}
-          </button>
+                  <span>{t('TASKS.REVERSE')}</span>
+                </button>
+              </div>
 
-          <button
-            type = 'button'
-            className='columns-add-bttn'
-            onClick={handleShuffle}
-          >
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fillRule="evenodd" d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a.75.75 0 010-1.5h11.69l-3.22-3.22a.75.75 0 010-1.06zm-7.94 9a.75.75 0 010 1.06l-3.22 3.22H16.5a.75.75 0 010 1.5H4.81l3.22 3.22a.75.75 0 11-1.06 1.06l-4.5-4.5a.75.75 0 010-1.06l4.5-4.5a.75.75 0 011.06 0z" clipRule="evenodd" />
-              </svg>
-            </span>
+            </div>
+          )}
+        </Droppable>
 
-            <span>{t('TASKS.REVERSE')}</span>
-          </button>
-        </div>
-
-      </div>
+      </DragDropContext>
     </section>
   );
 };
