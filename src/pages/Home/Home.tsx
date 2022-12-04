@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { useTranslation } from 'react-i18next';
 
 import './Home.pcss';
@@ -61,7 +62,6 @@ export const Home = (): JSX.Element => {
 
               <iframe src='https://www.youtube.com/embed/GNrdg3PzpJQ'
                 frameBorder='0'
-                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                 allowFullScreen
                 title='video'
                 className='video-frame'
@@ -85,7 +85,7 @@ export const Home = (): JSX.Element => {
                   <ul className='member_points'>
                     {
                       member.points.map(point => (
-                        <li key='1' className='duty-point'><span>{t(point)}</span></li>
+                        <li key={nanoid()} className='duty-point'><span>{t(point)}</span></li>
                       ))
                     }
                   </ul>
