@@ -87,6 +87,16 @@ export interface ITask {
   users:	Array<string>;
 }
 
+export interface ITasksByColumn {
+  data: ITaskResponse[];
+}
+
+export interface ITaskSet {
+  _id: string;
+  order: number;
+  columnId: string;
+}
+
 export type ITaskResponse =
   Omit <ITask, 'id'> & {
     _id: string;

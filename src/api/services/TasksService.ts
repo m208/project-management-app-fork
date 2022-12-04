@@ -3,15 +3,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { generateHeaders } from './prepareHeaders';
 
 import { API_ENDPOINT } from '@/app/constants';
-import { ITask, ITaskPost, ITaskResponse } from '@/app/types';
+import { ITask, ITaskPost, ITaskResponse, ITasksByColumn, ITaskSet } from '@/app/types';
 
 const normTasksId = (response: ITaskResponse ) => {
   const { title, boardId, order, columnId, description, userId, users, _id: id } = response;
   return { title, boardId, order, columnId, description, userId, users, id };
 };
 
-const normTasksArrayId =  (response: ITaskResponse[]) =>
-  response.map(task=>normTasksId(task));
+const normTasksArrayId =  (response: ITaskResponse[]) => {
+  const result = response.map(task=>normTasksId(task));
+  return result;
+};
 
 export const tasksApi = createApi({
   reducerPath: 'tasksApi',
@@ -31,6 +33,13 @@ export const tasksApi = createApi({
       }),
       transformResponse: normTasksArrayId,
       providesTags: () => ['Tasks'],
+    }),
+
+    getTasksByColumn: build.mutation<ITasksByColumn, {boardId: string; colId: string}>({
+      query: data => ({
+        url: `/boards/${data.boardId}/columns/${data.colId}/tasks`,
+      }),
+      invalidatesTags: ['Tasks'],
     }),
 
     createTask: build.mutation<ITask, {task: ITaskPost; colId: string; boardId: string }>({
@@ -65,6 +74,25 @@ export const tasksApi = createApi({
         method: 'GET',
       }),
       transformResponse: normTasksArrayId,
+    }),
+
+    getTasksSet: build.mutation<ITask[], string[]>({
+      query: data => ({
+        url: `/tasksSet?ids=${data.join(',')}`,
+        method: 'GET',
+      }),
+      transformResponse: normTasksArrayId,
+      invalidatesTags: ['Tasks'],
+    }),
+
+    updateTasksSet: build.mutation<ITask[], ITaskSet[]>({
+      query: data => ({
+        url: '/tasksSet',
+        method: 'PATCH',
+        body: data,
+      }),
+      transformResponse: normTasksArrayId,
+      invalidatesTags: ['Tasks'],
     }),
 
   }),

@@ -13,7 +13,7 @@ export const teamMembers = [
     id: 2,
     name: 'MEMBER_T_RUSAK.NAME',
     img: 'girl',
-    points: ['MEMBER_T_RUSAK.POINT1', 'MEMBER_T_RUSAK.POINT2', 'MEMBER_T_RUSAK.POINT3', 'MEMBER_T_RUSAK.POINT4', 'MEMBER_T_RUSAK.POINT5' ],
+    points: ['MEMBER_T_RUSAK.POINT1', 'MEMBER_T_RUSAK.POINT2', 'MEMBER_T_RUSAK.POINT3', 'MEMBER_T_RUSAK.POINT4' ],
   },
   {
     id: 3,
