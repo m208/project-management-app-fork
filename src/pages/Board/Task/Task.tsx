@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Draggable } from 'react-beautiful-dnd';
+
 import { useState } from 'react';
 
 import {  ITask } from '@/app/types';
@@ -26,23 +25,23 @@ export const Task = ({ task, onDelete, onEdit, index }: TaskProps): JSX.Element 
       {(showConfirmation) && <Confirmation componentName="TASK" deleteFunc={() => onDelete(task)} hideConfirmFunc={setShowConfirmation}/>}
 
       <Draggable draggableId={task.id} index={index}>
-        {provided => (
+        {providedCol => (
           <div className="task-wrapper"
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}>
+            {...providedCol.draggableProps}
+            {...providedCol.dragHandleProps}
+            ref={providedCol.innerRef}>
             <div className="task-inner">
-              <div 
-                className="task-content" 
+              <div
+                className="task-content"
                 onClick={() => onEdit(task)}
                 role="button"
                 tabIndex={0}
-                onKeyPress={e=>{
-                  if(e.code === 'Enter' || e.code === 'Space') {
+                onKeyUp={e => {
+                  if (e.code === 'Enter' || e.code === 'Space') {
                     onEdit(task);
                   }
                 }}
-               >
+              >
                 {task.title} order: {task.order}
               </div>
               <div className="task-buttons">

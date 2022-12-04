@@ -90,7 +90,9 @@
     "LOGGED_IN": "Greetings, ",
     "SERV_ERR": "Server error...",
     "BAD_REQUEST": "Incorrect login or password",
-    "REG_OK": "Registration succesful"
+    "REG_OK": "Registration succesful",
+    "SUCCESS_COL": "Columns order was updated",
+    "SUCCESS_TASK": "Tasks order was updated"
   },
   "404": {
     "ERROR": "Error 404",
