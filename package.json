@@ -92,6 +92,7 @@
     "hamburger-react": "^2.5.0",
     "i18next": "^22.0.5",
     "i18next-browser-languagedetector": "^7.0.1",
+    "nanoid": "^4.0.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",

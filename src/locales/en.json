@@ -142,10 +142,9 @@
   "MEMBER_T_RUSAK": {
     "NAME": "Tatsiana Rusak",
     "POINT1": "Design",
-    "POINT2": "Welcome page",
-    "POINT3": "Confirmation dialog",
-    "POINT4": "Editable column title",
-    "POINT5": "Stylization of components"
+    "POINT2": "Layout",
+    "POINT3": "Stylization of components",
+    "POINT4": "Adaptive"
   },
   "MEMBER_A_KOMISSAROV": {
     "NAME": "Andrey Komissarov",
