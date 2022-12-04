@@ -1,9 +1,11 @@
-.modal-wrapper {
+.modal-overlay {
   @apply flex flex-col w-full items-center justify-center fixed bottom-0 top-0 right-0 left-0 bg-slate-700 bg-opacity-50 z-10 px-2;
 }
 
 .modal-inner {
-  @apply flex flex-col bg-white px-6 py-3 shadow-xl rounded-xl fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10;
+  @apply flex flex-col bg-white px-2 py-3 shadow-xl rounded-xl fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10;
+  width: 90%;
+  max-width: 30rem;
 
   & .modal-close {
     @apply flex justify-end;
@@ -14,8 +16,8 @@
   }
 
   & .modalform {
-    @apply flex flex-col items-center;
-    /* min-width: 25rem; */
+    @apply flex flex-col items-center w-full;
+    max-width: 25rem;
 
     & .modalform-header {
       @apply text-black text-xl;
