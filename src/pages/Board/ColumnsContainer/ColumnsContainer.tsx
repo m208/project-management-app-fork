@@ -69,18 +69,15 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
     const { destination, source, draggableId } = result;
 
     try {
-      let reorderedColumns = transformColumns();
+      let reorderedColumns = transformColumns().sort((a, b) => (a.order - b.order));
       const [toIdx, fromIdx] = [destination!.index, source.index];
       const movedColumn = reorderedColumns.find(({ _id }) => _id === draggableId);
-      if (fromIdx > toIdx) {
-        reorderedColumns.splice(fromIdx, 1);
-        reorderedColumns.splice(toIdx, 0, movedColumn!);
-      } else if (toIdx + 1 === reorderedColumns.length) {
+      if (!(toIdx + 1 - reorderedColumns.length)) {
         reorderedColumns.splice(toIdx, 1);
         reorderedColumns.push(movedColumn!);
       } else {
-        reorderedColumns.splice(toIdx, 0, movedColumn!);
         reorderedColumns.splice(fromIdx, 1);
+        reorderedColumns.splice(toIdx, 0, movedColumn!);
       }
       reorderedColumns = reorderedColumns.map((el, i) => ({ ...el, order: i }));
       await updateColOrder(reorderedColumns);
@@ -109,15 +106,12 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
         const movedTask = reordered.find(({ _id }) => _id === draggableId);
         const [fromIdx, toIdx] = [movedTask!.order, destination.index];
 
-        if (fromIdx > toIdx) {
-          reordered.splice(fromIdx, 1);
-          reordered.splice(toIdx, 0, movedTask!);
-        } else if (toIdx + 1 === reordered.length) {
+        if (!(toIdx + 1 - reordered.length)) {
           reordered.splice(fromIdx, 1);
           reordered.push(movedTask!);
         } else {
-          reordered.splice(toIdx, 0, movedTask!);
           reordered.splice(fromIdx, 1);
+          reordered.splice(toIdx, 0, movedTask!);
         }
       } else {
         const movedTask = {
@@ -130,7 +124,7 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
       reordered = reordered.map((el, i) => ({ ...el, order: i }));
 
       await updateTaskSet(reordered);
-      toast.success(t('TOASTER.SUCCESS-TASK'));
+      toast.success(t('TOASTER.SUCCESS_TASK'));
 
     } catch {
       toast.error(t('TOASTER.SERV_ERR'));
