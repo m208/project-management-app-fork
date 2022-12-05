@@ -68,6 +68,14 @@ export const tasksApi = createApi({
       invalidatesTags: ['Tasks'],
     }),
 
+    getTasksSetbySearch: build.mutation<ITask[], string>({
+      query: data => ({
+        url: `/tasksSet?search=${data}`,
+        method: 'GET',
+      }),
+      transformResponse: normTasksArrayId,
+    }),
+
     getTasksSet: build.mutation<ITask[], string[]>({
       query: data => ({
         url: `/tasksSet?ids=${data.join(',')}`,
@@ -86,5 +94,6 @@ export const tasksApi = createApi({
       transformResponse: normTasksArrayId,
       invalidatesTags: ['Tasks'],
     }),
+
   }),
 });

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
+import { useNavigate } from '@tanstack/react-location';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import EasyEdit from 'react-easy-edit';
 import { useTranslation } from 'react-i18next';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Task } from '../Task/Task';
 
@@ -22,14 +23,18 @@ interface ColumnProps {
   boardId: string;
   onDelete: (col: IColumn) => void;
   index: number;
+  activeTask: string | null;
 }
-export const Column = ({ boardId, column, onDelete, index }: ColumnProps): JSX.Element => {
+
+export const Column = ({ boardId, column, onDelete, index, activeTask }: ColumnProps): JSX.Element => {
   const [showModalCreateTask, setShowModalCreateTask] = useState(false);
   const [showModalEditTask, setShowModalEditTask] = useState(false);
   const [editedTask, setEditedTask] = useState<ITask | null>(null);
 
   const { data: tasks, isLoading } =
     tasksApi.useGetTasksQuery({ boardId, colId: column.id });
+
+  const navigate = useNavigate();
 
   const { user } = useAppSelector(
     state => state.authReducer,
@@ -54,8 +59,17 @@ export const Column = ({ boardId, column, onDelete, index }: ColumnProps): JSX.E
     setEditedTask(task);
   };
 
-  const createNewTask = async (data: ModalData) => {
+  const closeModal = () =>{
+    setShowModalEditTask(false);
     setShowModalCreateTask(false);
+
+    if(activeTask){
+      navigate({ to: `/boards/${boardId}`, replace:true });
+    }
+  };
+
+  const createNewTask = async (data: ModalData) => {
+    closeModal();
 
     await createTask({
       colId: column.id,
@@ -71,8 +85,6 @@ export const Column = ({ boardId, column, onDelete, index }: ColumnProps): JSX.E
   };
 
   const editTask = async (data: ModalData) => {
-    setShowModalEditTask(false);
-
     if(editedTask ){
       await updateTask( {
         colId: column.id,
@@ -90,6 +102,8 @@ export const Column = ({ boardId, column, onDelete, index }: ColumnProps): JSX.E
     }
 
     setEditedTask(null);
+
+    closeModal();
   };
 
   /*  editable title  */
@@ -125,6 +139,16 @@ export const Column = ({ boardId, column, onDelete, index }: ColumnProps): JSX.E
     setShowConfirmation(true);
   };
 
+  useEffect(() => {
+    if(activeTask) {
+      const task = tasks?.find(el=>el.id === activeTask);
+      if (task) {
+        setShowModalEditTask(true);
+        setEditedTask(task);
+      }
+    }
+  }, [activeTask, tasks]);
+
   return (
     <Draggable draggableId={column.id} index={index}>
       {provided => (
@@ -139,14 +163,14 @@ export const Column = ({ boardId, column, onDelete, index }: ColumnProps): JSX.E
             <ModalForm
               type='CREATE_TASK'
               modalSubmit={createNewTask}
-              modalAbort={() => setShowModalCreateTask(false)}
+              modalAbort={closeModal}
             />)}
 
           {((showModalEditTask) &&
             <ModalForm
               type='EDIT_TASK'
               modalSubmit={editTask}
-              modalAbort={() => setShowModalEditTask(false)}
+              modalAbort={closeModal}
               initialData={{ title: editedTask?.title || '', description: editedTask?.description }}
             />)}
 

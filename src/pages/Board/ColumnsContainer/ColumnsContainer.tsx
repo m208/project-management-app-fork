@@ -16,9 +16,10 @@ import { getBiggestOrder } from '@/utils/utils';
 
 interface ColumnsContainerProps {
   boardId: string;
+  activeTask: string | null;
 }
 
-export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Element => {
+export const ColumnsContainer = ({ boardId, activeTask }: ColumnsContainerProps): JSX.Element => {
   const [showModalCreateCol, setShowModalCreateCol] = useState(false);
 
   const { data: columns, isLoading } = columnsApi.useGetColumnsQuery(boardId);
@@ -196,6 +197,7 @@ export const ColumnsContainer = ({ boardId }: ColumnsContainerProps): JSX.Elemen
                     onDelete={handleDelete}
                     key={col.id}
                     index={col.order}
+                    activeTask = {activeTask}
                   />,
                 )}
               {provided.placeholder}

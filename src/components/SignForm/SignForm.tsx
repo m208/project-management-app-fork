@@ -1,34 +1,50 @@
 import { useNavigate, Link } from '@tanstack/react-location';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
 import { useEffect, useRef } from 'react';
 
 import { SignFormTypes } from './SignFormLabels';
 
+import { authApi } from '@/api/services/AuthService';
 import { saveLocalAuthState } from '@/app/auth';
+import { IErrorResponse } from '@/app/types';
 import { Loader } from '@/components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import './SignForm.pcss';
-import { userLogIn, userLogUp } from '@/store/reducers/AuthThunks';
+import { authSlice } from '@/store/reducers/AuthSlice';
 
 interface SignFormProps {
   type: SignFormTypes;
 }
 
 export const SignForm = ({ type }: SignFormProps): JSX.Element => {
+  const [signin, {
+    data: sInData,
+    isLoading: sInLoading,
+    error: sInError,
+  }] = authApi.useSigninMutation();
+
+  const [signup, {
+    isLoading: sUpLoading,
+    error: sUpError,
+    isSuccess: sUpSuccess,
+  }] = authApi.useSignupMutation();
 
   const loginRef = useRef<string>('');
   const passwordRef = useRef<string>('');
+
   const { t } = useTranslation();
 
-  const { isLoggedIn, user, token, awaiting, userCreated } = useAppSelector(
+  const { isLoggedIn, user, token } = useAppSelector(
     state => state.authReducer,
   );
+  const { signIn } = authSlice.actions;
   const dispatch = useAppDispatch();
 
-  const dispathLogIn = async (login: string, password: string)=>{
-    await dispatch(userLogIn({ login, password }));
+  const signInAction = async (login:string, password: string) => {
+    await signin({ login, password });
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -38,31 +54,55 @@ export const SignForm = ({ type }: SignFormProps): JSX.Element => {
     const { login, password, name } = data;
 
     if (type === 'SIGN_IN') {
-      dispathLogIn(login, password).catch(() => {});
+      await signin({ login, password });
 
     } else if (type === 'SIGN_UP'){
       [loginRef.current, passwordRef.current] = [login, password];
-      await dispatch(userLogUp({ login, password, name }));
+      await signup({ login, password, name });
     }
-
   };
-
   useEffect(() => {
-    if(userCreated){
-      dispathLogIn(loginRef.current, passwordRef.current).catch(() => {});
+    if(sInData){
+      toast.success(`${t('TOASTER.AUTH_OK')}, ${sInData.name}!`);
+      dispatch(signIn( sInData ));
     }
-  }, [userCreated]);
+  }, [sInData]); // that is enough
 
   useEffect(() => {
     if(isLoggedIn){
       saveLocalAuthState({ isLoggedIn, user, token });
       navigate({ to: '/boards' });
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn]); // that is enough
+
+  useEffect(() => {
+    if(sUpSuccess){
+      toast.success(t('TOASTER.REG_OK'));
+      signInAction(loginRef.current, passwordRef.current)
+        .catch(()=>{});
+    }
+  }, [sUpSuccess]); // do not include signInAction to deps (inf loop)
+
+  useEffect(() => {
+    if(sInError){
+      if ((sInError as IErrorResponse).status === 401){
+        toast.error(t('TOASTER.AUTH_ERR'));
+      } else {
+        toast.error(t('TOASTER.BAD_REQUEST'));
+      }
+    }
+    if(sUpError){
+      if ((sUpError as IErrorResponse).status === 409){
+        toast.error(t('TOASTER.REG_ERR'));
+      } else {
+        toast.error(t('TOASTER.BAD_REQUEST'));
+      }
+    }
+  }, [sUpError, sInError]);
 
   return (
     <>
-      {(awaiting && <Loader/> )}
+      {((sInLoading || sUpLoading) && <Loader/> )}
 
       <div className='signform-wrapper'>
         <form className="signform" onSubmit={(handleSubmit(onSubmit))}>

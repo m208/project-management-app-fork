@@ -5,7 +5,7 @@ import { userLogIn, userLogUp } from './AuthThunks';
 
 import { ISignInResponse, ISignUpResponse } from '@/api/apiAuth';
 import { getLocalAuthState } from '@/app/auth';
-import { IAuthState } from '@/app/types';
+import { IAuthState, ISignInOk } from '@/app/types';
 
 const getInitalState: () => IAuthState = () => {
   const localData = getLocalAuthState();
@@ -40,6 +40,11 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
       state.token = '';
+    },
+    signIn (state, action: PayloadAction<ISignInOk>) {
+      state.isLoggedIn = true;
+      state.user = action.payload;
+      state.token = action.payload.token;
     },
   },
 

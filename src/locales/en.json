@@ -2,7 +2,7 @@
   "HEADER": {
     "NEW": "+ New Board",
     "SEARCH": "Search",
-    "PROFILE": "Edit Profile",
+    "PROFILE": "Profile",
     "MAIN": "Main",
     "BOARDS": "Boards"
   },
@@ -56,7 +56,9 @@
     "DELETE": "DELETE MY ACCOUNT",
     "SURE": "Are you sure? This action is irreversible!",
     "OK": "OK",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "UPD_OK": "Profile updated",
+    "DELETE_OK": "Profile deleted"
   },
   "BOARD": {
     "OWNER": "created by",
@@ -89,7 +91,10 @@
     "LOGGED_OUT": "Logged out...",
     "LOGGED_IN": "Greetings, ",
     "SERV_ERR": "Server error...",
-    "BAD_REQUEST": "Incorrect login or password",
+    "BAD_REQUEST": "Bad request",
+    "AUTH_ERR": "Incorrect login or password",
+    "AUTH_OK": "Greetings",
+    "REG_ERR": "Login already exist",
     "REG_OK": "Registration succesful",
     "SUCCESS_COL": "Columns order was updated",
     "SUCCESS_TASK": "Tasks order was updated"
@@ -153,5 +158,9 @@
     "POINT1": "Server deploy",
     "POINT2": "Basic structure of the application",
     "POINT3": "API requests"
+  },
+  "SEARCH": {
+    "PLACEHOLDER": "Search...",
+    "NOT_FOUND": "Nothing found"
   }
 }
